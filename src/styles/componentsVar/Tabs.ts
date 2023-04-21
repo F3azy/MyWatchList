@@ -18,6 +18,12 @@ const darkVariant = definePartsStyle({
           borderColor: 'inherit',
           borderBottom: 'none',
           mb: '-2px',
+          _hover: {
+            bg: '#141414',
+          },
+        },
+        _hover: {
+          bg: '#0B92F0',
         },
       },
       tablist: {

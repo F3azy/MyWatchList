@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
-import Container from "./Container";
-import { TabsTheme } from "./Tabs";
+import ContainerTheme from "./componentsVar/Container";
+import { TabsTheme } from "./componentsVar/Tabs";
+import ButtonTheme from "./componentsVar/Buttons";
 
 const Styles = {
     global: {
@@ -27,8 +28,9 @@ const Colors = {
 };
 
 const Components = {
-    Container: Container,
+    Container: ContainerTheme,
     Tabs: TabsTheme,
+    Button: ButtonTheme,
 };
 
 export const theme = extendTheme({

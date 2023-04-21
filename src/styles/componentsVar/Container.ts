@@ -1,4 +1,4 @@
-const Container = {
+const ContainerTheme = {
     variants: {
         'gradient': {
             borderRadius: "16px", 
@@ -15,4 +15,4 @@ const Container = {
     }
 }
 
-export default Container;
+export default ContainerTheme;

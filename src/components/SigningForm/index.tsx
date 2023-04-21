@@ -13,10 +13,10 @@ const SigningForm = () => {
               </TabList>
               <TabPanels>
                   <TabPanel>
-                    <Form />
+                    <Form SignIn={true} />
                   </TabPanel>
                   <TabPanel>
-                    <Form />
+                    <Form SignIn={false} />
                   </TabPanel>
               </TabPanels>
           </Tabs>
