@@ -11,9 +11,9 @@ const ButtonTheme = {
             color: "#56B4DC",
             borderColor: "#56B4DC",
             _hover: {
-                bg: "#0B92F0",
+                bg: "#56B4DC",
                 color: "#141414",
-                borderColor: "#0B92F0",
+                borderColor: "#56B4DC",
             },
         },
     }
