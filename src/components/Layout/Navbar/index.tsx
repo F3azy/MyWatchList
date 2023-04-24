@@ -15,7 +15,7 @@ const Links = [
   },
   {
     name: "Search",
-    to: "/",
+    to: "/search",
   },
   {
     name: "Movies",

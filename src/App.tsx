@@ -2,6 +2,8 @@ import SigningForm from "./components/SigningForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { Flex } from "@chakra-ui/react";
+import Home from "./pages/Home";
+import Search from "./pages/Search";
 
 function App() {
 
@@ -10,8 +12,8 @@ function App() {
       <BrowserRouter >
             <Routes>
               <Route path="/" element={<Layout />}>
-                {/* <Route index element={} /> */}
-                {/* <Route path="" element={} /> */}
+                <Route index element={<Home />} />
+                <Route path="/search" element={<Search />} />
               </Route>
             </Routes>
       </BrowserRouter >
