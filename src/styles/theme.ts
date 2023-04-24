@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 import ContainerTheme from "./componentsVar/Container";
 import { TabsTheme } from "./componentsVar/Tabs";
 import ButtonTheme from "./componentsVar/Buttons";
+import { menuTheme } from "./componentsVar/Menus";
 
 const Styles = {
     global: {
@@ -31,6 +32,7 @@ const Components = {
     Container: ContainerTheme,
     Tabs: TabsTheme,
     Button: ButtonTheme,
+    Menu: menuTheme,
 };
 
 export const theme = extendTheme({
