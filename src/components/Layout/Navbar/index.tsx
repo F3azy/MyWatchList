@@ -28,27 +28,27 @@ const Links: Array<LinkItemProps> = [
   },
   {
     name: "Movies",
-    to: "/",
+    to: "/movies",
     icon: BiCameraMovie,
   },
   {
     name: "Series",
-    to: "/",
+    to: "/series",
     icon: BiMovie,
   },
   {
     name: "My List",
-    to: "/",
+    to: "/myList",
     icon: BiTable,
   },
   {
     name: "Random",
-    to: "/",
+    to: "/random",
     icon: FaRandom,
   },
   {
     name: "Friends",
-    to: "/",
+    to: "/friends",
     icon: FaUserFriends,
   }
 ];
