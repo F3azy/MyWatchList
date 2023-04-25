@@ -6,12 +6,34 @@ import AuthIcons from './AuthIcons';
 const Form = ({SignIn}: {SignIn: boolean}) => {
   return (
     <Stack spacing={5}>
+        {(SignIn) ? null : 
+        <>
+          <FormControl>
+              <FormLabel color={"brand.secondary"}>First Name *</FormLabel>
+              <Input 
+              id="email" 
+              type='email' 
+              placeholder='example@domain.com'
+              borderColor={"brand.secondary"} 
+              _hover={{borderColor: "brand.primary"}} />
+          </FormControl>
+          <FormControl>
+              <FormLabel color={"brand.secondary"}>Last Name *</FormLabel>
+              <Input 
+              id="email" 
+              type='email' 
+              placeholder='example@domain.com'
+              borderColor={"brand.secondary"} 
+              _hover={{borderColor: "brand.primary"}} />
+          </FormControl>
+        </>
+        }
         <FormControl>
             <FormLabel color={"brand.secondary"}>Email{(SignIn) ? "" : " *"}</FormLabel>
             <Input 
             id="email" 
             type='email' 
-            placeholder='Enter email'
+            placeholder='example@domain.com'
             borderColor={"brand.secondary"} 
             _hover={{borderColor: "brand.primary"}} />
         </FormControl>

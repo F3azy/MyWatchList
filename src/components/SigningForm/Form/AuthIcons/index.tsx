@@ -2,7 +2,12 @@ import { Icon } from '@chakra-ui/react';
 import { Button, ButtonGroup, VisuallyHidden } from '@chakra-ui/react';
 import { BsGoogle, BsTwitter, BsFacebook } from 'react-icons/bs';
 
-const Icons = [
+interface SocialIconProps{
+  name: string,
+  icon: JSX.Element,
+};
+
+const Icons: Array<SocialIconProps> = [
     {name: "Google", icon: <Icon as={BsGoogle} boxSize={5} />},
     {name: "Twitter", icon: <Icon as={BsTwitter} boxSize={5} />},
     {name: "Facebook", icon: <Icon as={BsFacebook} boxSize={5} />},

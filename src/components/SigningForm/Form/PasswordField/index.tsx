@@ -16,7 +16,7 @@ const PasswordField = ({SignIn}: {SignIn: boolean}) => {
                 borderColor={"brand.secondary"}
                 _hover={{borderColor: "brand.primary"}}
                 type={show ? 'text' : 'password'}
-                placeholder='Enter password'
+                placeholder='Must have at least 8 characters'
             />
             <InputRightElement width='4.5rem'>
                 <Button h='1.75rem' size='sm' bg={"brand.dark"} _hover={{bg: "#252525"}} onClick={PassVisibility}>
