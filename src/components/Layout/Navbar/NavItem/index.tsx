@@ -1,6 +1,6 @@
 import { Icon, Link, HStack, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { LinkItemProps } from '../../../../interfaces';
+import { LinkItemProps } from '../NavItemProps';
 
 
 const NavItem = ({name, to, icon} : LinkItemProps) => {
