@@ -4,6 +4,7 @@ import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from './styles/theme';
 import './styles/global.css';
+import './styles/Slider.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

@@ -8,7 +8,7 @@ const Layout = () => {
     <>
     {/* <Flex w={{base: "100%"}} minH={"100vh"} justify={"center"} align={"center"}> */}
         <Navbar />
-        <Flex>
+        <Flex minW={"100%"} px={"80px"} overflowX={"hidden"}>
             <Outlet />
         </Flex>
     {/* </Flex> */}
