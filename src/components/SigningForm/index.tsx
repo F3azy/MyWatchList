@@ -4,7 +4,6 @@ import Form from './Form'
 
 const SigningForm = () => {
   return (
-    // <Flex w={{base: "100%"}} minH={"100vh"} justify={"center"} align={"center"}>
         <Container w={"25%"} p={"16px"} variant='gradient-with-shadow'>
           <Tabs isFitted variant='dark'>
               <TabList>
@@ -21,7 +20,6 @@ const SigningForm = () => {
               </TabPanels>
           </Tabs>
         </Container >
-    // </Flex>
   )
 };
 

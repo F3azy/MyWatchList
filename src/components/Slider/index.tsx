@@ -3,7 +3,7 @@ import { Flex, Text, Box, Icon } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import ScrollButton from './ScrollButton';
 
-const Carousel = () => {
+const Slider = () => {
   return (
     <Flex w={"100%"} direction={"column"} rowGap={"8px"}>
       <Text fontSize={"24px"} fontWeight={"bold"}>
@@ -11,7 +11,7 @@ const Carousel = () => {
       </Text>
       <Flex w={"100%"} position={"relative"} >
         <ScrollButton as={ChevronLeftIcon} direction="left" />
-        <Flex id={"slider"} w={"100%"} maxH={"191px"} columnGap={"20px"} overflowX={"scroll"}>
+        <Flex id={"slider"} w={"100%"} minH={"194px"} columnGap={"20px"} overflowX={"scroll"}>
           <WatchCard />
           <WatchCard />
           <WatchCard />
@@ -34,4 +34,4 @@ const Carousel = () => {
   )
 };
 
-export default Carousel;
+export default Slider;

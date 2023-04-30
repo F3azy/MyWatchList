@@ -9,7 +9,7 @@ const ScrollButton = ({as, direction} : {as: ComponentWithAs<"svg">, direction?:
     
     slider.scrollBy({
       top: 0,
-      left: (direction=="left") ? -1763 : 1763,
+      left: (direction=="left") ? -slider.offsetWidth-20 : slider.offsetWidth+20,
       behavior: "smooth"
     });
   }
@@ -19,7 +19,7 @@ const ScrollButton = ({as, direction} : {as: ComponentWithAs<"svg">, direction?:
         borderLeftRadius={(direction == "right") ? "4px" : "0"}
         borderRightRadius={(direction == "left") ? "4px" : "0"}
         w={"60px"} 
-        h={"191px"} 
+        minH={"100%"} 
         display={'flex'} 
         justifyContent={"center"} 
         alignItems={"center"} 

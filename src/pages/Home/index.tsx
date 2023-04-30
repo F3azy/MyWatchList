@@ -1,8 +1,17 @@
-import Carousel from '../../components/Carousel';
+import { Flex } from '@chakra-ui/react';
+import Slider from '../../components/Slider';
 
 const Home = () => {
   return (
-    <Carousel />
+    <Flex direction={"column"} rowGap={"20px"}>
+    <Slider />
+    <Slider />
+    <Slider />
+    <Slider />
+    <Slider />
+    <Slider />
+    <Slider />
+    </Flex>
   )
 };
 
