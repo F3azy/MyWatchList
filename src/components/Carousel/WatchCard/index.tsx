@@ -5,7 +5,7 @@ const WatchCard = () => {
   return (
     <Image 
       w={"300px"} 
-      h={"170px"}
+      h={"180px"}
       borderRadius={"4px"}
       _hover={{
         cursor: "pointer",

@@ -13,7 +13,7 @@ import Friends from "./pages/Friends";
 function App() {
 
   return (
-    <Flex w={{base: "100%"}} minH={"100vh"} pl={"32px"} columnGap={"32px"} align={"center"}>
+    <Flex w={{base: "100%"}} minH={"100vh"} direction={"column"} align={"center"} rowGap={"16px"} px={"32px"} pt={"32px"}>
       <BrowserRouter >
             <Routes>
               <Route path="/" element={<Layout />}>

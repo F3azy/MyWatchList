@@ -15,8 +15,13 @@ import { Links } from './NavItemProps';
 
 const Navbar = () => {
   return (
-    <Container w={"10%"} minH={"95vh"} variant={"gradient"} m={"0"}>
-        <Flex direction={"column"} py={"20px"} rowGap={"20px"}>
+    <Container minW={"100%"} variant={"gradient"}>
+        <Flex p={"20px"} justify={"space-between"}>
+          <Flex columnGap={"36px"} align={"center"}>
+          {Links.map((link) => 
+              <NavItem key={link.name} name={link.name} to={link.to} icon={link.icon}/>
+          )}
+          </Flex>
           <Menu>
             <MenuButton>
               <HStack>
@@ -42,12 +47,6 @@ const Navbar = () => {
               <MenuItem>Log Out</MenuItem>
             </MenuList>
           </Menu>
-          {Links.map((link) => 
-            <>
-              <NavItem key={link.name} name={link.name} to={link.to} icon={link.icon}/>
-              <Divider borderColor={"brand.secondary"} />
-            </>
-            )}
         </Flex>
     </Container>
   )
