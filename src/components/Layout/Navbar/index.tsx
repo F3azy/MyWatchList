@@ -15,9 +15,9 @@ import { Links } from './NavItemProps';
 
 const Navbar = () => {
   return (
-    <Flex w={"100%"} px={"40px"} py={"20px"} position={"sticky"} top={"-20px"} zIndex={10}>
-      <Container minW={"100%"} maxW={"100%"} variant={"gradient"}>
-          <Flex p={"20px"} justify={"space-between"}>
+    <Flex w={"100%"} position={"sticky"} top={"0"} zIndex={10}>
+      <Container minW={"100%"} maxW={"100%"} variant={"gradient"} p={0}>
+          <Flex px={"80px"} py={"20px"} justify={"space-between"}>
             <Flex columnGap={"36px"} justify={"flex-start"} align={"center"}>
             {Links.map((link) => 
                 <NavItem key={link.name} name={link.name} to={link.to} icon={link.icon}/>

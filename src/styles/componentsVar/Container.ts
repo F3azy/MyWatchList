@@ -1,8 +1,7 @@
 const ContainerTheme = {
     variants: {
         'gradient': {
-            borderRadius: "16px", 
-            border: "4px solid transparent",
+            borderBottom: "4px solid transparent",
             background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
         },
         
