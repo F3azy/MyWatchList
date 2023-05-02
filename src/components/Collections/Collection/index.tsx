@@ -1,7 +1,8 @@
 import { Box, Image, AbsoluteCenter } from '@chakra-ui/react';
 import { useState, } from 'react';
+import { CollectionProps } from '../CollectionProps';
 
-const Collection = () => {
+const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
   const [showBG, useShowBg] = useState(()=>{return false});
 
   function startVideo(event: React.MouseEvent<HTMLElement>) {
@@ -20,6 +21,7 @@ const Collection = () => {
   return (
     <Box 
       width={"320px"} 
+      minH={"170px"}
       bgGradient={"linear(brand.dark.700, brand.dark.800)"} 
       border={"4px solid"} 
       borderColor={"brand.dark.600"} 
@@ -37,12 +39,12 @@ const Collection = () => {
 
       <Box visibility={showBG ? "visible" : "hidden"}>
         <video className='collectionVideo' loop playsInline muted>
-          <source src="./public/collections/video/marvel.mp4" type="video/mp4" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
       </Box>
 
       <AbsoluteCenter w={"100%"}>
-        <Image src="./public/collections/images/scale.png" />
+        <Image src={logoSrc} />
       </AbsoluteCenter>
       
     </Box>

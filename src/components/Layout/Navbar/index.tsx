@@ -20,7 +20,7 @@ const Navbar = () => {
           <Flex px={"80px"} py={"20px"} justify={"space-between"}>
             <Flex columnGap={"36px"} justify={"flex-start"} align={"center"}>
             {Links.map((link) => 
-                <NavItem key={link.name} name={link.name} to={link.to} icon={link.icon}/>
+              <NavItem key={link.name} name={link.name} to={link.to} icon={link.icon}/>
             )}
             </Flex>
             <Menu>
