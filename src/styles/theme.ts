@@ -23,7 +23,12 @@ const Colors = {
         primary: '#0B92F0',
         secondary: '#56B4DC',
         tertiary: '#0FF4C6',
-        dark: '#141414',
+        dark: {
+            base: '#141414',
+            600: "#3c3c3c",
+            700: "#1f1f1f",
+            800: "#131313",
+        },
         light: '#F0F0F0',
     }
 };

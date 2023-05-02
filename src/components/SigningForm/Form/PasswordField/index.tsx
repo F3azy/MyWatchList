@@ -19,7 +19,7 @@ const PasswordField = ({SignIn}: {SignIn: boolean}) => {
                 placeholder='Must have at least 8 characters'
             />
             <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' bg={"brand.dark"} _hover={{bg: "#252525"}} onClick={PassVisibility}>
+                <Button h='1.75rem' size='sm' bg={"brand.dark.base"} _hover={{bg: "#252525"}} onClick={PassVisibility}>
                 {show ? 'Hide' : 'Show'}
                 </Button>
             </InputRightElement>

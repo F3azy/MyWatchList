@@ -1,17 +1,17 @@
 import WatchCard from './WatchCard';
-import { Flex, Text, Box, Icon } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import ScrollButton from './ScrollButton';
 
 const Slider = () => {
   return (
-    <Flex w={"100%"} direction={"column"} rowGap={"8px"}>
+    <Flex direction={"column"} rowGap={"8px"}>
       <Text fontSize={"24px"} fontWeight={"bold"}>
         Marvel
       </Text>
-      <Flex w={"100%"} position={"relative"} align={"center"} >
+      <Flex position={"relative"} align={"center"} >
         <ScrollButton as={ChevronLeftIcon} direction="left" />
-        <Flex id={"slider"} w={"100%"} columnGap={"20px"} overflowX={"scroll"}>
+        <Flex id={"slider"} columnGap={"20px"} overflowX={"scroll"}>
           <WatchCard />
           <WatchCard />
           <WatchCard />

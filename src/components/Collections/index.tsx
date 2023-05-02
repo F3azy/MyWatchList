@@ -4,7 +4,7 @@ import Collection from './Collection';
 
 const Collections = () => {
   return (
-    <Flex w={"100%"}>
+    <Flex>
       <Collection />
     </Flex>
   )
