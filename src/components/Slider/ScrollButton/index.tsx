@@ -16,8 +16,8 @@ const ScrollButton = ({as, direction} : {as: ComponentWithAs<"svg">, direction?:
 
   return (
     <Box 
-        borderLeftRadius={(direction == "right") ? "4px" : "0"}
-        borderRightRadius={(direction == "left") ? "4px" : "0"}
+        borderLeftRadius={(direction == "right") ? "full" : "0"}
+        borderRightRadius={(direction == "left") ? "full" : "0"}
         w={"60px"} 
         minH={"100%"} 
         display={'flex'} 
@@ -27,8 +27,6 @@ const ScrollButton = ({as, direction} : {as: ComponentWithAs<"svg">, direction?:
         position={"absolute"} 
         left={(direction == "left") ? "-20" : "auto"}
         right={(direction == "right") ? "-20" : "auto"}
-        backdropFilter='auto'
-        backdropBlur='2px'
         _hover={{
         cursor: "pointer",
         bg: "blackAlpha.900",

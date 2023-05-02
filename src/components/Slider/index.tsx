@@ -9,9 +9,9 @@ const Slider = () => {
       <Text fontSize={"24px"} fontWeight={"bold"}>
         Marvel
       </Text>
-      <Flex w={"100%"} position={"relative"} >
+      <Flex w={"100%"} position={"relative"} align={"center"} >
         <ScrollButton as={ChevronLeftIcon} direction="left" />
-        <Flex id={"slider"} w={"100%"} minH={"194px"} columnGap={"20px"} overflowX={"scroll"}>
+        <Flex id={"slider"} w={"100%"} columnGap={"20px"} overflowX={"scroll"}>
           <WatchCard />
           <WatchCard />
           <WatchCard />
