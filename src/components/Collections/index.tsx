@@ -5,9 +5,9 @@ import { collections } from './CollectionProps';
 
 const Collections = () => {
   return (
-    <Flex>
+    <Flex wrap={"wrap"} rowGap={"16px"} columnGap={"16px"} justify={"center"}>
       {collections.map((collection) => 
-        <Collection logoSrc={collection.logoSrc} videoSrc={collection.videoSrc} />
+        <Collection key={collection.name} logoSrc={collection.logoSrc} videoSrc={collection.videoSrc} />
       )}
     </Flex>
   )

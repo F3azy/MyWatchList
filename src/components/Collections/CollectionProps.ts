@@ -1,11 +1,38 @@
 export interface CollectionProps {
+    name?: string,
     logoSrc: string,
     videoSrc: string,
 };
 
 export const collections: Array<CollectionProps> = [
     {
-      logoSrc: "./public/collections/images/scale.png",
-      videoSrc: "./public/collections/video/marvel.mp4",
+      name: "Marvel",
+      logoSrc: "./collections/images/marvel.png",
+      videoSrc: "./collections/video/marvel.mp4",
+    },
+    {
+      name: "Harry Potter",
+      logoSrc: "./collections/images/harryPotter.png",
+      videoSrc: "./collections/video/harryPotter.mp4",
+    },
+    {
+      name: "Star Wars",
+      logoSrc: "./collections/images/starWars.png",
+      videoSrc: "./collections/video/harryPotter.mp4",
+    },
+    {
+      name: "Star Wars",
+      logoSrc: "./collections/images/starWars.png",
+      videoSrc: "./collections/video/harryPotter.mp4",
+    },
+    {
+      name: "Star Wars",
+      logoSrc: "./collections/images/starWars.png",
+      videoSrc: "./collections/video/harryPotter.mp4",
+    },
+    {
+      name: "Star Wars",
+      logoSrc: "./collections/images/starWars.png",
+      videoSrc: "./collections/video/harryPotter.mp4",
     },
   ];
