@@ -21,18 +21,18 @@ export const collections: Array<CollectionProps> = [
       videoSrc: "./collections/video/starWars.mp4",
     },
     {
-      name: "Star Wars",
+      name: "Star Wars1",
       logoSrc: "./collections/images/starWars.png",
-      videoSrc: "./collections/video/harryPotter.mp4",
+      videoSrc: "./collections/video/starWars.mp4",
     },
     {
-      name: "Star Wars",
+      name: "Star Wars2",
       logoSrc: "./collections/images/starWars.png",
-      videoSrc: "./collections/video/harryPotter.mp4",
+      videoSrc: "./collections/video/starWars.mp4",
     },
     {
-      name: "Star Wars",
+      name: "Star Wars3",
       logoSrc: "./collections/images/starWars.png",
-      videoSrc: "./collections/video/harryPotter.mp4",
+      videoSrc: "./collections/video/starWars.mp4",
     },
   ];

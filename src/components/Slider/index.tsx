@@ -4,6 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import ScrollButton from './ScrollButton';
 
 const Slider = () => {
+
   return (
     <Flex direction={"column"} rowGap={"8px"}>
       <Text fontSize={"24px"} fontWeight={"bold"}>
@@ -11,7 +12,7 @@ const Slider = () => {
       </Text>
       <Flex position={"relative"} align={"center"} >
         <ScrollButton as={ChevronLeftIcon} direction="left" />
-        <Flex id={"slider"} columnGap={"20px"} overflowX={"scroll"}>
+        <Flex id={"slider"} columnGap={"20px"} style={{transform: "translate(0px)"}}>
           <WatchCard />
           <WatchCard />
           <WatchCard />
