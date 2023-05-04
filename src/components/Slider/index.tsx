@@ -22,7 +22,12 @@ const Slider = () => {
         Marvel
       </Text>
       <Flex position={"relative"} align={"center"} >
-        <ScrollButton as={ChevronLeftIcon} direction="left" setTransform={setTransform} showButton={showLeftButton} />
+        <ScrollButton 
+          as={ChevronLeftIcon} 
+          direction="left" 
+          setTransform={setTransform} 
+          showButton={showLeftButton} 
+        />
         <Flex id={"slider"} columnGap={"20px"} style={{transform: "translate(0px)"}}>
           <WatchCard />
           <WatchCard />
@@ -40,7 +45,12 @@ const Slider = () => {
           <WatchCard />
           <WatchCard />
         </Flex>
-        <ScrollButton as={ChevronRightIcon} direction="right" setTransform={setTransform} showButton={showRightButton} />
+        <ScrollButton 
+          as={ChevronRightIcon} 
+          direction="right" 
+          setTransform={setTransform} 
+          showButton={showRightButton} 
+        />
       </Flex>
     </Flex>
   )

@@ -18,7 +18,6 @@ const ScrollButton = ({as, direction, setTransform, showButton} : ScrollButtonPr
 
         const nextTransform: number = (direction=="left") ? num+slider.offsetWidth+20 : num-slider.offsetWidth-20;
 
-        console.log(nextTransform);
         setTransform(nextTransform);
 
         slider.style.transform = `translate(${nextTransform}px)`;
@@ -39,6 +38,7 @@ const ScrollButton = ({as, direction, setTransform, showButton} : ScrollButtonPr
     position={"absolute"}
     left={(direction == "left") ? "-20" : "auto"}
     right={(direction == "right") ? "-20" : "auto"} 
+    zIndex={9}
     >
       <Box 
           borderLeftRadius={(direction == "right") ? "4px" : "0"}
@@ -48,13 +48,16 @@ const ScrollButton = ({as, direction, setTransform, showButton} : ScrollButtonPr
           display={'flex'} 
           justifyContent={"center"} 
           alignItems={"center"} 
-          bg={"blackAlpha.700"} 
+          bg={"#1f1f1f"} 
           position={"absolute"} 
           right={(direction == "right") ? "0" : "auto"}
           left={(direction == "left") ? "0" : "auto"}
+          boxShadow={"0 0 10px 10px #1f1f1f"}
+          opacity={0.5}
           _hover={{
             cursor: "pointer",
-            bg: "blackAlpha.900",
+            bg: "#131313",
+            boxShadow: "0 0 10px 10px #131313"
           }}
           zIndex={10}
           onClick={move}
