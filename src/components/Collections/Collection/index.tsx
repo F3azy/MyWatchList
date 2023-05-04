@@ -43,7 +43,7 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
         </video>
       </Box>
 
-      <AbsoluteCenter w={"100%"}>
+      <AbsoluteCenter w={"95%"}>
         <Image src={logoSrc} />
       </AbsoluteCenter>
       
