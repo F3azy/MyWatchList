@@ -5,7 +5,7 @@ import { collections } from './CollectionProps';
 
 const Collections = () => {
   return (
-    <Flex wrap={"wrap"} rowGap={"16px"} columnGap={"16px"} justify={"center"}>
+    <Flex wrap={"wrap"} rowGap={"24px"} justify={"space-between"}>
       {collections.map((collection) => 
         <Collection key={collection.name} logoSrc={collection.logoSrc} videoSrc={collection.videoSrc} />
       )}

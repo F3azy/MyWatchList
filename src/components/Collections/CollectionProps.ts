@@ -18,7 +18,7 @@ export const collections: Array<CollectionProps> = [
     {
       name: "Star Wars",
       logoSrc: "./collections/images/starWars.png",
-      videoSrc: "./collections/video/harryPotter.mp4",
+      videoSrc: "./collections/video/starWars.mp4",
     },
     {
       name: "Star Wars",
