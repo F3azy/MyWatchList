@@ -3,7 +3,10 @@ import React from 'react';
 
 export interface ScrollButtonProps {
     as: ComponentWithAs<"svg">, 
-    direction?: string, 
-    setTransform: React.Dispatch<React.SetStateAction<number>>, 
-    showButton: boolean
+    direction: string, 
+    showButton: boolean,
+    slider: React.RefObject<HTMLDivElement>,
+    sliderWidth: number | null,
+    currentPage: number,
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
 };

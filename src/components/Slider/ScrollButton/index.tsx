@@ -1,67 +1,67 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Icon } from '@chakra-ui/react';
 import { ScrollButtonProps } from './ScrollButtonProps';
 
-const ScrollButton = ({as, direction, setTransform, showButton} : ScrollButtonProps) => {
+const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage} : ScrollButtonProps) => {
 
-  function move(event: React.MouseEvent<HTMLElement>) {
-    const slider: HTMLElement  = event.currentTarget.parentElement?.parentElement?.querySelector("#slider") as HTMLElement;
-    
-    const currentTransform: string = slider.style.transform;
-    const regex: RegExp = /translate\((-?\d+)px\)/;
-    const match: RegExpMatchArray = currentTransform.match(regex) as RegExpMatchArray;
-
-    if (match) {
-      const num = parseInt(match[1]);
-
-      if(!(num == 0 && direction == "left") && !(num == -3526 && direction == "right")) {
-
-        const nextTransform: number = (direction=="left") ? num+slider.offsetWidth+20 : num-slider.offsetWidth-20;
-
-        setTransform(nextTransform);
-
-        slider.style.transform = `translate(${nextTransform}px)`;
-        slider.style.transition = "transform 300ms ease 0s";
-    
-        setTimeout(() => {
-          slider.style.transition = "";
-        }, 300);
-      }
-    }
+  function changePage(): void {
+    (direction == "left") ? setCurrentPage(prev => --prev) : setCurrentPage(prev => ++prev);
   }
+
+  function applyTransform(trans: number): void {
+    if(slider.current) {
+      slider.current.style.transform = `translate(${trans}px)`;
+      slider.current.style.transition = "transform 300ms ease 0s";
+    }
+
+    setTimeout(() => {
+      if(slider.current) {
+        slider.current.style.transition = "";
+      }
+    }, 300);
+  }
+
+  function move(): void {    
+    let nextTransform: number = (direction=="left") ? -((sliderWidth as number)+20)*(currentPage-1) : -((sliderWidth as number)+20)*(currentPage+1);
+    changePage();
+    applyTransform(nextTransform);
+  }
+
+  useEffect (() => {
+    let nextTransform: number = -((sliderWidth as number)+20)*(currentPage);
+    applyTransform(nextTransform);
+
+  }, [sliderWidth]);
 
   return (
     <Box
-    visibility={showButton ? "visible" : "hidden"}
-    w={"80px"} 
-    h={"100%"}
-    position={"absolute"}
-    left={(direction == "left") ? "-20" : "auto"}
-    right={(direction == "right") ? "-20" : "auto"} 
-    zIndex={9}
+      visibility={showButton ? "visible" : "hidden"}
+      w={"80px"} 
+      h={"100%"}
+      position={"absolute"}
+      left={(direction == "left") ? "-20" : "auto"}
+      right={(direction == "right") ? "-20" : "auto"} 
     >
       <Box 
-          borderLeftRadius={(direction == "right") ? "4px" : "0"}
-          borderRightRadius={(direction == "left") ? "4px" : "0"}
-          w={"60px"} 
-          h={"100%"} 
-          display={'flex'} 
-          justifyContent={"center"} 
-          alignItems={"center"} 
-          bg={"#1f1f1f"} 
-          position={"absolute"} 
-          right={(direction == "right") ? "0" : "auto"}
-          left={(direction == "left") ? "0" : "auto"}
-          boxShadow={"0 0 10px 10px #1f1f1f"}
-          opacity={0.5}
-          _hover={{
-            cursor: "pointer",
-            bg: "#131313",
-            boxShadow: "0 0 10px 10px #131313"
-          }}
-          zIndex={10}
-          onClick={move}
-          >
+        w={"60px"} 
+        h={"100%"} 
+        display={'flex'} 
+        justifyContent={"center"} 
+        alignItems={"center"} 
+        bg={"#1f1f1f"} 
+        position={"absolute"} 
+        right={(direction == "right") ? "0" : "auto"}
+        left={(direction == "left") ? "0" : "auto"}
+        boxShadow={"0 0 10px 10px #1f1f1f"}
+        opacity={0.5}
+        _hover={{
+          cursor: "pointer",
+          bg: "#131313",
+          boxShadow: "0 0 10px 10px #131313"
+        }}
+        zIndex={10}
+        onClick={showButton ? move : undefined}
+      >
           <Icon as={as} boxSize={10} />
       </Box>
     </Box>
