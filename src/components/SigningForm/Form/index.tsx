@@ -14,6 +14,7 @@ const Form = ({SignIn}: {SignIn: boolean}) => {
               id="email" 
               type='email' 
               placeholder='example@domain.com'
+              color={"brand.secondary"}
               borderColor={"brand.secondary"} 
               _hover={{borderColor: "brand.primary"}} />
           </FormControl>
@@ -23,6 +24,7 @@ const Form = ({SignIn}: {SignIn: boolean}) => {
               id="email" 
               type='email' 
               placeholder='example@domain.com'
+              color={"brand.secondary"}
               borderColor={"brand.secondary"} 
               _hover={{borderColor: "brand.primary"}} />
           </FormControl>
@@ -34,6 +36,7 @@ const Form = ({SignIn}: {SignIn: boolean}) => {
             id="email" 
             type='email' 
             placeholder='example@domain.com'
+            color={"brand.secondary"}
             borderColor={"brand.secondary"} 
             _hover={{borderColor: "brand.primary"}} />
         </FormControl>

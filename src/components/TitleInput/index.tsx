@@ -16,6 +16,8 @@ const TitleInput = () => {
         />
         <Input 
             fontSize={"28px"}
+            fontWeight={"700"}
+            color={"brand.secondary"}
             size={"lg"}
             borderColor={"brand.secondary"} 
             _hover={{borderColor: "brand.primary"}}

@@ -14,6 +14,7 @@ const PasswordField = ({SignIn}: {SignIn: boolean}) => {
             <Input
                 pr='4.5rem'
                 borderColor={"brand.secondary"}
+                color={"brand.secondary"}
                 _hover={{borderColor: "brand.primary"}}
                 type={show ? 'text' : 'password'}
                 placeholder='Must have at least 8 characters'
