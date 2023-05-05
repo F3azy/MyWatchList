@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <>
         <Navbar />
-        <Flex minW={"100%"} px={"80px"} py={"24px"}>
+        <Flex minW={"100%"} px={"80px"} py={"28px"}>
             <Outlet />
         </Flex>
     </>

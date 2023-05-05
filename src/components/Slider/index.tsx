@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
-import WatchCard from './WatchCard';
+import WatchCard from '../WatchCard';
 import { Flex, Text } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import ScrollButton from './ScrollButton';

@@ -4,15 +4,17 @@ import Collections from '../../components/Collections';
 
 const Home = () => {
   return (
-    <Flex direction={"column"} rowGap={"20px"}>
+    <Flex direction={"column"} rowGap={"28px"}>
       <Collections />
-      <Slider />
-      <Slider />
-      <Slider />
-      <Slider />
-      <Slider />
-      <Slider />
-      <Slider />
+      <Flex direction={"column"} rowGap={"24px"}>
+        <Slider />
+        <Slider />
+        <Slider />
+        <Slider />
+        <Slider />
+        <Slider />
+        <Slider />
+      </Flex>
     </Flex>
   )
 };
