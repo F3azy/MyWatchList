@@ -1,21 +1,22 @@
 import { Box, Image, AbsoluteCenter } from '@chakra-ui/react';
-import { useState, } from 'react';
+import { useState, useRef } from 'react';
 import { CollectionProps } from '../CollectionProps';
 
 const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
   const [showBG, useShowBg] = useState(()=>{return false});
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   function startVideo(event: React.MouseEvent<HTMLElement>) {
     useShowBg(true);
-    const video: HTMLVideoElement  = event.currentTarget.querySelector(".collectionVideo") as HTMLVideoElement;
-    video.play();
+    if(videoRef.current) videoRef.current.play();
   }
 
   function stopVideo(event: React.MouseEvent<HTMLElement>) {
     useShowBg(false);
-    const video: HTMLVideoElement  = event.currentTarget.querySelector(".collectionVideo") as HTMLVideoElement;
-    video.pause();
-    video.currentTime = 0;
+    if(videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0
+    };
   }
 
   return (
@@ -41,7 +42,7 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
     >
 
       <Box visibility={showBG ? "visible" : "hidden"}>
-        <video className='collectionVideo' loop playsInline muted>
+        <video ref={videoRef} className='collectionVideo' loop playsInline muted>
           <source src={videoSrc} type="video/mp4" />
         </video>
       </Box>
