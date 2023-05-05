@@ -7,11 +7,12 @@ const WatchCard = () => {
     w={"calc(20% - 16px)"}
       border={"4px solid transparent"}
       borderRadius={"8px"}
-      boxShadow={"0px 27px 30px -10px black"}
-      transition={"transform 500ms ease 0s"}
-      background={"linear-gradient(#141414, #030303) border-box"} 
+      boxShadow={"0px 20px 15px -10px black"}
+      transition={"transform 500ms ease 0s, box-shadow 500ms ease 0s"}
+      background={"linear-gradient(#141414 97%, #030303) border-box"} 
       _hover={{
         cursor: "pointer",
+        boxShadow: "0px 23px 15px -10px black",
         background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
         transform: "translate(0, -5px)",
       }}
