@@ -6,7 +6,7 @@ export interface ScrollButtonProps {
     direction: string, 
     showButton: boolean,
     slider: React.RefObject<HTMLDivElement>,
-    sliderWidth: number | null,
+    sliderWidth: number | undefined,
     currentPage: number,
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
 };

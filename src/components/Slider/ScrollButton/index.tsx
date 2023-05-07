@@ -8,10 +8,10 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
     (direction == "left") ? setCurrentPage(prev => --prev) : setCurrentPage(prev => ++prev);
   }
 
-  function applyTransform(trans: number): void {
+  function applyTransform(trans: number, time: number): void {
     if(slider.current) {
       slider.current.style.transform = `translate(${trans}px)`;
-      slider.current.style.transition = "transform 300ms ease 0s";
+      slider.current.style.transition = `transform ${time}ms ease-in-out`;
     }
 
     setTimeout(() => {
@@ -24,12 +24,12 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
   function move(): void {    
     let nextTransform: number = (direction=="left") ? -((sliderWidth as number)+20)*(currentPage-1) : -((sliderWidth as number)+20)*(currentPage+1);
     changePage();
-    applyTransform(nextTransform);
+    applyTransform(nextTransform, 500);
   }
 
   useEffect (() => {
     let nextTransform: number = -((sliderWidth as number)+20)*(currentPage);
-    applyTransform(nextTransform);
+    applyTransform(nextTransform, 100);
 
   }, [sliderWidth]);
 

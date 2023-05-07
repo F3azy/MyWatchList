@@ -10,18 +10,19 @@ const Slider = () => {
   const [showRightButton, setRightShowButton] = useState(() => {return true});
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number | null>(null);
+  const [width, setWidth] = useState<number | undefined>(undefined);
 
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        setWidth(sliderRef.current.offsetWidth);
+        console.log(sliderRef.current?.offsetWidth);
+        setWidth(sliderRef.current?.offsetWidth)
       } 
     }
-
+    
     window.addEventListener("resize", handleResize);
-
-    handleResize();
+    
+    setTimeout(() => { handleResize(); }, 100);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -35,7 +36,7 @@ const Slider = () => {
   }, [page]);
 
   return (
-    <Flex direction={"column"} rowGap={"8px"}>
+    <Flex minW={"100%"} direction={"column"} rowGap={"8px"}>
       <Text fontSize={"24px"} fontWeight={"bold"}>
         Marvel
       </Text>

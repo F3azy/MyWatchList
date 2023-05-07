@@ -36,7 +36,7 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
         borderColor: "transparent",
         background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
         transform: "scale(1.05)",
-        boxShadow: "0px 35px 30px -7px black", 
+        boxShadow: "0px 27px 30px -8px black", 
       }}
       onMouseEnter={startVideo}
       onMouseLeave={stopVideo}
