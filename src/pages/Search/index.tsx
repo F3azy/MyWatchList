@@ -5,9 +5,9 @@ import WatchCard from '../../components/WatchCard';
 
 const Search = () => {
   return (
-    <Flex w={"100%"} direction={"column"} rowGap={"28px"}>
+    <Flex w="100%" direction="column" rowGap="28px">
       <TitleInput />
-      <Flex w={"100%"} wrap={"wrap"} columnGap={"20px"} rowGap={"24px"}>
+      <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
         <WatchCard /> 
         <WatchCard /> 
         <WatchCard /> 

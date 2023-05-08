@@ -4,9 +4,9 @@ import Collections from '../../components/Collections';
 
 const Home = () => {
   return (
-    <Flex direction={"column"} rowGap={"28px"}>
+    <Flex direction="column" rowGap="28px">
       <Collections />
-      <Flex direction={"column"} rowGap={"24px"}>
+      <Flex direction="column" rowGap="24px">
         <Slider />
         <Slider />
         <Slider />

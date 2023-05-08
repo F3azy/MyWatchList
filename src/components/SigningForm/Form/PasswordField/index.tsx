@@ -9,18 +9,18 @@ const PasswordField = ({SignIn}: {SignIn: boolean}) => {
 
   return (
     <FormControl>
-        <FormLabel color={"brand.secondary"}>Password{(SignIn) ? "" : " *"}</FormLabel>
+        <FormLabel color="brand.secondary">Password{(SignIn) ? "" : " *"}</FormLabel>
         <InputGroup size='md'>
             <Input
                 pr='4.5rem'
-                borderColor={"brand.secondary"}
-                color={"brand.secondary"}
+                borderColor="brand.secondary"
+                color="brand.secondary"
                 _hover={{borderColor: "brand.primary"}}
                 type={show ? 'text' : 'password'}
                 placeholder='Must have at least 8 characters'
             />
             <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' bg={"brand.dark.base"} _hover={{bg: "#252525"}} onClick={PassVisibility}>
+                <Button h='1.75rem' size='sm' bg="brand.dark.base" _hover={{bg: "#252525"}} onClick={PassVisibility}>
                 {show ? 'Hide' : 'Show'}
                 </Button>
             </InputRightElement>

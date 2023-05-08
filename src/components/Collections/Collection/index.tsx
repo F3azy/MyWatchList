@@ -21,16 +21,16 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
 
   return (
     <Box 
-      width={"calc(15.5%)"} 
-      minH={"80px"}
-      bgGradient={"linear(brand.dark.700, brand.dark.800)"} 
-      border={"4px solid"} 
-      borderColor={"brand.dark.600"} 
-      borderRadius={"16px"}
-      position={"relative"}
-      overflow={"hidden"}
-      boxShadow={"0px 27px 30px -10px black"}
-      transition={"transform 500ms ease 0s, box-shadow 500ms ease 0s"}
+      width="calc(15.5%)" 
+      minH="80px"
+      bgGradient="linear(brand.dark.700, brand.dark.800)" 
+      border="4px solid" 
+      borderColor="brand.dark.600"
+      borderRadius="16px"
+      position="relative"
+      overflow="hidden"
+      boxShadow="0px 27px 30px -10px black"
+      transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
       _hover={{
         cursor: "pointer",
         borderColor: "transparent",
@@ -43,12 +43,12 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
     >
 
       <Box visibility={showBG ? "visible" : "hidden"}>
-        <video ref={videoRef} className='collectionVideo' loop playsInline muted>
+        <video ref={videoRef} loop playsInline muted>
           <source src={videoSrc} type="video/mp4" />
         </video>
       </Box>
 
-      <AbsoluteCenter w={"95%"}>
+      <AbsoluteCenter w="95%">
         <Image src={logoSrc} />
       </AbsoluteCenter>
       

@@ -9,23 +9,23 @@ const Form = ({SignIn}: {SignIn: boolean}) => {
         {(SignIn) ? null : 
         <>
           <FormControl>
-              <FormLabel color={"brand.secondary"}>First Name *</FormLabel>
+              <FormLabel color="brand.secondary">First Name *</FormLabel>
               <Input 
               id="email" 
               type='email' 
               placeholder='example@domain.com'
-              color={"brand.secondary"}
-              borderColor={"brand.secondary"} 
+              color="brand.secondary"
+              borderColor="brand.secondary" 
               _hover={{borderColor: "brand.primary"}} />
           </FormControl>
           <FormControl>
-              <FormLabel color={"brand.secondary"}>Last Name *</FormLabel>
+              <FormLabel color="brand.secondary">Last Name *</FormLabel>
               <Input 
               id="email" 
               type='email' 
               placeholder='example@domain.com'
-              color={"brand.secondary"}
-              borderColor={"brand.secondary"} 
+              color="brand.secondary"
+              borderColor="brand.secondary" 
               _hover={{borderColor: "brand.primary"}} />
           </FormControl>
         </>
@@ -36,15 +36,15 @@ const Form = ({SignIn}: {SignIn: boolean}) => {
             id="email" 
             type='email' 
             placeholder='example@domain.com'
-            color={"brand.secondary"}
-            borderColor={"brand.secondary"} 
+            color="brand.secondary"
+            borderColor="brand.secondary" 
             _hover={{borderColor: "brand.primary"}} />
         </FormControl>
         <PasswordField SignIn={SignIn} />
-        <Button variant={'full'}> {(SignIn) ? "Sign in" : "Sign up"} </Button>
+        <Button variant='full'> {(SignIn) ? "Sign in" : "Sign up"} </Button>
         <HStack>
           <Divider />
-          <Text fontSize={"sm"} whiteSpace="nowrap">OR</Text>
+          <Text fontSize="sm" whiteSpace="nowrap">OR</Text>
           <Divider />
         </HStack>
         <AuthIcons />

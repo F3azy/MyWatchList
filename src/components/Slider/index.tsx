@@ -35,11 +35,11 @@ const Slider = () => {
   }, [page]);
 
   return (
-    <Flex minW={"100%"} direction={"column"} rowGap={"8px"}>
-      <Text fontSize={"24px"} fontWeight={"bold"}>
+    <Flex minW="100%" direction="column" rowGap="8px">
+      <Text fontSize="24px" fontWeight="bold">
         Marvel
       </Text>
-      <Flex position={"relative"} align={"center"} >
+      <Flex position="relative" align="center" >
         <ScrollButton 
           as={ChevronLeftIcon} 
           direction="left" 
@@ -49,7 +49,7 @@ const Slider = () => {
           currentPage={page}
           setCurrentPage={setPage}
         />
-        <Flex ref={sliderRef} columnGap={"20px"} style={{transform: "translate(0px)"}}>
+        <Flex ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
           <WatchCard />
           <WatchCard />
           <WatchCard />

@@ -9,17 +9,17 @@ const TitleInput = () => {
     }
 
   return (
-    <InputGroup size={"lg"}>
+    <InputGroup size="lg">
         <InputLeftElement
             pointerEvents='none'
             children={<SearchIcon boxSize={6} color='brand.secondary' />}
         />
         <Input 
-            fontSize={"28px"}
-            fontWeight={"700"}
-            color={"brand.secondary"}
-            size={"lg"}
-            borderColor={"brand.secondary"} 
+            fontSize="28px"
+            fontWeight="700"
+            color="brand.secondary"
+            size="lg"
+            borderColor="brand.secondary"
             _hover={{borderColor: "brand.primary"}}
             type='text' 
             placeholder='Title...' 

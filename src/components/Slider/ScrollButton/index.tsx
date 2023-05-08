@@ -40,23 +40,23 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
   return (
     <Box
       visibility={showButton ? "visible" : "hidden"}
-      w={"80px"} 
-      h={"100%"}
-      position={"absolute"}
+      w="80px" 
+      h="100%"
+      position="absolute"
       left={(direction == "left") ? "-20" : "auto"}
       right={(direction == "right") ? "-20" : "auto"} 
     >
       <Box 
-        w={"60px"} 
-        h={"100%"} 
-        display={'flex'} 
-        justifyContent={"center"} 
-        alignItems={"center"} 
-        bg={"#1f1f1f"} 
-        position={"absolute"} 
+        w="60px" 
+        h="100%"
+        display='flex'
+        justifyContent="center"
+        alignItems="center" 
+        bg="#1f1f1f" 
+        position="absolute" 
+        boxShadow="0 0 10px 10px #1f1f1f"
         right={(direction == "right") ? "0" : "auto"}
         left={(direction == "left") ? "0" : "auto"}
-        boxShadow={"0 0 10px 10px #1f1f1f"}
         opacity={0.5}
         _hover={{
           cursor: "pointer",

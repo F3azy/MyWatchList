@@ -4,12 +4,12 @@ import { Image } from '@chakra-ui/react'
 const WatchCard = () => {
   return (
     <Image 
-     w={"calc(20% - 16px)"}
-      border={"4px solid transparent"}
-      borderRadius={"8px"}
-      boxShadow={"0px 20px 15px -10px black"}
-      transition={"transform 500ms ease 0s, box-shadow 500ms ease 0s"}
-      background={"linear-gradient(#141414 97%, #030303) border-box"} 
+     w="calc(20% - 16px)"
+      border="4px solid transparent"
+      borderRadius="8px"
+      boxShadow="0px 20px 15px -10px black"
+      transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
+      background="linear-gradient(#141414 97%, #030303) border-box"
       _hover={{
         cursor: "pointer",
         // boxShadow: "0px 23px 15px -10px black",
