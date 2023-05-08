@@ -18,8 +18,8 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/movies" element={<Movies_Series title={"Movies"} />} />
-                <Route path="/series" element={<Movies_Series title={"Series"} />} />
+                <Route path="/movies" element={<Movies_Series type={"Movies"} />} />
+                <Route path="/series" element={<Movies_Series type={"Series"} />} />
                 <Route path="/myList" element={<MyList />} />
                 <Route path="/random" element={<Random />} />
                 {/* <Route path="/friends" element={<Friends />} /> */}

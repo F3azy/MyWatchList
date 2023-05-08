@@ -1,8 +1,33 @@
-
+import { Flex, HStack, Text, Select, Button } from '@chakra-ui/react';
+import { useState } from 'react';
+import MovieSelect from '../../components/MovieSelect';
 
 const Random = () => {
+  const [type, setType] = useState(() => {return ""});
+  const [genre, setGenre] = useState(() => {return ""});
+
+  function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
+    setType(event.currentTarget.value);
+  }
+
+  function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+    setGenre(event.currentTarget.value);
+  }
+
   return (
-    <div>Random</div>
+    <Flex direction="column" rowGap="28px">
+      <HStack columnGap="16px">
+        <Text fontSize="32px" fontWeight="bold">
+          Search a random {genre} {type}
+        </Text>
+        <MovieSelect SelectInfoArray="types" setStateFun={setType} changeFun={changeType} />
+        <MovieSelect SelectInfoArray="genres" setStateFun={setGenre} changeFun={changeGenre} />
+        <Button variant="full" borderRadius="full">Search</Button>
+      </HStack>
+      <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
+            
+      </Flex>
+    </Flex>
   )
 };
 
