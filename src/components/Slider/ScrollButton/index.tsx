@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Icon } from '@chakra-ui/react';
 import { ScrollButtonProps } from './ScrollButtonProps';
 
 const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage} : ScrollButtonProps) => {
+
+  const [clicked, setClicked] = useState(() => {return false});
 
   function changePage(): void {
     (direction == "left") ? setCurrentPage(prev => --prev) : setCurrentPage(prev => ++prev);
@@ -17,11 +19,13 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
     setTimeout(() => {
       if(slider.current) {
         slider.current.style.transition = "";
+        setClicked(false);
       }
     }, time);
   }
 
   function move(): void {    
+    setClicked(true);
     let nextTransform: number = (direction=="left") ? -((sliderWidth as number)+20)*(currentPage-1) : -((sliderWidth as number)+20)*(currentPage+1);
     changePage();
     applyTransform(nextTransform, 1000);
@@ -60,7 +64,7 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
           boxShadow: "0 0 10px 10px #131313"
         }}
         zIndex={10}
-        onClick={showButton ? move : undefined}
+        onClick={(showButton && !clicked) ? move : undefined}
       >
           <Icon as={as} boxSize={10} />
       </Box>

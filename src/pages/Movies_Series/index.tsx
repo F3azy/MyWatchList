@@ -21,14 +21,14 @@ const Movies_Series = ({title}: {title: string}) => {
 
   return (
     <Flex direction={"column"} rowGap={"28px"}>
-      <HStack flexDirection={"row"} columnGap={"16px"}>
-        <Text fontSize={"40px"} fontWeight={"bold"}>
+      <HStack columnGap={"16px"}>
+        <Text fontSize={"32px"} fontWeight={"bold"}>
           {title}
         </Text>
         <Select w={"200px"} variant={"base"} defaultValue={genres[0]}>
             {genres.map((genre) => 
               <option key={genre} value={genre}>{genre}</option>
-              )}
+            )}
         </Select>
       </HStack>
       <Flex w={"100%"} wrap={"wrap"} columnGap={"20px"} rowGap={"24px"}>
