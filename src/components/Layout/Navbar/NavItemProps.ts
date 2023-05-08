@@ -40,9 +40,9 @@ export const Links: Array<LinkItemProps> = [
       to: "/random",
       icon: FaRandom,
     },
-    {
-      name: "Friends",
-      to: "/friends",
-      icon: FaUserFriends,
-    }
+    // {
+    //   name: "Friends",
+    //   to: "/friends",
+    //   icon: FaUserFriends,
+    // }
   ];

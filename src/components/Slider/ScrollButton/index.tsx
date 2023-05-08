@@ -18,18 +18,18 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
       if(slider.current) {
         slider.current.style.transition = "";
       }
-    }, 300);
+    }, time);
   }
 
   function move(): void {    
     let nextTransform: number = (direction=="left") ? -((sliderWidth as number)+20)*(currentPage-1) : -((sliderWidth as number)+20)*(currentPage+1);
     changePage();
-    applyTransform(nextTransform, 500);
+    applyTransform(nextTransform, 1000);
   }
 
   useEffect (() => {
     let nextTransform: number = -((sliderWidth as number)+20)*(currentPage);
-    applyTransform(nextTransform, 100);
+    applyTransform(nextTransform, 500);
 
   }, [sliderWidth]);
 

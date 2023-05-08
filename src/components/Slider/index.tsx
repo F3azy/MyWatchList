@@ -15,14 +15,13 @@ const Slider = () => {
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        console.log(sliderRef.current?.offsetWidth);
         setWidth(sliderRef.current?.offsetWidth)
       } 
     }
     
     window.addEventListener("resize", handleResize);
     
-    setTimeout(() => { handleResize(); }, 100);
+    setTimeout(() => { handleResize(); }, 500);
 
     return () => {
       window.removeEventListener("resize", handleResize);

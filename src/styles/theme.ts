@@ -3,6 +3,7 @@ import ContainerTheme from "./componentsVar/Container";
 import { TabsTheme } from "./componentsVar/Tabs";
 import ButtonTheme from "./componentsVar/Buttons";
 import { menuTheme } from "./componentsVar/Menus";
+import { SelectTheme } from "./componentsVar/Select";
 
 const Styles = {
     global: {
@@ -38,6 +39,7 @@ const Components = {
     Tabs: TabsTheme,
     Button: ButtonTheme,
     Menu: menuTheme,
+    Select: SelectTheme,
 };
 
 export const theme = extendTheme({
