@@ -1,17 +1,5 @@
-import { Icon } from '@chakra-ui/react';
-import { Button, ButtonGroup, VisuallyHidden } from '@chakra-ui/react';
-import { BsGoogle, BsTwitter, BsFacebook } from 'react-icons/bs';
-
-interface SocialIconProps{
-  name: string,
-  icon: JSX.Element,
-};
-
-const Icons: Array<SocialIconProps> = [
-    {name: "Google", icon: <Icon as={BsGoogle} boxSize={5} />},
-    {name: "Twitter", icon: <Icon as={BsTwitter} boxSize={5} />},
-    {name: "Facebook", icon: <Icon as={BsFacebook} boxSize={5} />},
-];
+import { Button, ButtonGroup, Icon, VisuallyHidden } from '@chakra-ui/react';
+import { Icons } from './AuthIconsProps';
 
 const AuthIcons = () => {
   return (
@@ -19,7 +7,7 @@ const AuthIcons = () => {
         {Icons.map(({name, icon}) => (    
             <Button key={name} width="full">
                 <VisuallyHidden>Sign in with {name}</VisuallyHidden>
-                {icon}
+                <Icon as={icon} boxSize={5} />
             </Button>
         ))}
     </ButtonGroup>
