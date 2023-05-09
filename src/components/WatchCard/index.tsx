@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image } from '@chakra-ui/react'
 
-const WatchCard = () => {
+const WatchCard = ({givenWidth}: {givenWidth?: string}) => {
   return (
     <Image 
-     w="calc(20% - 16px)"
+      w={givenWidth ? givenWidth : "calc(20% - 16px)"}
       border="4px solid transparent"
       borderRadius="8px"
       boxShadow="0px 20px 15px -10px black"

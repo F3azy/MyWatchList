@@ -16,7 +16,7 @@ const Random = () => {
   }
 
   return (
-    <Flex w="100%" direction="column" rowGap="28px">
+    <Flex w="100%" flex={1} direction="column" rowGap="28px">
       <HStack columnGap="16px">
         <Text fontSize="32px" fontWeight="bold">
           Search a random {genre} {type}
@@ -25,17 +25,8 @@ const Random = () => {
         <MovieSelect SelectInfoArray="genres" setStateFun={setGenre} changeFun={changeGenre} />
         <Button variant="full" borderRadius="full">Search</Button>
       </HStack>
-      <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
-            <WatchCard />
+      <Flex w="100%" flex={1} justify={"center"} align={"center"}>
+            <WatchCard givenWidth='65%' />
       </Flex>
     </Flex>
   )
