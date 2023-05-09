@@ -1,6 +1,7 @@
 import { Flex, HStack, Text, Select, Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import MovieSelect from '../../components/MovieSelect';
+import WatchCard from '../../components/WatchCard';
 
 const Random = () => {
   const [type, setType] = useState(() => {return ""});
@@ -15,7 +16,7 @@ const Random = () => {
   }
 
   return (
-    <Flex direction="column" rowGap="28px">
+    <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
         <Text fontSize="32px" fontWeight="bold">
           Search a random {genre} {type}
@@ -25,7 +26,16 @@ const Random = () => {
         <Button variant="full" borderRadius="full">Search</Button>
       </HStack>
       <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
-            
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
+            <WatchCard />
       </Flex>
     </Flex>
   )

@@ -1,4 +1,4 @@
-import { Container, Divider, Flex, VStack, HStack, Box, Text } from '@chakra-ui/react';
+import { Container, Flex, VStack, HStack, Box, Text } from '@chakra-ui/react';
 import {
   Menu,
   MenuButton,
@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import NavItem from './NavItem';
 import { BsChevronDown } from 'react-icons/bs';
-import { Links } from './NavItemProps';
+import { Links, MenuLinks } from './NavItemProps';
 
 
 const Navbar = () => {
@@ -43,9 +43,14 @@ const Navbar = () => {
                   </HStack>
               </MenuButton>
               <MenuList>
-                <MenuItem>Settings</MenuItem>
-                <MenuDivider />
-                <MenuItem>Log Out</MenuItem>
+                {MenuLinks.map((menuLink) => {
+                 return <>
+                    {(menuLink.name=="Log Out") ? <MenuDivider /> : null}
+                    <MenuItem key={menuLink.name}>
+                      <HStack><Icon as={menuLink.icon} /><Text>{menuLink.name}</Text></HStack>
+                    </MenuItem> 
+                 </>
+                })}
               </MenuList>
             </Menu>
           </Flex>

@@ -37,8 +37,8 @@ const MovieSelect = ({SelectInfoArray, setStateFun, changeFun}: {SelectInfoArray
 
   return (
     <Select w="200px" variant="base" defaultValue={SelectInfo[SelectInfoArray][0]} onChange={changeFun}>
-        {SelectInfo[SelectInfoArray as keyof SelectInfoType].map((genre) => 
-        <option key={genre} value={genre.toLocaleLowerCase()}>{genre}</option>
+        {SelectInfo[SelectInfoArray as keyof SelectInfoType].map((value) => 
+        <option key={value} value={value.toLocaleLowerCase()}>{value}</option>
         )}
     </Select>
   )

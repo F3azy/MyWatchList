@@ -12,7 +12,7 @@ const Movies_Series = ({type}: {type: string}) => {
   }
 
   return (
-    <Flex direction="column" rowGap="28px">
+    <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
         <Text fontSize="32px" fontWeight="bold">
           {type}
