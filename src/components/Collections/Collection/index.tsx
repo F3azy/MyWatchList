@@ -47,7 +47,7 @@ const Collection = ({name, logoSrc, videoSrc}: CollectionProps) => {
       display="block"
       width="100%"
       height="100%"
-      to={"collection/"+name?.toLocaleLowerCase()}
+      to={"collection"+name?.toLocaleLowerCase()}
       >
 
         <Box visibility={showBG ? "visible" : "hidden"}>
