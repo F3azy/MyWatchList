@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, Select } from '@chakra-ui/react';
+import { Flex, HStack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';

@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { CollectionProps } from '../CollectionProps';
 import { Link as RouterLink } from "react-router-dom";
 
-const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
+const Collection = ({name, logoSrc, videoSrc}: CollectionProps) => {
   const [showBG, useShowBg] = useState(()=>{return false});
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -47,6 +47,7 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
       display="block"
       width="100%"
       height="100%"
+      to={"collection/"+name?.toLocaleLowerCase()}
       >
 
         <Box visibility={showBG ? "visible" : "hidden"}>

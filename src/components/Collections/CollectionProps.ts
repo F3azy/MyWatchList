@@ -11,22 +11,22 @@ export const collections: Array<CollectionProps> = [
       videoSrc: "./collections/video/marvel.mp4",
     },
     {
-      name: "Harry Potter",
+      name: "HarryPotter",
       logoSrc: "./collections/images/harryPotter.png",
       videoSrc: "./collections/video/harryPotter.mp4",
     },
     {
-      name: "Star Wars",
+      name: "StarWars",
       logoSrc: "./collections/images/starWars.png",
       videoSrc: "./collections/video/starWars.mp4",
     },
     {
-      name: "Lord of the Rings",
+      name: "LordoftheRings",
       logoSrc: "./collections/images/lordOfTheRings.png",
       videoSrc: "./collections/video/lordOfTheRings.mp4",
     },
     {
-      name: "Pirates Of Caribbean",
+      name: "PiratesOfCaribbean",
       logoSrc: "./collections/images/piratesOfCaribbean.png",
       videoSrc: "./collections/video/piratesOfCaribbean.mp4",
     },

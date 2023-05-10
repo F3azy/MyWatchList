@@ -8,6 +8,7 @@ import Movies_Series from "./pages/Movies_Series";
 import MyList from "./pages/My List";
 import Random from "./pages/Random";
 import Friends from "./pages/Friends";
+import CollectionList from "./pages/CollectionList";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/series" element={<Movies_Series type={"Series"} />} />
                 <Route path="/myList" element={<MyList />} />
                 <Route path="/random" element={<Random />} />
+                <Route path="/collection/:name" element={<CollectionList />} />
                 {/* <Route path="/friends" element={<Friends />} /> */}
               </Route>
             </Routes>

@@ -7,7 +7,7 @@ const Collections = () => {
   return (
     <Flex wrap="wrap" rowGap="24px" justify="space-between">
       {collections.map((collection) => 
-        <Collection key={collection.name} logoSrc={collection.logoSrc} videoSrc={collection.videoSrc} />
+        <Collection key={collection.name} name={collection.name} logoSrc={collection.logoSrc} videoSrc={collection.videoSrc} />
       )}
     </Flex>
   )
