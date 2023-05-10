@@ -16,7 +16,7 @@ const Random = () => {
   }
 
   return (
-    <Flex w="100%" flex={1} direction="column" rowGap="28px">
+    <Flex w="100%" flex={1} direction="column">
       <HStack columnGap="16px">
         <Text fontSize="32px" fontWeight="bold">
           Search a random {genre} {type}
@@ -26,7 +26,7 @@ const Random = () => {
         <Button variant="full" borderRadius="full">Search</Button>
       </HStack>
       <Flex w="100%" flex={1} justify={"center"} align={"center"}>
-            <WatchCard givenWidth='65%' />
+            <WatchCard givenWidth='70%' />
       </Flex>
     </Flex>
   )

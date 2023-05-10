@@ -11,6 +11,7 @@ import {
 import NavItem from './NavItem';
 import { BsChevronDown } from 'react-icons/bs';
 import { Links, MenuLinks } from './NavItemProps';
+import NavMenuItem from './NavMenuItem';
 
 
 const Navbar = () => {
@@ -43,14 +44,9 @@ const Navbar = () => {
                   </HStack>
               </MenuButton>
               <MenuList>
-                {MenuLinks.map((menuLink) => {
-                 return <>
-                    {(menuLink.name=="Log Out") ? <MenuDivider /> : null}
-                    <MenuItem key={menuLink.name}>
-                      <HStack><Icon as={menuLink.icon} /><Text>{menuLink.name}</Text></HStack>
-                    </MenuItem> 
-                 </>
-                })}
+                {MenuLinks.map((menuLink) => 
+                 <NavMenuItem key={menuLink.name} name={menuLink.name} to={menuLink.to} icon={menuLink.icon} />
+                )}
               </MenuList>
             </Menu>
           </Flex>
