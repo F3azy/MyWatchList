@@ -1,6 +1,7 @@
-import { Box, Image, AbsoluteCenter } from '@chakra-ui/react';
+import { Box, Image, AbsoluteCenter, Link } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 import { CollectionProps } from '../CollectionProps';
+import { Link as RouterLink } from "react-router-dom";
 
 const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
   const [showBG, useShowBg] = useState(()=>{return false});
@@ -41,17 +42,24 @@ const Collection = ({logoSrc, videoSrc}: CollectionProps) => {
       onMouseEnter={startVideo}
       onMouseLeave={stopVideo}
     >
+      <Link
+      as={RouterLink}
+      display="block"
+      width="100%"
+      height="100%"
+      >
 
-      <Box visibility={showBG ? "visible" : "hidden"}>
-        <video ref={videoRef} loop playsInline muted>
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      </Box>
+        <Box visibility={showBG ? "visible" : "hidden"}>
+          <video ref={videoRef} loop playsInline muted>
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        </Box>
 
-      <AbsoluteCenter w="95%">
-        <Image src={logoSrc} />
-      </AbsoluteCenter>
-      
+        <AbsoluteCenter w="95%">
+          <Image src={logoSrc} />
+        </AbsoluteCenter>
+
+      </Link>
     </Box>
   )
 };

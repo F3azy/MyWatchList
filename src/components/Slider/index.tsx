@@ -15,7 +15,7 @@ const Slider = () => {
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        setWidth(sliderRef.current?.offsetWidth)
+        setWidth(sliderRef.current?.offsetWidth/3-16)
       } 
     }
     
@@ -49,7 +49,7 @@ const Slider = () => {
           currentPage={page}
           setCurrentPage={setPage}
         />
-        <Flex ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
+        <Flex minW={`calc(300% + ${20*2}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
           <WatchCard />
           <WatchCard />
           <WatchCard />

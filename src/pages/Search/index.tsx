@@ -23,8 +23,6 @@ const Search = () => {
         <WatchCard /> 
         <WatchCard /> 
         <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
       </Flex>
     </Flex>
   )
