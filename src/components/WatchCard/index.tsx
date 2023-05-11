@@ -3,9 +3,11 @@ import { Image, Link } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
 const WatchCard = ({givenWidth}: {givenWidth?: string}) => {
+  const name = "avengers";
   return (
     <Link
       as={RouterLink}
+      to={"/info/"+name}
       display="block"
       w={givenWidth ? givenWidth : "calc(20% - 16px)"}
       transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"

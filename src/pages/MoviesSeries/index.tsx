@@ -3,7 +3,7 @@ import { useState } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
 
-const Movies_Series = ({type}: {type: string}) => {
+const MoviesSeries = ({type}: {type: string}) => {
 
   const [genre, setGenre] = useState(() => {return ""});
 
@@ -40,4 +40,4 @@ const Movies_Series = ({type}: {type: string}) => {
   )
 };
 
-export default Movies_Series;
+export default MoviesSeries;

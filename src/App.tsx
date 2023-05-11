@@ -4,11 +4,12 @@ import Layout from "./components/Layout";
 import { Flex } from "@chakra-ui/react";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
-import Movies_Series from "./pages/Movies_Series";
+import MoviesSeries from "./pages/MoviesSeries";
 import MyList from "./pages/My List";
 import Random from "./pages/Random";
 import Friends from "./pages/Friends";
 import CollectionList from "./pages/CollectionList";
+import MovieSeriesInfo from "./pages/MovieSeriesInfo";
 
 function App() {
 
@@ -19,11 +20,12 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/movies" element={<Movies_Series type={"Movies"} />} />
-                <Route path="/series" element={<Movies_Series type={"Series"} />} />
+                <Route path="/movies" element={<MoviesSeries type={"Movies"} />} />
+                <Route path="/series" element={<MoviesSeries type={"Series"} />} />
                 <Route path="/myList" element={<MyList />} />
                 <Route path="/random" element={<Random />} />
                 <Route path="/collection/:name" element={<CollectionList />} />
+                <Route path="/info/:name" element={<MovieSeriesInfo />} />
                 {/* <Route path="/friends" element={<Friends />} /> */}
               </Route>
             </Routes>
