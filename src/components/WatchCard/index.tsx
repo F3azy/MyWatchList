@@ -49,7 +49,6 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
             boxShadow="0px 20px 15px -10px black"
             background="linear-gradient(#141414 97%, #030303) border-box"
             _hover={{
-              cursor: "pointer",
               borderColor: "transparent",
               background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
             }}
