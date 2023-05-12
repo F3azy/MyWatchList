@@ -25,7 +25,7 @@ function App() {
                 <Route path="/myList" element={<MyList />} />
                 <Route path="/random" element={<Random />} />
                 <Route path="/collection/:name" element={<CollectionList />} />
-                <Route path="/info/:name" element={<MovieSeriesInfo />} />
+                <Route path="/info/:name/:id" element={<MovieSeriesInfo />} />
                 {/* <Route path="/friends" element={<Friends />} /> */}
               </Route>
             </Routes>

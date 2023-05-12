@@ -1,35 +1,61 @@
-import React, { useState } from 'react';
-import { Image, Link } from '@chakra-ui/react'
+import React, { useState, useEffect } from 'react';
+import { Image, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
-const WatchCard = ({givenWidth, src}: {givenWidth?: string, src?: string}) => {
+const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, type: string}) => {
   const name = "avengers";
-  const [url, setUrl] = useState(() => {return "https://image.tmdb.org/t/p/original/"});
+  const [imageUrl, setImageUrl] = useState(() => {return "https://image.tmdb.org/t/p/original/"});
+
+  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/"});
+  const [watchCard, setWatchCard] = useState<any>(() => {return []});
+  const [isloading, setIsLoading] = useState(() => {return true});
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`)
+    .then(response => {return response.json()})
+    .then(movie => {
+        setWatchCard(movie) 
+        setTimeout(() => setIsLoading(false), 2000);
+      })
+  }, []);
 
   return (
-    <Link
-      as={RouterLink}
-      to={"/info/"+name}
-      display="block"
-      w={givenWidth ? givenWidth : "calc(12.5% - 18px)"}
-      transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
-      _hover={{
-        transform: "translate(0, -5px)",
-      }}
+    <Skeleton 
+    w={givenWidth ? givenWidth : "calc(20% - 16px)"}
+    minH="290px" 
+    borderRadius="4px" 
+    fadeDuration={3} 
+    startColor='brand.primary' 
+    endColor='brand.tertiary' 
+    isLoaded={!isloading}
     >
-      <Image 
-        w="100%"
-        border="4px solid transparent"
-        borderRadius="8px"
-        boxShadow="0px 20px 15px -10px black"
-        background="linear-gradient(#141414 97%, #030303) border-box"
+      <Link
+        as={RouterLink}
+        to={"/info/"+(watchCard.name ? watchCard.name : watchCard.title)+"/"+watchCard.id}
+        display="block"
+        // w={givenWidth ? givenWidth : "calc(20% - 16px)"}
+        transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
         _hover={{
-          cursor: "pointer",
-          background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
+          transform: "translate(0, -5px)",
         }}
-        src={url+src}
-      />
-    </Link>
+      >
+          <Image 
+            w="100%"
+            border="4px solid transparent"
+            borderRadius="8px"
+            boxShadow="0px 20px 15px -10px black"
+            background="linear-gradient(#141414 96%, #030303) border-box"
+            _hover={{
+              cursor: "pointer",
+              background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
+            }}
+            src={imageUrl+watchCard.poster_path}
+            alt={watchCard.title}
+          />
+      </Link>
+    </Skeleton>
   )
 };
 
