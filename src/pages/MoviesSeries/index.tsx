@@ -1,4 +1,4 @@
-import { Flex, HStack, Text } from '@chakra-ui/react';
+import { Flex, HStack, Text, Grid, GridItem } from '@chakra-ui/react';
 import { useState } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
@@ -19,23 +19,47 @@ const MoviesSeries = ({type}: {type: string}) => {
         </Text>
         <MovieSelect SelectInfoArray="genres" setStateFun={setGenre} changeFun={changeGenre} />
       </HStack>
-      <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-          <WatchCard /> 
-        </Flex>
+      <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+        <GridItem w='100%'>
+          <WatchCard givenWidth='100%'/>
+        </GridItem>
+      </Grid>
     </Flex>
   )
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, HStack, Text } from '@chakra-ui/react';
+import { Flex, Text, Grid, GridItem } from '@chakra-ui/react';
 import WatchCard from '../../components/WatchCard';
 import { useParams } from 'react-router-dom';
 
@@ -225,29 +225,16 @@ const CollectionList = () => {
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">
-    <HStack columnGap="16px">
       <Text fontSize="32px" fontWeight="bold">
         {name}
       </Text>
-    </HStack>
-    <Flex w="100%" wrap="wrap" columnGap="20px" rowGap="24px">
-        {loading ? null : watchCards?.map((watchcard: any) => <WatchCard key={watchcard.name ? watchcard.name : watchcard.title} src={watchcard.poster_path} />)}
-        {/* <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard /> 
-        <WatchCard />  */}
-      </Flex>
+    <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
+      {loading ? null : watchCards?.map((watchcard: any) => 
+      <GridItem w='100%' key={watchcard.name ? watchcard.name : watchcard.title}>
+        <WatchCard givenWidth='100%' src={watchcard.poster_path} />
+      </GridItem>
+      )}
+    </Grid>
   </Flex>
   )
 };
