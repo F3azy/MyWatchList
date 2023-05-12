@@ -43,12 +43,14 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
       >
           <Image 
             w="100%"
-            border="4px solid transparent"
             borderRadius="8px"
+            border="4px solid"
+            borderColor="brand.dark.600"
             boxShadow="0px 20px 15px -10px black"
-            background="linear-gradient(#141414 96%, #030303) border-box"
+            background="linear-gradient(#141414 97%, #030303) border-box"
             _hover={{
               cursor: "pointer",
+              borderColor: "transparent",
               background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
             }}
             src={imageUrl+watchCard.poster_path}
