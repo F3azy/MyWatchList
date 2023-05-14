@@ -94,7 +94,7 @@ const StarWarsArray: watchCardInfo[] = [
     {title:"The Book of Boba Fett",id: 115036 ,type:"tv"},
     {title:"Ahsoka",id: 114461 ,type:"tv"},
     {title:"Star Wars: Skeleton Crew",id: 202879 ,type:"tv"},
-    {title:"Star Wars Resistance",id: 79093 ,type:"movie"},
+    {title:"Star Wars Resistance",id: 79093 ,type:"tv"},
     {title:"Star Wars: The Force Awakens",id: 140607 ,type:"movie"},
     {title:"Star Wars: The Last Jedi",id: 181808 ,type:"movie"},
     {title:"Star Wars: The Rise of Skywalker",id: 181812 ,type:"movie"},
