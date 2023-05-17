@@ -23,7 +23,7 @@ const Search = () => {
       <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
         {watchCards.map((watchcard: any) => 
           <GridItem w='100%' key={watchcard.id}>
-            <WatchCard givenWidth='100%' id={watchcard.id} type={watchcard.media_type}/>
+            <WatchCard givenWidth='100%' givenHeight="294px" id={watchcard.id} type={watchcard.media_type}/>
           </GridItem>
         )}
       </Grid>
