@@ -53,7 +53,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
               borderColor: "transparent",
               background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
             }}
-            src={watchCard.poster_path ? imageUrl+watchCard?.poster_path : ""}
+            src={imageUrl+watchCard?.poster_path}
             alt={watchCard.name ? watchCard.name : watchCard.title}
           />
       </Link>
