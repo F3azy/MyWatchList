@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Image, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
-const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, type: string}) => {
+const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, type?: string}) => {
   const name = "avengers";
   const [imageUrl, setImageUrl] = useState(() => {return "https://image.tmdb.org/t/p/original/"});
 
@@ -24,7 +24,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
   return (
     <Skeleton 
     w={givenWidth ? givenWidth : "calc(20% - 16px)"}
-    minH="290px" 
+    minH="294px" 
     borderRadius="4px" 
     fadeDuration={3} 
     startColor='brand.primary' 
@@ -43,6 +43,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
       >
           <Image 
             w="100%"
+            minH="294px" 
             borderRadius="8px"
             border="4px solid"
             borderColor="brand.dark.600"
@@ -53,7 +54,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
               background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
             }}
             src={imageUrl+watchCard.poster_path}
-            alt={watchCard.title}
+            alt={watchCard.name ? watchCard.name : watchCard.title}
           />
       </Link>
     </Skeleton>

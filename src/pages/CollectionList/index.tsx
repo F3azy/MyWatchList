@@ -14,7 +14,7 @@ const CollectionList = () => {
       </Text>
       <Grid w="100%" templateColumns='repeat(6, 1fr)' gap={6}>
       {collections[name as keyof collectionsList]?.watchCards.map((watchcard) => 
-        <GridItem w='100%' key={watchcard.title}>
+        <GridItem w='100%' key={watchcard.id}>
           <WatchCard givenWidth='100%' id={watchcard.id} type={watchcard.type} />
         </GridItem>
       )}
