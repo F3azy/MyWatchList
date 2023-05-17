@@ -36,11 +36,11 @@ export const Links: Array<LinkItemProps> = [
     to: "/myList",
     icon: BiTable,
   },
-  {
-    name: "Random",
-    to: "/random",
-    icon: FaRandom,
-  },
+  // {
+  //   name: "Random",
+  //   to: "/random",
+  //   icon: FaRandom,
+  // },
   // {
   //   name: "Friends",
   //   to: "/friends",

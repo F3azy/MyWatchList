@@ -3,7 +3,7 @@ import { Image, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
 const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, type?: string}) => {
-  const name = "avengers";
+
   const [imageUrl, setImageUrl] = useState(() => {return "https://image.tmdb.org/t/p/original/"});
 
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/"});
@@ -53,7 +53,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
               borderColor: "transparent",
               background: "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box", 
             }}
-            src={imageUrl+watchCard.poster_path}
+            src={watchCard.poster_path ? imageUrl+watchCard?.poster_path : ""}
             alt={watchCard.name ? watchCard.name : watchCard.title}
           />
       </Link>

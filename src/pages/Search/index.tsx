@@ -13,12 +13,9 @@ const Search = () => {
     fetch(url+"multi"+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&query=${title}`)
     .then(response => {return response.json()})
     .then(movie => {
-      console.log(movie)
-      setWatchCards(movie.results.filter((m: any) => m.media_type != "person")) 
+      setWatchCards(movie.results.filter((m: any) => (m.media_type != "person") && (m.poster_path != null))) 
       })
   }, [title]);
-
-  console.log(watchCards);
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">

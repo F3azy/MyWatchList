@@ -1,15 +1,25 @@
 import { Flex, HStack, Text, Grid, GridItem } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
 
 const MoviesSeries = ({type}: {type: string}) => {
 
   const [genre, setGenre] = useState(() => {return ""});
+  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/discover/"});
+  const [watchCards, setWatchCards] = useState<any>(() => {return []});
+  
+    function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+      setGenre(event.currentTarget.value);
+    }
 
-  function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
-    setGenre(event.currentTarget.value);
-  }
+  useEffect(() => {
+    fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&with_genres=${genre}`)
+    .then(response => {return response.json()})
+    .then(movie => {
+      setWatchCards(movie.results.filter((m: any) => (m.poster_path != null))) 
+      })
+  }, [genre]);
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">
@@ -17,48 +27,14 @@ const MoviesSeries = ({type}: {type: string}) => {
         <Text fontSize="32px" fontWeight="bold">
           {type}
         </Text>
-        <MovieSelect SelectInfoArray="genres" setStateFun={setGenre} changeFun={changeGenre} />
+        <MovieSelect type={type} setStateFun={setGenre} changeFun={changeGenre} />
       </HStack>
       <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
-        <GridItem w='100%'>
-          <WatchCard givenWidth='100%'/>
-        </GridItem>
+        {watchCards.map((watchcard: any) => 
+          <GridItem w='100%' key={watchcard.id}>
+            <WatchCard givenWidth='100%' id={watchcard.id} type={type.toLocaleLowerCase()=="series" ? "tv" : "movie"}/>
+          </GridItem>
+        )}
       </Grid>
     </Flex>
   )
