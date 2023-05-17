@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Select, Skeleton } from '@chakra-ui/react';
 
-const MovieSelect = ({type, setStateFun, changeFun}: {type: string, setStateFun: React.Dispatch<React.SetStateAction<string>>, changeFun?: React.ChangeEventHandler<HTMLSelectElement>}) => {
+const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}: 
+  { type: string, 
+    isloading: boolean,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setStateFun: React.Dispatch<React.SetStateAction<string>>, 
+    changeFun?: React.ChangeEventHandler<HTMLSelectElement>
+  }) => {
 
   const [genres, setGenres] = useState<any>(() => {return []});
   const [defaultVal, setDefaultVal] = useState(() => {return ""});
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/genre/"});
-  const [isloading, setIsLoading] = useState(() => {return true});
   
   useLayoutEffect(() => {
     setIsLoading(true);
@@ -16,7 +21,7 @@ const MovieSelect = ({type, setStateFun, changeFun}: {type: string, setStateFun:
       setGenres(json.genres);
       setStateFun(json.genres[0].id);
       setDefaultVal(json.genres[0].name);
-      setTimeout(() => setIsLoading(false), 1000);
+      setTimeout(() => setIsLoading(false), 800);
     }
 
     fetching();

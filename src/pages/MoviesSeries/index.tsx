@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, Grid, GridItem } from '@chakra-ui/react';
+import { Flex, HStack, Text, Grid, GridItem, SkeletonText } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
@@ -8,6 +8,7 @@ const MoviesSeries = ({type}: {type: string}) => {
   const [genre, setGenre] = useState(() => {return ""});
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/discover/"});
   const [watchCards, setWatchCards] = useState<any>(() => {return []});
+  const [isloading, setIsLoading] = useState(() => {return true});
   
     function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
       setGenre(event.currentTarget.value);
@@ -24,10 +25,18 @@ const MoviesSeries = ({type}: {type: string}) => {
   return (
     <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
-        <Text fontSize="32px" fontWeight="bold">
-          {type}
-        </Text>
-        <MovieSelect type={type} setStateFun={setGenre} changeFun={changeGenre} />
+        <SkeletonText 
+        fadeDuration={3} 
+        startColor='brand.primary' 
+        endColor='brand.tertiary'
+        noOfLines={1} 
+        skeletonHeight='48px' 
+        isLoaded={!isloading}>
+          <Text fontSize="32px" fontWeight="bold">
+            {type}
+          </Text>
+        </SkeletonText>
+        <MovieSelect isloading={isloading} setIsLoading={setIsLoading} type={type} setStateFun={setGenre} changeFun={changeGenre} />
       </HStack>
       <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
         {watchCards.map((watchcard: any) => 
