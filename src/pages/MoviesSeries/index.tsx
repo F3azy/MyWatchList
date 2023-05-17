@@ -26,12 +26,13 @@ const MoviesSeries = ({type}: {type: string}) => {
     <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
         <SkeletonText 
-        fadeDuration={3} 
+        skeletonHeight='48px' 
+        noOfLines={1} 
+        isLoaded={!isloading}
         startColor='brand.primary' 
         endColor='brand.tertiary'
-        noOfLines={1} 
-        skeletonHeight='48px' 
-        isLoaded={!isloading}>
+        fadeDuration={3} 
+        >
           <Text fontSize="32px" fontWeight="bold">
             {type}
           </Text>

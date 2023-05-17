@@ -30,10 +30,10 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
   return (
     <Skeleton 
     borderRadius="full" 
-    fadeDuration={3} 
+    isLoaded={!isloading}
     startColor='brand.primary' 
     endColor='brand.tertiary' 
-    isLoaded={!isloading}
+    fadeDuration={3} 
     >
       <Select w="200px" variant="base" defaultValue={defaultVal} onChange={changeFun}>
           {genres?.map((genre: any) => 

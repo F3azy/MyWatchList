@@ -17,7 +17,7 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
     .then(response => {return response.json()})
     .then(movie => {
         setWatchCard(movie) 
-        setTimeout(() => setIsLoading(false), 2000);
+        setTimeout(() => setIsLoading(false), 1200);
       })
   }, []);
 
@@ -26,10 +26,10 @@ const WatchCard = ({givenWidth, id, type}: {givenWidth?: string, id?: number, ty
     w={givenWidth ? givenWidth : "calc(20% - 16px)"}
     minH="294px" 
     borderRadius="4px" 
-    fadeDuration={3} 
+    isLoaded={!isloading}
     startColor='brand.primary' 
     endColor='brand.tertiary' 
-    isLoaded={!isloading}
+    fadeDuration={3} 
     >
       <Link
         as={RouterLink}
