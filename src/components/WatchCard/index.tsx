@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Image, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
-const WatchCard = ({givenWidth, givenHeight, id, type}: {givenWidth?: string, givenHeight?: string, id?: number, type?: string}) => {
+const WatchCard = ({givenWidth, givenHeight, id, type}: {givenWidth?: string, givenHeight?: string, id: number, type: string}) => {
 
   const [imageUrl, setImageUrl] = useState(() => {return "https://image.tmdb.org/t/p/original/"});
 

@@ -1,10 +1,27 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import WatchCard from '../WatchCard';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, SkeletonText } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import ScrollButton from './ScrollButton';
 
-const Slider = () => {
+
+const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, sliderUrl: string, sliderType?: string}) => {
+
+  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/"});
+  const [watchCards, setWatchCards] = useState<any[]>(() => {return []});
+  const [lenght, setLenght] = useState(() => {return 0});
+  const [isloading, setIsLoading] = useState(() => {return true});
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`)
+    .then(response => {return response.json()})
+    .then(movie => {
+      setWatchCards(movie.results);
+      setLenght(Math.ceil(movie.results.length/5));
+      setTimeout(() => setIsLoading(false), 500);
+      })
+  }, []);
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
   const [showRightButton, setRightShowButton] = useState(() => {return true});
@@ -15,7 +32,7 @@ const Slider = () => {
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        setWidth(sliderRef.current?.offsetWidth/3-16)
+        setWidth(sliderRef.current?.offsetWidth/(lenght)-16)
       } 
     }
     
@@ -30,15 +47,24 @@ const Slider = () => {
   }, []);
 
   useEffect(() => {
-    (page == 0) ? setLeftShowButton(false) : setLeftShowButton(true);
-    (page == 2) ? setRightShowButton(false) : setRightShowButton(true);
+    (page == 0) ?  setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
+    (page == (lenght-1)) ?  setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
   }, [page]);
 
   return (
     <Flex minW="100%" direction="column" rowGap="8px">
-      <Text fontSize="24px" fontWeight="bold">
-        Marvel
-      </Text>
+      <SkeletonText 
+        skeletonHeight='36px' 
+        noOfLines={1} 
+        isLoaded={!isloading}
+        startColor='brand.primary' 
+        endColor='brand.tertiary'
+        fadeDuration={3} 
+        >  
+        <Text fontSize="24px" fontWeight="bold">
+          {sliderTitle}
+        </Text>
+      </SkeletonText>
       <Flex position="relative" align="center" >
         <ScrollButton 
           as={ChevronLeftIcon} 
@@ -49,22 +75,10 @@ const Slider = () => {
           currentPage={page}
           setCurrentPage={setPage}
         />
-        <Flex minW={`calc(300% + ${20*2}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
-          <WatchCard />
+        <Flex minW={`calc(${100*lenght}% + ${20*(lenght-1)}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
+        {watchCards.map((watchcard: any) => 
+            <WatchCard key={watchcard.id} givenHeight='494px' id={watchcard.id} type={sliderType ? sliderType : watchcard.media_type}/>
+        )}
         </Flex>
         <ScrollButton 
           as={ChevronRightIcon} 
