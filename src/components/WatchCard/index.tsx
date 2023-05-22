@@ -13,12 +13,15 @@ const WatchCard = ({givenWidth, givenHeight, id, type}: {givenWidth?: string, gi
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`)
-    .then(response => {return response.json()})
-    .then(movie => {
-        setWatchCard(movie) 
-        setTimeout(() => setIsLoading(false), 1200);
-      })
+    const fetching = async () => { 
+      const response  = await fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
+      const json = await response.json();
+        setWatchCard(json);
+        const timer = setTimeout(() => setIsLoading(false), 1200);
+        return () => clearTimeout(timer);
+    }
+
+    fetching();
   }, []);
 
   return (

@@ -9,18 +9,22 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
 
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/"});
   const [watchCards, setWatchCards] = useState<any[]>(() => {return []});
-  const [lenght, setLenght] = useState(() => {return 0});
+  const [length, setLength] = useState(() => {return 0});
   const [isloading, setIsLoading] = useState(() => {return true});
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`)
-    .then(response => {return response.json()})
-    .then(movie => {
-      setWatchCards(movie.results);
-      setLenght(Math.ceil(movie.results.length/5));
-      setTimeout(() => setIsLoading(false), 500);
-      })
+    const fetching = async () => { 
+      const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
+      const json = await response.json();
+
+      setWatchCards(json.results);
+      setLength(Math.ceil(json.results.length/5));
+      const timer = setTimeout(() => setIsLoading(false), 1000);
+      return () => clearTimeout(timer);
+    }
+
+    fetching();
   }, []);
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
@@ -32,23 +36,24 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        setWidth(sliderRef.current?.offsetWidth/(lenght)-16)
+        setWidth(sliderRef.current?.offsetWidth/(length)-16)
       } 
     }
     
     window.addEventListener("resize", handleResize);
     
-    setTimeout(() => { handleResize(); }, 500);
+    const timer = setTimeout(() => { handleResize(); }, 500);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
     };
 
-  }, []);
+  }, [length]);
 
   useEffect(() => {
     (page == 0) ?  setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
-    (page == (lenght-1)) ?  setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
+    (page == (length-1)) ?  setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
   }, [page]);
 
   return (
@@ -75,7 +80,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
           currentPage={page}
           setCurrentPage={setPage}
         />
-        <Flex minW={`calc(${100*lenght}% + ${20*(lenght-1)}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
+        <Flex minW={`calc(${100*length}% + ${20*(length-1)}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
         {watchCards.map((watchcard: any) => 
             <WatchCard key={watchcard.id} givenHeight='494px' id={watchcard.id} type={sliderType ? sliderType : watchcard.media_type}/>
         )}

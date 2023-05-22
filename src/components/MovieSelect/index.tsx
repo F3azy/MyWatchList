@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Skeleton } from '@chakra-ui/react';
 
 const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}: 
@@ -13,11 +13,11 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
   const [defaultVal, setDefaultVal] = useState(() => {return ""});
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/genre/"});
   
-  useLayoutEffect(() => {
+  useEffect(() => {
     setIsLoading(true);
     const fetching = async () => {
       const response  = await fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
-      const json = await response .json();
+      const json = await response.json();
       setGenres(json.genres);
       setStateFun(json.genres[0].id);
       setDefaultVal(json.genres[0].name);
