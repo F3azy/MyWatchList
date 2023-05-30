@@ -22,7 +22,6 @@ const Collection = ({name, logoSrc, videoSrc}: CollectionProps) => {
 
   return (
     <Box 
-      width="calc(15.5%)" 
       minH="80px"
       bgGradient="linear(brand.dark.700, brand.dark.800)" 
       border="4px solid" 

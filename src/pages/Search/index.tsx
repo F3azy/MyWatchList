@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import TitleInput from '../../components/TitleInput';
 import WatchCard from '../../components/WatchCard';
+import { Movie } from '../../types/common';
 
 const Search = () => {
 
-  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/search/"});
+  const url = "https://api.themoviedb.org/3/search/";
   const [title, setTitle] = useState(() => {return ""});
-  const [watchCards, setWatchCards] = useState<any>(() => {return []});
+  const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
 
   useEffect(() => {
     fetch(url+"multi"+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&query=${title}`)
     .then(response => {return response.json()})
     .then(movie => {
-      setWatchCards(movie.results.filter((m: any) => (m.media_type != "person") && (m.poster_path != null))) 
+      setWatchCards(movie.results.filter((m: Movie) => (m.media_type != "person") && (m.poster_path != null))) 
       })
   }, [title]);
 
@@ -21,9 +22,16 @@ const Search = () => {
     <Flex w="100%" direction="column" rowGap="28px">
       <TitleInput setTitle={setTitle} />
       <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
-        {watchCards.map((watchcard: any) => 
+        {watchCards.map((watchcard) => 
           <GridItem w='100%' key={watchcard.id}>
-            <WatchCard givenWidth='100%' givenHeight="294px" id={watchcard.id} type={watchcard.media_type}/>
+            <WatchCard 
+            givenWidth='100%' 
+            givenHeight="294px" 
+            id={watchcard.id} 
+            type={watchcard.media_type as string}
+            title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
+            SpecImageURL={watchcard?.poster_path}
+            />
           </GridItem>
         )}
       </Grid>

@@ -2,12 +2,13 @@ import { Flex, HStack, Text, Grid, GridItem, SkeletonText } from '@chakra-ui/rea
 import { useState, useEffect } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
+import { Movie } from '../../types/common';
 
 const MoviesSeries = ({type}: {type: string}) => {
 
+  const url = "https://api.themoviedb.org/3/discover/";
   const [genre, setGenre] = useState(() => {return ""});
-  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/discover/"});
-  const [watchCards, setWatchCards] = useState<any>(() => {return []});
+  const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
   
     function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -18,7 +19,7 @@ const MoviesSeries = ({type}: {type: string}) => {
     fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&with_genres=${genre}`)
     .then(response => {return response.json()})
     .then(movie => {
-      setWatchCards(movie.results.filter((m: any) => (m.poster_path != null))) 
+      setWatchCards(movie.results.filter((m: Movie) => (m.poster_path != null))) 
       })
   }, [genre]);
 
@@ -40,9 +41,16 @@ const MoviesSeries = ({type}: {type: string}) => {
         <MovieSelect isloading={isloading} setIsLoading={setIsLoading} type={type} setStateFun={setGenre} changeFun={changeGenre} />
       </HStack>
       <Grid w="100%" templateColumns='repeat(8, 1fr)' gap={6}>
-        {watchCards.map((watchcard: any) => 
+        {watchCards.map((watchcard) => 
           <GridItem w='100%' key={watchcard.id}>
-            <WatchCard givenWidth='100%' id={watchcard.id} type={type.toLocaleLowerCase()=="series" ? "tv" : "movie"}/>
+            <WatchCard 
+            givenWidth='100%' 
+            givenHeight='291px' 
+            id={watchcard.id} 
+            type={type.toLocaleLowerCase()=="series" ? "tv" : "movie"}
+            title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
+            SpecImageURL={watchcard?.poster_path}
+            />
           </GridItem>
         )}
       </Grid>

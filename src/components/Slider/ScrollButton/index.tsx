@@ -54,6 +54,7 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
         alignItems="center" 
         bg="#1f1f1f" 
         position="absolute" 
+        zIndex={9}
         boxShadow="0 0 10px 10px #1f1f1f"
         right={(direction == "right") ? "0" : "auto"}
         left={(direction == "left") ? "0" : "auto"}
@@ -63,7 +64,6 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
           bg: "#131313",
           boxShadow: "0 0 10px 10px #131313"
         }}
-        zIndex={10}
         onClick={(showButton && !clicked) ? move : undefined}
       >
           <Icon as={as} boxSize={10} />

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Skeleton } from '@chakra-ui/react';
 
+interface Genres {
+  id: number,
+  name: string
+}
+
 const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}: 
   { type: string, 
     isloading: boolean,
@@ -9,7 +14,7 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
     changeFun?: React.ChangeEventHandler<HTMLSelectElement>
   }) => {
 
-  const [genres, setGenres] = useState<any>(() => {return []});
+  const [genres, setGenres] = useState<Genres[]>(() => {return []});
   const [defaultVal, setDefaultVal] = useState(() => {return ""});
   const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/genre/"});
   
@@ -36,7 +41,7 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
     fadeDuration={3} 
     >
       <Select w="200px" variant="base" defaultValue={defaultVal} onChange={changeFun}>
-          {genres?.map((genre: any) => 
+          {genres?.map((genre) => 
           <option key={genre.id} value={genre.id}>{genre.name}</option>
           )}
       </Select>
