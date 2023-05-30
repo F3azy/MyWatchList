@@ -23,7 +23,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
     setIsLoading(true);
     const fetching = async () => { 
       try {
-        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
+        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
         const json = await response.json();
         
         setWatchCards(json.results);
@@ -33,6 +33,8 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
       }
       catch (error) {
         console.error(`Error fetching for slider (${sliderTitle}):`, error);
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
       }
     }
 
@@ -70,7 +72,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
     id={watchcard.id} 
     type={sliderType ? sliderType : watchcard.media_type as string}
     title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
-    SpecImageURL={watchcard?.poster_path}
+    SpecImageURL={watchcard?.poster_path as string}
     />
   ), [watchCards]);
 

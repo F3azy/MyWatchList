@@ -11,12 +11,12 @@ const MoviesSeries = ({type}: {type: string}) => {
   const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
   
-    function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
-      setGenre(event.currentTarget.value);
-    }
+  function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+    setGenre(event.currentTarget.value);
+  }
 
   useEffect(() => {
-    fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&with_genres=${genre}`)
+    fetch(url+(type=="tv" ? "tv" : "movie")+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US&with_genres=${genre}`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -43,7 +43,7 @@ const MoviesSeries = ({type}: {type: string}) => {
         fadeDuration={3} 
         >
           <Text fontSize="32px" fontWeight="bold">
-            {type}
+            {type=="tv" ? "Series" : "Movies"}
           </Text>
         </SkeletonText>
         <MovieSelect isloading={isloading} setIsLoading={setIsLoading} type={type} setStateFun={setGenre} changeFun={changeGenre} />
@@ -57,7 +57,7 @@ const MoviesSeries = ({type}: {type: string}) => {
             id={watchcard.id} 
             type={type.toLocaleLowerCase()=="series" ? "tv" : "movie"}
             title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
-            SpecImageURL={watchcard?.poster_path}
+            SpecImageURL={watchcard?.poster_path as string}
             />
           </GridItem>
         )}

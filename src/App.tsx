@@ -21,7 +21,7 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/movies" element={<MoviesSeries type={"Movies"} />} />
-                <Route path="/series" element={<MoviesSeries type={"Series"} />} />
+                <Route path="/series" element={<MoviesSeries type={"tv"} />} />
                 <Route path="/myList" element={<MyList />} />
                 <Route path="/random" element={<Random />} />
                 <Route path="/collection/:name" element={<CollectionList />} />

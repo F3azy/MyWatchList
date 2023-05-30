@@ -3,5 +3,6 @@ export interface Movie {
     name?: string,
     media_type?: string,
     id: number,
-    poster_path: string
+    poster_path?: string
+    backdrop_path?: string
 }

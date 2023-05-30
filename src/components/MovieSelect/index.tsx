@@ -16,13 +16,13 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
 
   const [genres, setGenres] = useState<Genres[]>(() => {return []});
   const [defaultVal, setDefaultVal] = useState(() => {return ""});
-  const [url, setUrl] = useState(() => {return "https://api.themoviedb.org/3/genre/"});
+  const url = "https://api.themoviedb.org/3/genre/";
   
   useEffect(() => {
     setIsLoading(true);
     const fetching = async () => {
       try {
-        const response  = await fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
+        const response  = await fetch(url+(type=="tv" ? "tv" : "movie")+`/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
         const json = await response.json();
         setGenres(json.genres);
         setStateFun(json.genres[0].id);

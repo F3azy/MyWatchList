@@ -43,7 +43,7 @@ const CollectionList = () => {
             id={watchcard.id} 
             type={collections[name as keyof collectionsList]?.watchCards[idx]?.type} 
             title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
-            SpecImageURL={watchcard?.poster_path}
+            SpecImageURL={watchcard?.poster_path as string}
             />
           </GridItem>
           )}
