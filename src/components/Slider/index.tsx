@@ -17,7 +17,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
   const [showRightButton, setRightShowButton] = useState(() => {return true});
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number | undefined>(undefined);
+  const [width, setWidth] = useState<number | undefined>(() => {return undefined});
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,7 +32,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
         return () => clearTimeout(timer);
       }
       catch (error) {
-        console.error('Error fetching:', error);
+        console.error(`Error fetching for slider (${sliderTitle}):`, error);
       }
     }
 

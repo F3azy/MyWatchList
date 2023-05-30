@@ -12,9 +12,17 @@ const Search = () => {
 
   useEffect(() => {
     fetch(url+"multi"+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&query=${title}`)
-    .then(response => {return response.json()})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json()
+    })
     .then(movie => {
       setWatchCards(movie.results.filter((m: Movie) => (m.media_type != "person") && (m.poster_path != null))) 
+      })
+      .catch(error => {
+        console.error('Error fetching movies or series data:', error);
       })
   }, [title]);
 

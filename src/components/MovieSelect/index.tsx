@@ -21,12 +21,19 @@ const MovieSelect = ({type, isloading, setIsLoading, setStateFun, changeFun}:
   useEffect(() => {
     setIsLoading(true);
     const fetching = async () => {
-      const response  = await fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
-      const json = await response.json();
-      setGenres(json.genres);
-      setStateFun(json.genres[0].id);
-      setDefaultVal(json.genres[0].name);
-      setTimeout(() => setIsLoading(false), 800);
+      try {
+        const response  = await fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`);
+        const json = await response.json();
+        setGenres(json.genres);
+        setStateFun(json.genres[0].id);
+        setDefaultVal(json.genres[0].name);
+        setTimeout(() => setIsLoading(false), 800);
+      }
+      catch (error) {
+        console.error('Error fetching genres:', error);
+        const timer = setTimeout(() => setIsLoading(false), 1200);
+        return () => clearTimeout(timer);
+      }
     }
 
     fetching();

@@ -17,9 +17,17 @@ const MoviesSeries = ({type}: {type: string}) => {
 
   useEffect(() => {
     fetch(url+(type.toLocaleLowerCase()=="series" ? "tv" : "movie")+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&with_genres=${genre}`)
-    .then(response => {return response.json()})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json()
+    })
     .then(movie => {
       setWatchCards(movie.results.filter((m: Movie) => (m.poster_path != null))) 
+      })
+      .catch(error => {
+        console.error('Error fetching movies or series data:', error);
       })
   }, [genre]);
 
