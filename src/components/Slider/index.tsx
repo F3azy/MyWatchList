@@ -17,7 +17,7 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
   const [showRightButton, setRightShowButton] = useState(() => {return true});
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number | undefined>(() => {return undefined});
+  const [width, setWidth] = useState<number>(() => {return 0});
 
   useEffect(() => {
     setIsLoading(true);

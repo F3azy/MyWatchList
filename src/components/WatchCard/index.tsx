@@ -6,7 +6,6 @@ const WatchCard = ({givenWidth, givenHeight, id, type, title, SpecImageURL}: {gi
 
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
-  const url = "https://api.themoviedb.org/3/";
   const [isloading, setIsLoading] = useState(() => {return true});
 
   useEffect(() => {
