@@ -68,8 +68,8 @@ const Home = () => {
   const [isloading, setIsLoading] = useState(() => {return true});
 
   useEffect(() => {
+    setSliders([]);
     const fetching = async (sliderType: string  | undefined, sliderUrl: string, sliderTitle: string) => { 
-      setSliders([]);
       setIsLoading(true);
       try {
         const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
@@ -89,7 +89,7 @@ const Home = () => {
 
     HomeSlidersArray.map((slider) => 
       fetching(slider.type, slider.url, slider.title)
-    )
+    );
   }, []);
 
   return (

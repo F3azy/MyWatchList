@@ -9,7 +9,7 @@ const MovieSeriesInfo = () => {
   const urlDetails = `https://api.themoviedb.org/3/${type}/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const urlWatchProviders = `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
   const urlSimilar = `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&include_image_language=en`;
+  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&include_image_language=null`;
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});

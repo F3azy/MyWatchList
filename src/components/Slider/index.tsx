@@ -11,7 +11,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
   {sliderTitle?: string, sliderType?: string, watchCards: Movie[], isloading?: boolean, pages: number, visible: number, isLink: boolean, columnGap: number}) => {
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
-  const [showRightButton, setRightShowButton] = useState(() => {return true});
+  const [showRightButton, setRightShowButton] = useState(() => {return false});
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(() => {return 0});
@@ -23,6 +23,11 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
       } 
     }
     
+    if(pages==1) {
+      setLeftShowButton(false);
+      setRightShowButton(false);
+    }
+
     window.addEventListener("resize", handleResize);
     
     const timer = setTimeout(() => { handleResize(); }, 500);

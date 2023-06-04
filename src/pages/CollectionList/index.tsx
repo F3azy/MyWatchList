@@ -9,25 +9,28 @@ const CollectionList = () => {
   const { name } = useParams();
 
   const url = "https://api.themoviedb.org/3/";
-  const [WatchCards, setWatchCards] = useState<Movie[]>(() => {return []});
+  const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
 
   useEffect(() => {
     setWatchCards([]);
-    collections[name as keyof collectionsList]?.watchCards.forEach((watchcard) => {
-      fetch(url+watchcard.type+`/${watchcard.id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json()
-      })
-      .then(movie => {
-        setWatchCards(prev => [...prev, movie]) 
-        })
-        .catch(error => {
-          console.error('Error fetching collection data:', error);
-        })
-    });
+
+    const fetching = async (type: string, id: number, title: string) => { 
+      try {
+        const response  = await fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
+        const json = await response.json();
+        
+        setWatchCards(prev => [...prev, json]);
+        // const timer = setTimeout(() => setIsLoading(false), 1000);
+        // return () => clearTimeout(timer);
+      }
+      catch (error) {
+        console.error(`Error fetching for (${title}):`, error);
+        // const timer = setTimeout(() => setIsLoading(false), 1000);
+        // return () => clearTimeout(timer);
+      }
+    }
+
+    collections[name as keyof collectionsList]?.watchCards.map((watchcard) => fetching(watchcard.type, watchcard.id, watchcard.title));
   }, []);
 
   return (
@@ -36,12 +39,12 @@ const CollectionList = () => {
         {collections[name as keyof collectionsList].name}
       </Text>
       <Grid w="100%" templateColumns='repeat(6, 1fr)' gap={6}>
-          {WatchCards?.map((watchcard, idx) => 
+          {watchCards?.map((watchcard, idx) => 
           <GridItem w='100%' key={watchcard.id}>
             <WatchCard 
             isLink={true}
             givenWidth='100%' 
-            id={watchcard.id} 
+            id={watchcard?.id} 
             type={collections[name as keyof collectionsList]?.watchCards[idx]?.type} 
             title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
             SpecImageURL={watchcard?.poster_path as string}
