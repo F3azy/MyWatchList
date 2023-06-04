@@ -26,13 +26,13 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
 
   function move(): void {    
     setClicked(true);
-    let nextTransform: number = (direction=="left") ? -((sliderWidth as number)+20)*(currentPage-1) : -((sliderWidth as number)+20)*(currentPage+1);
+    let nextTransform: number = (direction=="left") ? -((sliderWidth as number))*(currentPage-1) : -((sliderWidth as number))*(currentPage+1);
     changePage();
     applyTransform(nextTransform, 1000);
   }
 
   useEffect (() => {
-    let nextTransform: number = -((sliderWidth as number)+20)*(currentPage);
+    let nextTransform: number = -((sliderWidth as number))*(currentPage);
     applyTransform(nextTransform, 500);
 
   }, [sliderWidth]);

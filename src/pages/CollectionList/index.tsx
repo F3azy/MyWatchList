@@ -39,6 +39,7 @@ const CollectionList = () => {
           {WatchCards?.map((watchcard, idx) => 
           <GridItem w='100%' key={watchcard.id}>
             <WatchCard 
+            isLink={true}
             givenWidth='100%' 
             id={watchcard.id} 
             type={collections[name as keyof collectionsList]?.watchCards[idx]?.type} 

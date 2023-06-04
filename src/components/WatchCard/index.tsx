@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Image as ChakraIMG, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
-const WatchCard = ({givenWidth, id, type, title, SpecImageURL}: {givenWidth?: string, id: number, type: string, title: string, SpecImageURL: string}) => {
+const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWidth?: string, id: number, type: string, title: string, SpecImageURL: string, isLink: boolean}) => {
 
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -32,15 +32,15 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL}: {givenWidth?: st
 
   return (
     <Skeleton 
-    w={givenWidth ? givenWidth : "calc(20% - 16px)"}
-    minH={"200px"} 
+    w={givenWidth ? givenWidth : "calc(20%)"}
+    minH={"100px"} 
     borderRadius="4px" 
     isLoaded={!isloading}
     startColor='brand.primary' 
     endColor='brand.tertiary' 
     fadeDuration={4} 
     >
-      <Link
+      {isLink ? <Link
         as={RouterLink}
         to={"/info/"+type+"/"+title+"/"+id}
         display="block"
@@ -49,7 +49,7 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL}: {givenWidth?: st
         _hover={{
           transform: "translate(0, -5px)",
         }}
-      >
+      > 
         <ChakraIMG 
           w="100%"
           // h={givenHeight ? givenHeight : "auto"} 
@@ -66,6 +66,19 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL}: {givenWidth?: st
           alt={title}
         />
       </Link>
+      : 
+      <ChakraIMG 
+      w="100%"
+      // h={givenHeight ? givenHeight : "auto"} 
+      borderRadius="8px"
+      border="4px solid"
+      borderColor="brand.dark.600"
+      boxShadow="0px 20px 15px -10px black"
+      background="linear-gradient(#141414 97%, #030303) border-box"
+      src={imageURL+SpecImageURL}
+      alt={title}
+    />
+      }
     </Skeleton>
   )
 };

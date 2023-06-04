@@ -1,5 +1,7 @@
+import { Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Slider from '../../components/Slider';
 
 const MovieSeriesInfo = () => {
   const { type, id } = useParams();
@@ -7,7 +9,7 @@ const MovieSeriesInfo = () => {
   const urlDetails = `https://api.themoviedb.org/3/${type}/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const urlWatchProviders = `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
   const urlSimilar = `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
+  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});
@@ -34,11 +36,13 @@ const MovieSeriesInfo = () => {
         
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
-        setImages(imagesJSON.results)
+        setImages(imagesJSON.backdrops)
 
         const videosResponse = await fetch(urlVideos);
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
+
+        console.log(imagesJSON);
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
@@ -53,11 +57,12 @@ const MovieSeriesInfo = () => {
     fetching();
   }, []);
 
+  // console.log(videos);
 
   return (
-    <div>
-      Movie_Series_Info
-    </div>
+    <Flex>
+      <Slider columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
+    </Flex>
   )
 };
 

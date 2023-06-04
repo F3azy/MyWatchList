@@ -65,6 +65,7 @@ const Random = () => {
       <Flex w="100%" flex={1} justify={"center"} align={"center"}>
         {watchCard ? 
         <WatchCard 
+        isLink={true}
         givenWidth={watchCard.backdrop_path ? '70%' : '25%'}
         id={watchCard.id}
         type={type}

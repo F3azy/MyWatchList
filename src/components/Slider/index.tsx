@@ -7,7 +7,8 @@ import { Movie } from '../../types/common';
 
 
 
-const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {sliderTitle: string, sliderType?: string, watchCards: Movie[], isloading: boolean, length: number}) => {
+const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible, isLink, columnGap}: 
+  {sliderTitle?: string, sliderType?: string, watchCards: Movie[], isloading?: boolean, pages: number, visible: number, isLink: boolean, columnGap: number}) => {
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
   const [showRightButton, setRightShowButton] = useState(() => {return true});
@@ -18,7 +19,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {slide
   useLayoutEffect (() => {
     function handleResize(): void {
       if (sliderRef.current) {
-        setWidth(sliderRef.current?.offsetWidth/(length)-16)
+        setWidth(((sliderRef.current?.getBoundingClientRect().width-((pages*visible-1)*columnGap))/(pages*visible))*visible+(visible*columnGap));
       } 
     }
     
@@ -31,27 +32,29 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {slide
       clearTimeout(timer);
     };
 
-  }, [length]);
+  }, [pages]);
 
   useEffect(() => {
     (page == 0) ? setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
-    (page == (length-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
+    (page == (pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
   }, [page]);
 
   const showWatchCards = useMemo(() => 
     watchCards.map((watchcard) => 
     <WatchCard 
-    key={watchcard.id} 
+    key={watchcard.id ? watchcard.id : watchcard?.file_path} 
+    isLink={isLink}
     id={watchcard.id} 
     type={sliderType ? sliderType : watchcard.media_type as string}
     title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
-    SpecImageURL={watchcard?.poster_path as string}
+    SpecImageURL={watchcard?.poster_path ? watchcard?.poster_path : watchcard?.file_path as string}
     />
   ), [watchCards]);
 
+
   return (
     <Flex minW="100%" direction="column" rowGap="8px">
-      <SkeletonText 
+      {sliderTitle ? <SkeletonText 
         skeletonHeight='36px' 
         noOfLines={1} 
         isLoaded={!isloading}
@@ -63,6 +66,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {slide
           {sliderTitle}
         </Text>
       </SkeletonText>
+      : ""}
       <Flex position="relative" align="center" >
         <ScrollButton 
           as={ChevronLeftIcon} 
@@ -73,7 +77,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {slide
           currentPage={page}
           setCurrentPage={setPage}
         />
-        <Flex minW={`calc(${100*length}% + ${20*(length-1)}px)`} ref={sliderRef} columnGap="20px" style={{transform: "translate(0px)"}}>
+        <Flex minW={`calc(${100*pages}% + ${columnGap*(pages-1)}px)`} ref={sliderRef} columnGap={`${columnGap}px`} style={{transform: "translate(0px)"}}>
         {showWatchCards}
         </Flex>
         <ScrollButton 
