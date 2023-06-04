@@ -9,12 +9,12 @@ const MovieSeriesInfo = () => {
   const urlDetails = `https://api.themoviedb.org/3/${type}/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const urlWatchProviders = `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
   const urlSimilar = `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
+  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&include_image_language=en`;
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});
   const [similar, setSimilar] = useState(() => {return {}});
-  const [images, setImages] = useState(() => {return []});
+  const [images, setImages] = useState<any[]>(() => {return []});
   const [videos, setVideos] = useState(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
 
@@ -36,13 +36,13 @@ const MovieSeriesInfo = () => {
         
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
-        setImages(imagesJSON.backdrops)
+        setImages(imagesJSON.backdrops);
 
         const videosResponse = await fetch(urlVideos);
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
 
-        console.log(imagesJSON);
+        // console.log(imagesJSON);
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
@@ -57,10 +57,8 @@ const MovieSeriesInfo = () => {
     fetching();
   }, []);
 
-  // console.log(videos);
-
   return (
-    <Flex>
+    <Flex direction="column">
       <Slider columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
     </Flex>
   )

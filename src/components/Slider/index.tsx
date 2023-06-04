@@ -34,9 +34,10 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
 
   }, [pages]);
 
+
   useEffect(() => {
     (page == 0) ? setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
-    (page == (pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
+    (page == Math.ceil(pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
   }, [page]);
 
   const showWatchCards = useMemo(() => 

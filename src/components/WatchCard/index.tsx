@@ -12,7 +12,6 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWi
     setIsLoading(true);
     const decode = async () => {
       try {
-
         const image = new Image();
         image.src = imageURL+SpecImageURL;
         await image.decode();
@@ -32,7 +31,7 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWi
 
   return (
     <Skeleton 
-    w={givenWidth ? givenWidth : "calc(20%)"}
+    w={givenWidth ? givenWidth : "calc(50%)"}
     minH={"100px"} 
     borderRadius="4px" 
     isLoaded={!isloading}
