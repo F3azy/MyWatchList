@@ -34,11 +34,11 @@ const MovieSeriesInfo = () => {
         
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
-        setSimilar(imagesJSON.results)
+        setImages(imagesJSON.results)
 
         const videosResponse = await fetch(urlVideos);
         const videosJSON = await videosResponse.json();
-        setSimilar(videosJSON.results)
+        setVideos(videosJSON.results)
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);

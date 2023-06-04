@@ -6,40 +6,14 @@ import ScrollButton from './ScrollButton';
 import { Movie } from '../../types/common';
 
 
-const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, sliderUrl: string, sliderType?: string}) => {
 
-  const url = "https://api.themoviedb.org/3/";
-  const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
-  const [length, setLength] = useState(() => {return 0});
-  const [isloading, setIsLoading] = useState(() => {return true});
+const Slider = ({sliderTitle, sliderType, watchCards, isloading, length}: {sliderTitle: string, sliderType?: string, watchCards: Movie[], isloading: boolean, length: number}) => {
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
   const [showRightButton, setRightShowButton] = useState(() => {return true});
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(() => {return 0});
-
-  useEffect(() => {
-    setIsLoading(true);
-    const fetching = async () => { 
-      try {
-        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
-        const json = await response.json();
-        
-        setWatchCards(json.results);
-        setLength(Math.ceil(json.results.length/5));
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
-      }
-      catch (error) {
-        console.error(`Error fetching for slider (${sliderTitle}):`, error);
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
-      }
-    }
-
-    fetching();
-  }, []);
 
   useLayoutEffect (() => {
     function handleResize(): void {
@@ -68,7 +42,6 @@ const Slider = ({sliderTitle, sliderUrl, sliderType}: {sliderTitle: string, slid
     watchCards.map((watchcard) => 
     <WatchCard 
     key={watchcard.id} 
-    givenHeight='494px' 
     id={watchcard.id} 
     type={sliderType ? sliderType : watchcard.media_type as string}
     title={watchcard?.name ? watchcard?.name : watchcard?.title as string}

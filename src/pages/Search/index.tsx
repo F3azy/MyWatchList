@@ -34,7 +34,6 @@ const Search = () => {
           <GridItem w='100%' key={watchcard.id}>
             <WatchCard 
             givenWidth='100%' 
-            givenHeight="294px" 
             id={watchcard.id} 
             type={watchcard.media_type as string}
             title={watchcard?.name ? watchcard?.name : watchcard?.title as string}

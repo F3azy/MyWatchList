@@ -1,6 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 import Slider from '../../components/Slider';
 import Collections from '../../components/Collections';
+import { useState, useEffect } from 'react';
+import { Movie } from '../../types/common';
 
 interface HomeSlidersArrayType {
   title: string,
@@ -60,12 +62,41 @@ const HomeSlidersArray: Array<HomeSlidersArrayType> = [
 ];
 
 const Home = () => {
+  const url = "https://api.themoviedb.org/3/";
+  const [sliders, setSliders] = useState<Array<Movie[]>>(() => {return []});
+  const [length, setLength] = useState<Array<number>>(() => {return []});
+  const [isloading, setIsLoading] = useState(() => {return true});
+
+  useEffect(() => {
+    const fetching = async (sliderType: string  | undefined, sliderUrl: string, sliderTitle: string) => { 
+      setIsLoading(true);
+      try {
+        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
+        const json = await response.json();
+        
+        setSliders(prev => [...prev, json.results]);
+        setLength(prev => [...prev, Math.ceil(json.results.length/5)]);
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+      }
+      catch (error) {
+        console.error(`Error fetching for slider (${sliderTitle}):`, error);
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+      }
+    }
+
+    HomeSlidersArray.map((slider) => 
+      fetching(slider.type, slider.url, slider.title)
+    )
+  }, []);
+
   return (
     <Flex direction="column" rowGap="28px">
       <Collections />
       <Flex direction="column" rowGap="24px">
-        {HomeSlidersArray.map((slider) => 
-        <Slider key={slider.title} sliderTitle={slider.title} sliderUrl={slider.url} sliderType={slider.type}/>
+        {sliders.map((slider, idx) => 
+        <Slider key={idx} sliderTitle={HomeSlidersArray[idx].title} sliderType={HomeSlidersArray[idx].type} length={length[idx]} watchCards={slider} isloading={isloading} />
         )}
       </Flex>
     </Flex>

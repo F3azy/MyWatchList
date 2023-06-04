@@ -53,7 +53,6 @@ const MoviesSeries = ({type}: {type: string}) => {
           <GridItem w='100%' key={watchcard.id}>
             <WatchCard 
             givenWidth='100%' 
-            givenHeight='291px' 
             id={watchcard.id} 
             type={type.toLocaleLowerCase()=="series" ? "tv" : "movie"}
             title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
