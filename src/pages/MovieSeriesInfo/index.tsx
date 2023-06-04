@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Slider from '../../components/Slider';
+import { Movie } from '../../types/common';
 
 const MovieSeriesInfo = () => {
   const { type, id } = useParams();
@@ -13,7 +14,7 @@ const MovieSeriesInfo = () => {
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});
-  const [similar, setSimilar] = useState(() => {return {}});
+  const [similar, setSimilar] = useState<Movie[]>(() => {return []});
   const [images, setImages] = useState<any[]>(() => {return []});
   const [videos, setVideos] = useState(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
@@ -42,7 +43,7 @@ const MovieSeriesInfo = () => {
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
 
-        // console.log(imagesJSON);
+        console.log(similarJSON.results);
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
@@ -55,11 +56,14 @@ const MovieSeriesInfo = () => {
     }
 
     fetching();
-  }, []);
+  }, [id]);
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" rowGap="28px">
       <Slider columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
+      {/* <Slider sliderTitle='Similar' columnGap={20} watchCards={similar} pages={images.length/5} sliderType='movie' visible={5} isLink={true}/> */}
+      <Slider isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={images.length/5} visible={5} watchCards={similar} isloading={isloading} />
+
     </Flex>
   )
 };

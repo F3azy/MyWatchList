@@ -31,7 +31,7 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWi
 
   return (
     <Skeleton 
-    w={givenWidth ? givenWidth : "calc(50%)"}
+    w={givenWidth ? givenWidth : "calc(5%)"}
     minH={"100px"} 
     borderRadius="4px" 
     isLoaded={!isloading}

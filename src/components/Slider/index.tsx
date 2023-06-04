@@ -15,6 +15,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
   const [page, setPage] = useState(() => {return 0});
   const sliderRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(() => {return 0});
+  const [watchCardWidth, setWatchCardWidth] = useState(() => {return 100/(pages*visible)});
 
   useLayoutEffect (() => {
     function handleResize(): void {
@@ -39,24 +40,12 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
 
   }, [pages]);
 
+  useEffect(() => setWatchCardWidth(100/(pages*visible)), [pages, visible]);
 
   useEffect(() => {
     (page == 0) ? setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
     (page == Math.ceil(pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
   }, [page]);
-
-  const showWatchCards = useMemo(() => 
-    watchCards.map((watchcard) => 
-    <WatchCard 
-    key={watchcard.id ? watchcard.id : watchcard?.file_path} 
-    isLink={isLink}
-    id={watchcard.id} 
-    type={sliderType ? sliderType : watchcard.media_type as string}
-    title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
-    SpecImageURL={watchcard?.poster_path ? watchcard?.poster_path : watchcard?.file_path as string}
-    />
-  ), [watchCards]);
-
 
   return (
     <Flex minW="100%" direction="column" rowGap="8px">
@@ -84,7 +73,16 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
           setCurrentPage={setPage}
         />
         <Flex minW={`calc(${100*pages}% + ${columnGap*(pages-1)}px)`} ref={sliderRef} columnGap={`${columnGap}px`} style={{transform: "translate(0px)"}}>
-        {showWatchCards}
+        {watchCards.map((watchcard) => 
+          <WatchCard 
+          key={watchcard.id ? watchcard.id : watchcard?.file_path} 
+          givenWidth={`calc(${watchCardWidth}%)`}
+          isLink={isLink}
+          id={watchcard.id} 
+          type={sliderType ? sliderType : watchcard.media_type as string}
+          title={watchcard?.name ? watchcard?.name : watchcard?.title as string}
+          SpecImageURL={watchcard?.poster_path ? watchcard?.poster_path : watchcard?.file_path as string}
+        />)}
         </Flex>
         <ScrollButton 
           as={ChevronRightIcon} 
