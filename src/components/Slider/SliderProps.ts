@@ -10,4 +10,5 @@ export interface SliderProps{
     isLink: boolean, 
     columnGap: number, 
     id?: string
+    animate?: boolean,
 }

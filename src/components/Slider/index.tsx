@@ -6,7 +6,7 @@ import ScrollButton from './ScrollButton';
 import { SliderProps } from './SliderProps';
 
 
-const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible, isLink, columnGap, id}: SliderProps) => {
+const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible, isLink, columnGap, id, animate}: SliderProps) => {
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
   const [showRightButton, setRightShowButton] = useState(() => {return false});
@@ -41,8 +41,8 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
   }, [pages, visible, id]);
 
   useEffect(() => {
-    (page == 0) ? setTimeout(() => { setLeftShowButton(false) }, 1000) : setLeftShowButton(true);
-    (page == Math.ceil(pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 1000) : setRightShowButton(true);
+    (page == 0) ? setTimeout(() => { setLeftShowButton(false) }, 500) : setLeftShowButton(true);
+    (page == Math.ceil(pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 500) : setRightShowButton(true);
   }, [page, pages]); 
 
   return (
@@ -91,6 +91,8 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
           sliderWidth={width}
           currentPage={page}
           setCurrentPage={setPage}
+          animate={animate}
+          pages={pages}
         />
       </Flex>
     </Flex>

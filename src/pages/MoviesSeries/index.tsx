@@ -3,8 +3,11 @@ import { useState, useEffect } from 'react';
 import WatchCard from '../../components/WatchCard';
 import MovieSelect from '../../components/MovieSelect';
 import { Movie } from '../../types/common';
+import { useLocation } from 'react-router-dom';
 
 const MoviesSeries = ({type}: {type: string}) => {
+
+  const location = useLocation();
 
   const url = "https://api.themoviedb.org/3/discover/";
   const [genre, setGenre] = useState(() => {return ""});
@@ -29,7 +32,7 @@ const MoviesSeries = ({type}: {type: string}) => {
       .catch(error => {
         console.error('Error fetching movies or series data:', error);
       })
-  }, [genre]);
+  }, [genre, location]);
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">

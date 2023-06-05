@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Flex, Text, Grid, GridItem } from '@chakra-ui/react';
 import WatchCard from '../../components/WatchCard';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { collections, collectionsList } from './collectionsArray';
 import { Movie } from '../../types/common';
 
 const CollectionList = () => {
   const { name } = useParams();
+
+  const location = useLocation();
 
   const url = "https://api.themoviedb.org/3/";
   const [watchCards, setWatchCards] = useState<Movie[]>(() => {return []});
@@ -31,7 +33,7 @@ const CollectionList = () => {
     }
 
     collections[name as keyof collectionsList]?.watchCards.map((watchcard) => fetching(watchcard.type, watchcard.id, watchcard.title));
-  }, []);
+  }, [location]);
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">

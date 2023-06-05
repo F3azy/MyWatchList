@@ -37,13 +37,14 @@ const MovieSeriesInfo = () => {
         
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
-        setImages(imagesJSON.backdrops);
+        if(imagesJSON.backdrops.length > 30) setImages(imagesJSON.backdrops.slice(0,30));
+        else setImages(imagesJSON.backdrops);
 
         const videosResponse = await fetch(urlVideos);
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
 
-        // console.log(similarJSON.results);
+        // console.log(imagesJSON.backdrops);
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
@@ -62,7 +63,7 @@ const MovieSeriesInfo = () => {
 
   return (
     <Flex direction="column" rowGap="28px">
-      <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
+      <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false} animate={true}/>
       <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={similar.length/7} visible={7} watchCards={similar} isloading={isloading} />
     </Flex>
   )

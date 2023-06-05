@@ -4,12 +4,15 @@ import Collections from '../../components/Collections';
 import { useState, useEffect } from 'react';
 import { Movie } from '../../types/common';
 import { HomeSlidersArray } from './HomeSlidersArray';
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
   const url = "https://api.themoviedb.org/3/";
   const [sliders, setSliders] = useState<Array<Movie[]>>(() => {return []});
   const [pages, setPages] = useState<Array<number>>(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
+
+  const location = useLocation();
 
   useEffect(() => {
     setSliders([]);
@@ -34,7 +37,7 @@ const Home = () => {
     HomeSlidersArray.map((slider) => 
       fetching(slider.type, slider.url, slider.title)
     );
-  }, []);
+  }, [location]);
 
   return (
     <Flex direction="column" rowGap="28px">

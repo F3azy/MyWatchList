@@ -1,49 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Icon } from '@chakra-ui/react';
 import { ScrollButtonProps } from './ScrollButtonProps';
+import { useInterval } from '../../../hooks/useInterval';
 
-const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage, id}: ScrollButtonProps) => {
+const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage, id, animate, pages}: ScrollButtonProps) => {
 
   const [clicked, setClicked] = useState(() => {return false});
+  const currentPageRef = useRef(currentPage);
 
   function changePage(): void {
     (direction == "left") ? setCurrentPage(prev => --prev) : setCurrentPage(prev => ++prev);
   }
 
-  function applyTransform(trans: number, time: number): void {
+  function applyTransform(trans: number, time: number): () => void {
     if(slider.current) {
       slider.current.style.transform = `translate(${trans}px)`;
       slider.current.style.transition = `transform ${time}ms ease-in-out`;
     }
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if(slider.current) {
         slider.current.style.transition = "";
         setClicked(false);
       }
     }, time);
+
+    return () => clearTimeout(timer);
   }
 
-  function move(): void {    
-    setClicked(true);
-    let nextTransform: number = (direction=="left") ? -((sliderWidth as number))*(currentPage-1) : -((sliderWidth as number))*(currentPage+1);
-    changePage();
-    applyTransform(nextTransform, 1000);
-  }
-
-  function conditionalMove(time: number, page: number): void {
+  function countAndTransform(time: number, page: number): void {
     let nextTransform: number = -((sliderWidth as number))*(page);
     applyTransform(nextTransform, time);
   }
 
-  useEffect (() => {
-    conditionalMove(800, currentPage);
+  function move(): void {    
+    setClicked(true);
+    countAndTransform(1000, (direction=="left") ? (currentPage-1) : (currentPage+1));
+    changePage();
+  }
+
+  useEffect(() => {
+    countAndTransform(800, currentPage);
   }, [sliderWidth]);
 
   useEffect(() => {
     setCurrentPage(0);
-    conditionalMove(800, 0);
+    countAndTransform(800, 0);
   }, [id]);
+
+  useInterval(() => {
+    if(animate) {
+    if(currentPage!==Math.ceil(pages as number-1)) { 
+      setClicked(true);
+      countAndTransform(1000, (currentPage+1));
+      changePage();
+    }
+    else {
+      setCurrentPage(0);
+      countAndTransform(Math.ceil(pages as number)==1 ? 1000 : 2500, 0);
+    }
+    }
+  }, !clicked ? 5000 : null);
 
   return (
     <Box
