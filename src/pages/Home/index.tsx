@@ -39,12 +39,16 @@ const Home = () => {
     );
   }, [location]);
 
+  sliders?.map((slider, idx) => 
+  console.log(HomeSlidersArray[idx].type)  
+  )
+
   return (
     <Flex direction="column" rowGap="28px">
       <Collections />
       <Flex direction="column" rowGap="24px">
-        {sliders.map((slider, idx) => 
-        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeSlidersArray[idx].title} sliderType={HomeSlidersArray[idx].type} pages={pages[idx]} visible={5} watchCards={slider} isloading={isloading} />
+        {sliders?.map((slider, idx) => 
+        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeSlidersArray[idx].title} sliderType={HomeSlidersArray[idx]?.type ? HomeSlidersArray[idx]?.type : null} pages={pages[idx]} visible={5} watchCards={slider} isloading={isloading} />
         )}
       </Flex>
     </Flex>

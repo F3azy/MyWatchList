@@ -51,13 +51,11 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
   useInterval(() => {
     if(animate) {
     if(currentPage!==Math.ceil(pages as number-1)) { 
-      setClicked(true);
-      countAndTransform(1000, (currentPage+1));
-      changePage();
+      move();
     }
     else {
       setCurrentPage(0);
-      countAndTransform(Math.ceil(pages as number)==1 ? 1000 : 2500, 0);
+      countAndTransform(Math.ceil(pages as number)==2 ? 1000 : 3000, 0);
     }
     }
   }, !clicked ? 5000 : null);
