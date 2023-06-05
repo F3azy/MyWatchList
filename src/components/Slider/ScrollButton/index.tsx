@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Icon } from '@chakra-ui/react';
 import { ScrollButtonProps } from './ScrollButtonProps';
 
-const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage} : ScrollButtonProps) => {
+const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage, id}: ScrollButtonProps) => {
 
   const [clicked, setClicked] = useState(() => {return false});
 
@@ -31,11 +31,19 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
     applyTransform(nextTransform, 1000);
   }
 
-  useEffect (() => {
-    let nextTransform: number = -((sliderWidth as number))*(currentPage);
-    applyTransform(nextTransform, 500);
+  function conditionalMove(time: number, page: number): void {
+    let nextTransform: number = -((sliderWidth as number))*(page);
+    applyTransform(nextTransform, time);
+  }
 
+  useEffect (() => {
+    conditionalMove(800, currentPage);
   }, [sliderWidth]);
+
+  useEffect(() => {
+    setCurrentPage(0);
+    conditionalMove(800, 0);
+  }, [id]);
 
   return (
     <Box

@@ -9,4 +9,5 @@ export interface ScrollButtonProps {
     sliderWidth: number | undefined,
     currentPage: number,
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>, 
+    id?: string
 };

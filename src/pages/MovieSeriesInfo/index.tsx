@@ -15,7 +15,7 @@ const MovieSeriesInfo = () => {
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});
   const [similar, setSimilar] = useState<Movie[]>(() => {return []});
-  const [images, setImages] = useState<any[]>(() => {return []});
+  const [images, setImages] = useState(() => {return []});
   const [videos, setVideos] = useState(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
 
@@ -43,7 +43,7 @@ const MovieSeriesInfo = () => {
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
 
-        console.log(similarJSON.results);
+        // console.log(similarJSON.results);
         
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
@@ -56,14 +56,14 @@ const MovieSeriesInfo = () => {
     }
 
     fetching();
+
   }, [id]);
+
 
   return (
     <Flex direction="column" rowGap="28px">
-      <Slider columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
-      {/* <Slider sliderTitle='Similar' columnGap={20} watchCards={similar} pages={images.length/5} sliderType='movie' visible={5} isLink={true}/> */}
-      <Slider isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={images.length/5} visible={5} watchCards={similar} isloading={isloading} />
-
+      <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false}/>
+      <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={similar.length/7} visible={7} watchCards={similar} isloading={isloading} />
     </Flex>
   )
 };
