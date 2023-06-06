@@ -3,27 +3,32 @@ import Slider from '../../components/Slider';
 import Collections from '../../components/Collections';
 import { useState, useEffect } from 'react';
 import { Movie } from '../../types/common';
-import { HomeSlidersArray } from './HomeSlidersArray';
+import { HomeMovieSlidersArray, HomeTrendingSlidersArray, HomeTVSlidersArray } from './HomeSlidersArray';
 import { useLocation } from 'react-router-dom';
 
 const Home = () => {
   const url = "https://api.themoviedb.org/3/";
-  const [sliders, setSliders] = useState<Array<Movie[]>>(() => {return []});
-  const [pages, setPages] = useState<Array<number>>(() => {return []});
+  const [trendingSliders, setTrendingSliders] = useState<Array<Movie[]>>(() => {return []});
+  const [movieSliders, setMovieSliders] = useState<Array<Movie[]>>(() => {return []});
+  const [tvSliders, setTVSliders] = useState<Array<Movie[]>>(() => {return []});
   const [isloading, setIsLoading] = useState(() => {return true});
 
   const location = useLocation();
 
   useEffect(() => {
-    setSliders([]);
-    const fetching = async (sliderType: string  | undefined, sliderUrl: string, sliderTitle: string) => { 
-      setIsLoading(true);
+    setTrendingSliders([]);
+    setMovieSliders([]);
+    setTVSliders([]);
+    setIsLoading(true);
+    const fetching = async (sliderType: string, sliderUrl: string, sliderTitle: string) => { 
       try {
         const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
         const json = await response.json();
         
-        setSliders(prev => [...prev, json.results]);
-        setPages(prev => [...prev, Math.ceil(json.results.length/5)]);
+        if(sliderType=="movie") setMovieSliders(prev => [...prev, json.results]);
+        else if(sliderType=="tv") setTVSliders(prev => [...prev, json.results]);
+        else setTrendingSliders(prev => [...prev, json.results]);
+
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
       }
@@ -34,21 +39,30 @@ const Home = () => {
       }
     }
 
-    HomeSlidersArray.map((slider) => 
-      fetching(slider.type, slider.url, slider.title)
+    HomeTrendingSlidersArray.map((slider) => 
+      fetching("", slider.url, slider.title)
     );
+    HomeMovieSlidersArray.map((slider) => 
+      fetching("movie", slider.url, slider.title)
+    );
+    HomeTVSlidersArray.map((slider) => 
+      fetching("tv", slider.url, slider.title)
+    );
+    
   }, [location]);
-
-  sliders?.map((slider, idx) => 
-  console.log(HomeSlidersArray[idx].type)  
-  )
 
   return (
     <Flex direction="column" rowGap="28px">
       <Collections />
       <Flex direction="column" rowGap="24px">
-        {sliders?.map((slider, idx) => 
-        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeSlidersArray[idx].title} sliderType={HomeSlidersArray[idx]?.type ? HomeSlidersArray[idx]?.type : null} pages={pages[idx]} visible={5} watchCards={slider} isloading={isloading} />
+        {trendingSliders?.map((slider, idx) => 
+        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeTrendingSlidersArray[idx].title} pages={slider.length/5} visible={5} watchCardMinH='300px' watchCards={slider} isloading={isloading} />
+        )}
+        {movieSliders?.map((slider, idx) => 
+        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeMovieSlidersArray[idx].title} sliderType="movie" pages={slider.length/5} visible={5} watchCardMinH='300px' watchCards={slider} isloading={isloading} />
+        )}
+        {tvSliders?.map((slider, idx) => 
+        <Slider isLink={true} key={idx} columnGap={20} sliderTitle={HomeTVSlidersArray[idx].title} sliderType="tv" pages={slider.length/5 } visible={5} watchCardMinH='300px' watchCards={slider} isloading={isloading} />
         )}
       </Flex>
     </Flex>

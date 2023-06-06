@@ -1,56 +1,53 @@
 interface HomeSlidersArrayType {
     title: string,
     url: string,
-    type?: string,
 }
+
+export const HomeTrendingSlidersArray: Array<HomeSlidersArrayType> = [
+  {
+    title: "Trending Today",
+    url: "trending/all/day",
+  },
+  {
+    title: "Trending This Week",
+    url: "trending/all/week",
+  },
+]
+
+export const HomeMovieSlidersArray: Array<HomeSlidersArrayType> = [
+  {
+    title: "Now Playing",
+    url: "/now_playing",
+  },
+  {
+    title: "Popular Movies",
+    url: "/popular",
+  },
+  {
+    title: "Top Rated Movies",
+    url: "/top_rated",
+  },
+  {
+    title: "Upcoming Movies",
+    url: "/upcoming",
+  },
+]
  
-export const HomeSlidersArray: Array<HomeSlidersArrayType> = [
-    {
-        title: "Trending Today",
-        url: "trending/all/day",
-    },
-    {
-        title: "Trending This Week",
-        url: "trending/all/week",
-    },
-    {
-      title: "Now Playing",
-      url: "/now_playing",
-      type: "movie",
-    },
-    {
-      title: "Popular Movies",
-      url: "/popular",
-      type: "movie",
-    },
-    {
-      title: "Top Rated Movies",
-      url: "/top_rated",
-      type: "movie",
-    },
-    {
-      title: "Upcoming Movies",
-      url: "/upcoming",
-      type: "movie",
-    },
-    {
-      title: "Airing Today",
-      url: "/airing_today",
-      type: "tv",
-    },
-    {
-      title: "On The Air",
-      url: "/on_the_air",
-      type: "tv",
-    },
-    {
-      title: "Popular Series",
-      url: "/popular",
-      type: "tv",
-    },
-    {
-      title: "Top Rated Series",
-      url: "/top_rated",
-      type: "tv",
-    },
+export const HomeTVSlidersArray: Array<HomeSlidersArrayType> = [
+  {
+    title: "Airing Today",
+    url: "/airing_today",
+  },
+  {
+    title: "On The Air",
+    url: "/on_the_air",
+  },
+  {
+    title: "Popular Series",
+    url: "/popular",
+  },
+  {
+    title: "Top Rated Series",
+    url: "/top_rated",
+  },
 ];
