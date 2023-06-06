@@ -34,6 +34,7 @@ const Search = () => {
           <GridItem w='100%' key={watchcard.id}>
             <WatchCard 
             isLink={true}
+            minH='200px'
             givenWidth='100%' 
             id={watchcard.id} 
             type={watchcard.media_type as string}

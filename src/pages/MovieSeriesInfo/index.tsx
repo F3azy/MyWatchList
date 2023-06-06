@@ -21,6 +21,11 @@ const MovieSeriesInfo = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    // setDetails({});
+    // setWatchProviders([]);
+    // setSimilar([]);
+    // setImages([]);
+    // setVideos([]);
     const fetching = async () => {
       try {
         const detailsResponse = await fetch(urlDetails);
@@ -63,8 +68,8 @@ const MovieSeriesInfo = () => {
 
   return (
     <Flex direction="column" rowGap="28px">
-      <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false} animate={true}/>
-      <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={similar.length/7} visible={7} watchCards={similar} isloading={isloading} />
+      <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false} animate={true} isloading={isloading} watchCardMinH="300px" />
+      <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={similar.length/7} visible={7} watchCardMinH='200px' watchCards={similar} isloading={isloading} />
     </Flex>
   )
 };

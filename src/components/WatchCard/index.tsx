@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Image as ChakraIMG, Link, Skeleton } from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
 
-const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWidth?: string, id: number, type: string, title: string, SpecImageURL: string, isLink: boolean}) => {
+const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink, minH}: 
+  {givenWidth?: string, id: number, type: string, title: string, SpecImageURL: string, isLink: boolean, minH?: string}) => {
 
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -32,7 +33,7 @@ const WatchCard = ({givenWidth, id, type, title, SpecImageURL, isLink}: {givenWi
   return (
     <Skeleton 
     w={givenWidth ? givenWidth : "calc(5%)"}
-    minH={"100px"} 
+    minH={minH ? minH : "100px"} 
     borderRadius="4px" 
     isLoaded={!isloading}
     startColor='brand.primary' 
