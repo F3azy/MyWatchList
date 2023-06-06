@@ -12,4 +12,5 @@ export interface ScrollButtonProps {
     id?: string,
     animate?: boolean,
     pages?: number,
+    isloading?: boolean,
 };

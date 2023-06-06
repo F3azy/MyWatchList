@@ -3,7 +3,7 @@ import { Box, Icon } from '@chakra-ui/react';
 import { ScrollButtonProps } from './ScrollButtonProps';
 import { useInterval } from '../../../hooks/useInterval';
 
-const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage, id, animate, pages}: ScrollButtonProps) => {
+const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPage, setCurrentPage, id, animate, pages, isloading}: ScrollButtonProps) => {
 
   const [clicked, setClicked] = useState(() => {return false});
   const currentPageRef = useRef(currentPage);
@@ -58,7 +58,7 @@ const ScrollButton = ({as, direction, showButton, slider, sliderWidth, currentPa
       countAndTransform(Math.ceil(pages as number)==2 ? 1000 : 3000, 0);
     }
     }
-  }, !clicked ? 5000 : null);
+  }, (!clicked && !isloading)? 5000 : null);
 
   return (
     <Box

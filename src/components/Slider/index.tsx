@@ -6,7 +6,7 @@ import ScrollButton from './ScrollButton';
 import { SliderProps } from './SliderProps';
 
 
-const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible, isLink, columnGap, id, animate}: SliderProps) => {
+const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible, isLink, columnGap, id, animate, watchCardMinH}: SliderProps) => {
 
   const [showLeftButton, setLeftShowButton] = useState(() => {return false});
   const [showRightButton, setRightShowButton] = useState(() => {return false});
@@ -45,6 +45,8 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
     (page == Math.ceil(pages-1)) ? setTimeout(() => {setRightShowButton(false) }, 500) : setRightShowButton(true);
   }, [page, pages]); 
 
+  // console.log(sliderType);
+
   return (
     <Flex minW="100%" direction="column" rowGap="8px">
       {sliderTitle ? <SkeletonText 
@@ -71,11 +73,12 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
           setCurrentPage={setPage}
           id={id}
         />
-        <Flex minW={`calc(${100*pages}% + ${columnGap*(pages-1)}px)`} ref={sliderRef} columnGap={`${columnGap}px`} style={{transform: "translate(0px)"}}>
+        <Flex minW={`calc(${100*pages}% + ${columnGap*(pages-1)}px)`} minH={watchCardMinH} ref={sliderRef} columnGap={`${columnGap}px`} style={{transform: "translate(0px)"}}>
         {watchCards.map((watchcard) => 
           <WatchCard 
           key={watchcard.id ? watchcard.id : watchcard?.file_path} 
           givenWidth={`calc(${watchCardWidth}%)`}
+          minH={watchCardMinH}
           isLink={isLink}
           id={watchcard.id} 
           type={sliderType ? sliderType : watchcard.media_type as string}
@@ -93,6 +96,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
           setCurrentPage={setPage}
           animate={animate}
           pages={pages}
+          isloading={isloading}
         />
       </Flex>
     </Flex>

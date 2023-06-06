@@ -11,4 +11,5 @@ export interface SliderProps{
     columnGap: number, 
     id?: string
     animate?: boolean,
+    watchCardMinH?: string;
 }
