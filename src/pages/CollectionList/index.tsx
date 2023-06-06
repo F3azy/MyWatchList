@@ -16,12 +16,12 @@ const CollectionList = () => {
   useEffect(() => {
     setWatchCards([]);
 
-    const fetching = async (type: string, id: number, title: string) => { 
+    const fetching = async (type: string, id: number, title: string, index?: number) => { 
       try {
         const response  = await fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
         const json = await response.json();
-        
-        setWatchCards(prev => [...prev, json]);
+
+        return json;
         // const timer = setTimeout(() => setIsLoading(false), 1000);
         // return () => clearTimeout(timer);
       }
@@ -32,7 +32,18 @@ const CollectionList = () => {
       }
     }
 
-    collections[name as keyof collectionsList]?.watchCards.map((watchcard) => fetching(watchcard.type, watchcard.id, watchcard.title));
+    const watchCardsArray = collections[name as keyof collectionsList].watchCards;
+    if (watchCardsArray && watchCardsArray.length > 0) {
+      const fetchPromises = watchCardsArray.map((watchcard) => fetching(watchcard.type, watchcard.id, watchcard.title));
+
+      Promise.all(fetchPromises)
+        .then((fetchedData) => {
+          setWatchCards(fetchedData);
+        })
+        .catch((error) => {
+          console.error('Error fetching watch cards:', error);
+        });
+    }
   }, [location]);
 
   return (
