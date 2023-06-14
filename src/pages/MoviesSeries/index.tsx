@@ -24,7 +24,7 @@ const MoviesSeries = ({type}: {type: string}) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.json()
+      return response.json();
     })
     .then(movie => {
       setWatchCards(movie.results.filter((m: Movie) => (m.poster_path != null))) 

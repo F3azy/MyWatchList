@@ -27,7 +27,7 @@ const Home = () => {
         const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${random ? `&page=${randomPage}` : ""}`);
         const json = await response.json();
         
-        return json.results;
+        return json.results.filter((m: Movie) => (m.poster_path != null));
 
         // if(sliderType=="movie") setMovieSliders(prev => [...prev, json.results]);
         // else if(sliderType=="tv") setTVSliders(prev => [...prev, json.results]);
@@ -59,7 +59,6 @@ const Home = () => {
     .catch((error) => {
       console.error('Error fetching movie sliders:', error);
     });
-
 
     const tvFetchPromises = HomeTVSlidersArray.map((slider) => 
       fetching("tv", slider.url, slider.title, slider.randomPage)
