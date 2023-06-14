@@ -10,7 +10,7 @@ const MovieSeriesInfo = () => {
   const urlDetails = `https://api.themoviedb.org/3/${type}/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const urlWatchProviders = `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`;
   const urlSimilar = `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&include_image_language=null`;
+  const urlImages = `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&include_image_language=en,null`;
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`;
   const [details, setDetails] = useState(() => {return {}});
   const [watchProviders, setWatchProviders] = useState(() => {return {}});
@@ -21,11 +21,11 @@ const MovieSeriesInfo = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    // setDetails({});
-    // setWatchProviders([]);
-    // setSimilar([]);
-    // setImages([]);
-    // setVideos([]);
+    setDetails({});
+    setWatchProviders([]);
+    setSimilar([]);
+    setImages([]);
+    setVideos([]);
     const fetching = async () => {
       try {
         const detailsResponse = await fetch(urlDetails);
@@ -36,9 +36,10 @@ const MovieSeriesInfo = () => {
         const watchProvidersJSON = await watchProviderssResponse.json();
         setWatchProviders(watchProvidersJSON.results)
 
-        const similarResponse = await fetch(urlSimilar);
+        const randomPage = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+        const similarResponse = await fetch(urlSimilar+`&page=${randomPage}`);
         const similarJSON = await similarResponse.json();
-        setSimilar(similarJSON.results)
+        setSimilar(similarJSON.results.filter((m: Movie) => (m.poster_path != null)))
         
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
@@ -49,27 +50,22 @@ const MovieSeriesInfo = () => {
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results)
 
-        // console.log(imagesJSON.backdrops);
-        
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        // console.log(similarJSON.results);
       }
       catch (error) {
         console.error(`Error fetching movie info:`, error);
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
       }
     }
 
     fetching();
-
+    setIsLoading(false);
   }, [id]);
 
 
   return (
     <Flex direction="column" rowGap="28px">
       <Slider id={id} columnGap={20} watchCards={images} pages={images.length/2} visible={2} isLink={false} animate={true} isloading={isloading} watchCardMinH="300px" />
-      <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType='movie' pages={similar.length/7} visible={7} watchCardMinH='200px' watchCards={similar} isloading={isloading} />
+      <Slider id={id} isLink={true} columnGap={20} sliderTitle='Similar' sliderType={type} pages={similar.length/7} visible={7} watchCardMinH='200px' watchCards={similar} isloading={isloading} />
     </Flex>
   )
 };

@@ -16,19 +16,15 @@ const CollectionList = () => {
   useEffect(() => {
     setWatchCards([]);
 
-    const fetching = async (type: string, id: number, title: string, index?: number) => { 
+    const fetching = async (type: string, id: number, title: string) => { 
       try {
         const response  = await fetch(url+type+`/${id}?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
         const json = await response.json();
 
         return json;
-        // const timer = setTimeout(() => setIsLoading(false), 1000);
-        // return () => clearTimeout(timer);
       }
       catch (error) {
         console.error(`Error fetching for (${title}):`, error);
-        // const timer = setTimeout(() => setIsLoading(false), 1000);
-        // return () => clearTimeout(timer);
       }
     }
 

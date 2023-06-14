@@ -8,7 +8,6 @@ const Random = () => {
   const [type, setType] = useState(() => {return "movie"});
   const [genre, setGenre] = useState(() => {return ""});
   const [isloadingGenres, setIsLoadingGenres] = useState(() => {return true});
-  const [isloading, setIsLoading] = useState(() => {return false});
   const [watchCard, setWatchCard] = useState<Movie>();
   const url = "https://api.themoviedb.org/3/discover/";
 
@@ -21,7 +20,6 @@ const Random = () => {
   }
 
   function searchRand() {
-    setIsLoading(true);
     const fetching = async () => {
       try {
         const randomPage = Math.floor(Math.random() * (500 - 1 + 1) + 1);
@@ -30,14 +28,9 @@ const Random = () => {
         
         const randomMovie = Math.floor(Math.random() * 20);
         setWatchCard(json.results[randomMovie]);
-        
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
       }
       catch (error) {
         console.error(`Error fetching for random mocie:`, error);
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
       }
     }
     fetching();

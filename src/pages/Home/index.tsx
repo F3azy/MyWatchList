@@ -20,35 +20,59 @@ const Home = () => {
     setMovieSliders([]);
     setTVSliders([]);
     setIsLoading(true);
-    const fetching = async (sliderType: string, sliderUrl: string, sliderTitle: string) => { 
+    
+    const fetching = async (sliderType: string, sliderUrl: string, sliderTitle: string, random?: boolean, pageQuantity: number = 10) => { 
       try {
-        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`);
+        const randomPage = Math.floor(Math.random() * (pageQuantity - 1 + 1) + 1);
+        const response  = await fetch(url+(sliderType ? sliderType : "")+sliderUrl+`?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${random ? `&page=${randomPage}` : ""}`);
         const json = await response.json();
         
-        if(sliderType=="movie") setMovieSliders(prev => [...prev, json.results]);
-        else if(sliderType=="tv") setTVSliders(prev => [...prev, json.results]);
-        else setTrendingSliders(prev => [...prev, json.results]);
+        return json.results;
 
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        // if(sliderType=="movie") setMovieSliders(prev => [...prev, json.results]);
+        // else if(sliderType=="tv") setTVSliders(prev => [...prev, json.results]);
+        // else setTrendingSliders(prev => [...prev, json.results]);
       }
       catch (error) {
         console.error(`Error fetching for slider (${sliderTitle}):`, error);
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
       }
     }
 
-    HomeTrendingSlidersArray.map((slider) => 
-      fetching("", slider.url, slider.title)
+    const trendingFetchPromises = HomeTrendingSlidersArray.map((slider) => 
+      fetching("", slider.url, slider.title, slider.randomPage, slider.pageQuantity)
     );
-    HomeMovieSlidersArray.map((slider) => 
-      fetching("movie", slider.url, slider.title)
+    Promise.all(trendingFetchPromises)
+    .then((fetchedData) => {
+      setTrendingSliders(fetchedData);
+    })
+    .catch((error) => {
+      console.error('Error fetching trending sliders:', error);
+    });
+
+    const movieFetchPromises = HomeMovieSlidersArray.map((slider) => 
+      fetching("movie", slider.url, slider.title, slider.randomPage)
     );
-    HomeTVSlidersArray.map((slider) => 
-      fetching("tv", slider.url, slider.title)
+    Promise.all(movieFetchPromises)
+    .then((fetchedData) => {
+      setMovieSliders(fetchedData);
+    })
+    .catch((error) => {
+      console.error('Error fetching movie sliders:', error);
+    });
+
+
+    const tvFetchPromises = HomeTVSlidersArray.map((slider) => 
+      fetching("tv", slider.url, slider.title, slider.randomPage)
     );
-    
+    Promise.all(tvFetchPromises)
+    .then((fetchedData) => {
+      setTVSliders(fetchedData);
+    })
+    .catch((error) => {
+      console.error('Error fetching tv sliders:', error);
+    });
+
+    setIsLoading(false)
   }, [location]);
 
   return (

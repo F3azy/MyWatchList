@@ -31,12 +31,12 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
 
     window.addEventListener("resize", handleResize);
     
-    const timer = setTimeout(() => { handleResize(); }, 500);
+    handleResize();
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timer);
-    };
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    //   clearTimeout(timer);
+    // };
 
   }, [pages, visible, id]);
 
@@ -46,6 +46,11 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
   }, [page, pages]); 
 
   // console.log(sliderType);
+
+  if (sliderRef.current) {
+    if(width < ((sliderRef.current?.getBoundingClientRect().width-((pages*visible-1)*columnGap))/(pages*visible))*visible+(visible*columnGap))
+    setWidth(((sliderRef.current?.getBoundingClientRect().width-((pages*visible-1)*columnGap))/(pages*visible))*visible+(visible*columnGap));
+  } 
 
   return (
     <Flex minW="100%" direction="column" rowGap="8px">
@@ -94,7 +99,7 @@ const Slider = ({sliderTitle, sliderType, watchCards, isloading, pages, visible,
           sliderWidth={width}
           currentPage={page}
           setCurrentPage={setPage}
-          animate={animate}
+          animate={watchCards.length==1 ? false : animate}
           pages={pages}
           isloading={isloading}
         />
