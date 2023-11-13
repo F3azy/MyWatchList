@@ -1,37 +1,44 @@
-import SigningForm from "./components/SigningForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import { Flex } from "@chakra-ui/react";
-import Home from "./pages/Home";
-import Search from "./pages/Search";
-import MoviesSeries from "./pages/MoviesSeries";
-import MyList from "./pages/My List";
-import Random from "./pages/Random";
-import Friends from "./pages/Friends";
-import CollectionList from "./pages/CollectionList";
-import MovieSeriesInfo from "./pages/MovieSeriesInfo";
+import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "@/styles/theme";
+import "@/styles/global.css";
+import RootLayout from "@/_root/RootLayout";
+import {
+  Home,
+  CollectionList,
+  Search,
+  MovieSerie,
+  MovieSerieInfo,
+  MyList,
+  Random,
+  Friends,
+} from "@/_root/pages";
+import AuthLayout from "@/_auth/AuthLayout";
 
 function App() {
-
   return (
-    <Flex w={{base: "100%"}} minH="100vh" direction="column" align="center">
-      <BrowserRouter >
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/movies" element={<MoviesSeries type={"Movies"} />} />
-                <Route path="/series" element={<MoviesSeries type={"tv"} />} />
-                <Route path="/myList" element={<MyList />} />
-                <Route path="/random" element={<Random />} />
-                <Route path="/collection/:name" element={<CollectionList />} />
-                <Route path="/info/:type/:name/:id" element={<MovieSeriesInfo />} />
-                {/* <Route path="/friends" element={<Friends />} /> */}
-              </Route>
-            </Routes>
-      </BrowserRouter >
-    </Flex>
-  )
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          {/* public routes */}
+          {/* <Route index element={<AuthLayout />} /> */}
+
+          {/* private routes */}
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/movies" element={<MovieSerie type={"Movies"} />} />
+            <Route path="/series" element={<MovieSerie type={"tv"} />} />
+            <Route path="/info/:type/:name/:id" element={<MovieSerieInfo />} />
+            <Route path="/myList" element={<MyList />} />
+            <Route path="/random" element={<Random />} />
+            <Route path="/collection/:name" element={<CollectionList />} />
+            <Route path="/friends" element={<Friends />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
+  );
 }
 
 export default App;
