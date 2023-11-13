@@ -6,7 +6,7 @@ const RootLayout = () => {
   return (
     <>
       <Navbar />
-      <Flex minW="100%" flex={1} px="80px" py="28px">
+      <Flex px="80px" py="28px">
         <Outlet />
       </Flex>
     </>

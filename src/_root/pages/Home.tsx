@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
-import Carousel from "@/components/shared/Carousel";
+import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
 import { Movie } from "@/types/common";
+import Carousel from "@/components/shared/Carousel";
+import Collection from "@/components/Collection";
+import { CollectionBoxes } from "@/constans/CollectionBoxes";
 import {
   HomeMovieCarouselsArray,
   HomeTrendingCarouselsArray,
- HomeTVCarouselsArray,
+  HomeTVCarouselsArray,
 } from "@/constans/HomeCarousel";
-import { useLocation } from "react-router-dom";
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
-import { CollectionBoxes } from "@/constans/CollectionBoxes";
-import Collection from "@/components/Collection";
+
+const URL = "https://api.themoviedb.org/3/";
 
 const Home = () => {
-  const url = "https://api.themoviedb.org/3/";
-  const [trendingCarousels, setTrendingCarousels] = useState<Array<Movie[]>>([]);
+  const [trendingCarousels, setTrendingCarousels] = useState<Array<Movie[]>>(
+    []
+  );
   const [movieCarousels, setMovieCarousels] = useState<Array<Movie[]>>([]);
   const [tvCarousels, setTVCarousels] = useState<Array<Movie[]>>([]);
   const [isloading, setIsLoading] = useState(true);
@@ -21,48 +24,35 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    setTrendingCarousels([]);
-    setMovieCarousels([]);
-    setTVCarousels([]);
+    // setTrendingCarousels([]);
+    // setMovieCarousels([]);
+    // setTVCarousels([]);
     setIsLoading(true);
 
-    const fetching = async (
-      carouselType: string,
-      carouselUrl: string,
-      carouselTitle: string,
-      random?: boolean,
-      pageQuantity: number = 10
-    ) => {
+    async function fetchData(fetchUrl: string) {
       try {
-        const randomPage = Math.floor(
-          Math.random() * (pageQuantity - 1 + 1) + 1
-        );
-        const response = await fetch(
-          url +
-            (carouselType ? carouselType : "") +
-            carouselUrl +
-            `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${
-              random ? `&page=${randomPage}` : ""
-            }`
-        );
+        const response = await fetch(fetchUrl);
         const json = await response.json();
 
-        return json.results.filter((m: Movie) => m.poster_path != null);
-
+        return json.results;
       } catch (error) {
-        console.error(`Error fetching for carousel (${carouselTitle}):`, error);
+        console.error(`Error fetching for carousel:`, error);
       }
     };
 
-    const trendingFetchPromises = HomeTrendingCarouselsArray.map((carousel) =>
-      fetching(
-        "",
-        carousel.url,
-        carousel.title,
-        carousel.randomPage,
-        carousel.pageQuantity
-      )
-    );
+    const trendingFetchPromises = HomeTrendingCarouselsArray.map((carousel) => {
+      const randomPage = Math.floor(
+        Math.random() * ((carousel.pageQuantity || 10) - 1 + 1) + 1
+      );
+
+      return fetchData(
+        URL +
+          carousel.url +
+          `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${
+            carousel.randomPage ? `&page=${randomPage}` : ""
+          }`
+      );
+    });
     Promise.all(trendingFetchPromises)
       .then((fetchedData) => {
         setTrendingCarousels(fetchedData);
@@ -71,9 +61,21 @@ const Home = () => {
         console.error("Error fetching trending carousels:", error);
       });
 
-    const movieFetchPromises = HomeMovieCarouselsArray.map((carousel) =>
-      fetching("movie", carousel.url, carousel.title, carousel.randomPage)
-    );
+    const movieFetchPromises = HomeMovieCarouselsArray.map((carousel) => {
+      const randomPage = Math.floor(
+        Math.random() * ((carousel.pageQuantity || 10) - 1 + 1) + 1
+      );
+
+      return fetchData(
+        URL +
+          "movie" +
+          carousel.url +
+          `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${
+            carousel.randomPage ? `&page=${randomPage}` : ""
+          }`
+      );
+    });
+
     Promise.all(movieFetchPromises)
       .then((fetchedData) => {
         setMovieCarousels(fetchedData);
@@ -82,9 +84,20 @@ const Home = () => {
         console.error("Error fetching movie carousels:", error);
       });
 
-    const tvFetchPromises =HomeTVCarouselsArray.map((carousel) =>
-      fetching("tv", carousel.url, carousel.title, carousel.randomPage)
-    );
+    const tvFetchPromises = HomeTVCarouselsArray.map((carousel) => {
+      const randomPage = Math.floor(
+        Math.random() * ((carousel.pageQuantity || 10) - 1 + 1) + 1
+      );
+
+      return fetchData(
+        URL +
+          "tv" +
+          carousel.url +
+          `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US${
+            carousel.randomPage ? `&page=${randomPage}` : ""
+          }`
+      );
+    });
     Promise.all(tvFetchPromises)
       .then((fetchedData) => {
         setTVCarousels(fetchedData);
@@ -98,7 +111,7 @@ const Home = () => {
 
   return (
     <Flex direction="column" rowGap="28px">
-      <Grid w="100%" templateColumns="repeat(6, 1fr)" gap={6}>
+      <Grid templateColumns="repeat(6, 1fr)" gap={5}>
         {CollectionBoxes.map((collection) => (
           <GridItem key={collection.name}>
             <Collection
@@ -109,7 +122,7 @@ const Home = () => {
           </GridItem>
         ))}
       </Grid>
-      <Flex direction="column" rowGap="24px">
+      <Flex direction="column" rowGap="28px">
         {trendingCarousels?.map((carousel, idx) => (
           <Carousel
             isLink={true}
