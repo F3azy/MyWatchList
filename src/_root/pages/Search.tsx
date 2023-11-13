@@ -13,12 +13,8 @@ import { SearchIcon } from "@chakra-ui/icons";
 
 const Search = () => {
   const url = "https://api.themoviedb.org/3/search/";
-  const [title, setTitle] = useState(() => {
-    return "";
-  });
-  const [watchCards, setWatchCards] = useState<Movie[]>(() => {
-    return [];
-  });
+  const [title, setTitle] = useState("");
+  const [watchCards, setWatchCards] = useState<Movie[]>([]);
 
   useEffect(() => {
     fetch(

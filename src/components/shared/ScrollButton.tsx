@@ -19,7 +19,7 @@ type ScrollButtonProps = {
 
 const ScrollButton = ({as, direction, showButton, carousel, carouselWidth, currentPage, setCurrentPage, id, animate, pages, isloading}: ScrollButtonProps) => {
 
-  const [clicked, setClicked] = useState(() => {return false});
+  const [clicked, setClicked] = useState(false);
   const currentPageRef = useRef(currentPage);
 
   function changePage(): void {

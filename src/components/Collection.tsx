@@ -4,9 +4,7 @@ import { Box, Image, AbsoluteCenter, Link } from "@chakra-ui/react";
 import { CollectionBox } from "@/types/collection";
 
 const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
-  const [showBG, useShowBg] = useState(() => {
-    return false;
-  });
+  const [showBG, useShowBg] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   function startVideo(event: React.MouseEvent<HTMLElement>) {
@@ -24,7 +22,6 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
 
   return (
     <Box
-      minH="80px"
       bgGradient="linear(brand.dark.700, brand.dark.800)"
       border="4px solid"
       borderColor="brand.dark.600"
@@ -46,9 +43,6 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
     >
       <Link
         as={RouterLink}
-        display="block"
-        width="100%"
-        height="100%"
         to={"/collection/" + name}
       >
         <Box visibility={showBG ? "visible" : "hidden"}>
@@ -57,7 +51,7 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
           </video>
         </Box>
 
-        <AbsoluteCenter w="95%">
+        <AbsoluteCenter w="90%">
           <Image src={logoSrc} />
         </AbsoluteCenter>
       </Link>

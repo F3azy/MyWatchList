@@ -13,18 +13,10 @@ import Collection from "@/components/Collection";
 
 const Home = () => {
   const url = "https://api.themoviedb.org/3/";
-  const [trendingCarousels, setTrendingCarousels] = useState<Array<Movie[]>>(() => {
-    return [];
-  });
-  const [movieCarousels, setMovieCarousels] = useState<Array<Movie[]>>(() => {
-    return [];
-  });
-  const [tvCarousels, setTVCarousels] = useState<Array<Movie[]>>(() => {
-    return [];
-  });
-  const [isloading, setIsLoading] = useState(() => {
-    return true;
-  });
+  const [trendingCarousels, setTrendingCarousels] = useState<Array<Movie[]>>([]);
+  const [movieCarousels, setMovieCarousels] = useState<Array<Movie[]>>([]);
+  const [tvCarousels, setTVCarousels] = useState<Array<Movie[]>>([]);
+  const [isloading, setIsLoading] = useState(true);
 
   const location = useLocation();
 

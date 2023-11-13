@@ -12,9 +12,7 @@ const CollectionList = () => {
   const location = useLocation();
 
   const url = "https://api.themoviedb.org/3/";
-  const [watchCards, setWatchCards] = useState<Movie[]>(() => {
-    return [];
-  });
+  const [watchCards, setWatchCards] = useState<Movie[]>([]);
 
   useEffect(() => {
     setWatchCards([]);

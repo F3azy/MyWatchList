@@ -16,15 +16,9 @@ const MoviesSerie = ({ type }: { type: string }) => {
   const location = useLocation();
 
   const url = "https://api.themoviedb.org/3/discover/";
-  const [genre, setGenre] = useState(() => {
-    return "";
-  });
-  const [watchCards, setWatchCards] = useState<Movie[]>(() => {
-    return [];
-  });
-  const [isloading, setIsLoading] = useState(() => {
-    return true;
-  });
+  const [genre, setGenre] = useState("");
+  const [watchCards, setWatchCards] = useState<Movie[]>([]);
+  const [isloading, setIsLoading] = useState(true);
 
   function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
     setGenre(event.currentTarget.value);

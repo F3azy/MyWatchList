@@ -32,22 +32,12 @@ const Carousel = ({
   animate,
   watchCardMinH,
 }: CarouselProps) => {
-  const [showLeftButton, setLeftShowButton] = useState(() => {
-    return false;
-  });
-  const [showRightButton, setRightShowButton] = useState(() => {
-    return false;
-  });
-  const [page, setPage] = useState(() => {
-    return 0;
-  });
+  const [showLeftButton, setLeftShowButton] = useState(false);
+  const [showRightButton, setRightShowButton] = useState(false);
+  const [page, setPage] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number>(() => {
-    return 0;
-  });
-  const [watchCardWidth, setWatchCardWidth] = useState(() => {
-    return 100 / (pages * visible);
-  });
+  const [width, setWidth] = useState<number>(0);
+  const [watchCardWidth, setWatchCardWidth] = useState(100 / (pages * visible));
 
   useLayoutEffect(() => {
     function handleResize(): void {

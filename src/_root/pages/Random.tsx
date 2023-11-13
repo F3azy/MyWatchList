@@ -5,15 +5,9 @@ import WatchCard from "@/components/shared/WatchCard";
 import { Movie } from "@/types/common";
 
 const Random = () => {
-  const [type, setType] = useState(() => {
-    return "movie";
-  });
-  const [genre, setGenre] = useState(() => {
-    return "";
-  });
-  const [isloadingGenres, setIsLoadingGenres] = useState(() => {
-    return true;
-  });
+  const [type, setType] = useState("movie");
+  const [genre, setGenre] = useState("");
+  const [isloadingGenres, setIsLoadingGenres] = useState(true);
   const [watchCard, setWatchCard] = useState<Movie>();
   const url = "https://api.themoviedb.org/3/discover/";
 

@@ -3,9 +3,7 @@ import { FormControl, FormLabel } from "@chakra-ui/react";
 import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
 
 const PasswordField = () => {
-  const [show, setShow] = useState<boolean>(() => {
-    return false;
-  });
+  const [show, setShow] = useState<boolean>(false);
 
   const PassVisibility = () => setShow(!show);
 

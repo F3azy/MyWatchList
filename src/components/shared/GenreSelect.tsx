@@ -19,12 +19,8 @@ const MovieSelect = ({
   setStateFun: React.Dispatch<React.SetStateAction<string>>;
   changeFun?: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
-  const [genres, setGenres] = useState<Genres[]>(() => {
-    return [];
-  });
-  const [defaultVal, setDefaultVal] = useState(() => {
-    return "";
-  });
+  const [genres, setGenres] = useState<Genres[]>([]);
+  const [defaultVal, setDefaultVal] = useState("");
   const url = "https://api.themoviedb.org/3/genre/";
 
   useEffect(() => {

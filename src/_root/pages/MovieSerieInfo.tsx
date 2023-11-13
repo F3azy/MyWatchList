@@ -22,24 +22,12 @@ const MovieSeriesInfo = () => {
   const urlVideos = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
-  const [details, setDetails] = useState(() => {
-    return {};
-  });
-  const [watchProviders, setWatchProviders] = useState(() => {
-    return {};
-  });
-  const [similar, setSimilar] = useState<Movie[]>(() => {
-    return [];
-  });
-  const [images, setImages] = useState(() => {
-    return [];
-  });
-  const [videos, setVideos] = useState(() => {
-    return [];
-  });
-  const [isloading, setIsLoading] = useState(() => {
-    return true;
-  });
+  const [details, setDetails] = useState({});
+  const [watchProviders, setWatchProviders] = useState({});
+  const [similar, setSimilar] = useState<Movie[]>([]);
+  const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);

@@ -21,9 +21,7 @@ const WatchCard = ({
 }) => {
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
-  const [isloading, setIsLoading] = useState(() => {
-    return true;
-  });
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
