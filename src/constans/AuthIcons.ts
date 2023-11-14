@@ -1,10 +1,4 @@
 import { BsGoogle, BsTwitter, BsFacebook } from "react-icons/bs";
-import { IconType } from "react-icons/lib";
-
-type SocialIcon = {
-  name: string;
-  icon: IconType;
-};
 
 export const Icons = [
   {

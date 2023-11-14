@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, Icon } from '@chakra-ui/react';
-import { useInterval } from '../../hooks/useInterval';
+import useInterval from '../../hooks/useInterval';
 import { ComponentWithAs } from '@chakra-ui/react';
 
 type ScrollButtonProps = {
