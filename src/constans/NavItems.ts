@@ -29,12 +29,12 @@ export const NavLinks: Array<LinkItem> = [
   },
   {
     name: "Movies",
-    to: "/movies",
+    to: "/browse/movies",
     icon: BiCameraMovie,
   },
   {
     name: "Series",
-    to: "/series",
+    to: "/browse/tv",
     icon: BiMovie,
   },
   {

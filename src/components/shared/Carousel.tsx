@@ -6,7 +6,7 @@ import useInterval from "@/hooks/useInterval";
 
 type CarouselProps = {
   carouselTitle?: string;
-  isloading: boolean;
+  isloading?: boolean;
   elementsTotal: number;
   visibleElements: number;
   gap?: number;
@@ -37,11 +37,12 @@ const Carousel = ({
   function changePage(action: string) {
     switch (action) {
       case ACTIONS.NEXT:
+        if(clicked) break;
         if (currentPage >= pages - 1) setCurrentPage(0);
         else setCurrentPage((prev) => prev + 1);
         break;
       case ACTIONS.PREVIOUS:
-        if (currentPage <= 0) break;
+        if (currentPage <= 0 || clicked) break;
         setCurrentPage((prev) => prev - 1);
         break;
       default:
@@ -52,10 +53,14 @@ const Carousel = ({
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => setClicked(false), 1000);
+    const timer = setTimeout(() => setClicked(false), 800);
 
     return () => clearTimeout(timer);
   }, [clicked]);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [children])
 
   useInterval(
     () => {

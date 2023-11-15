@@ -10,10 +10,10 @@ import { useState, useEffect } from "react";
 import WatchCard from "@/components/shared/WatchCard";
 import MovieSelect from "@/components/shared/GenreSelect";
 import { Movie } from "@/types/common";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
-const MoviesSerie = ({ type }: { type: string }) => {
-  const location = useLocation();
+const MoviesSerie = () => {
+  const { type } = useParams();
 
   const url = "https://api.themoviedb.org/3/discover/";
   const [genre, setGenre] = useState("");
@@ -27,7 +27,7 @@ const MoviesSerie = ({ type }: { type: string }) => {
   useEffect(() => {
     fetch(
       url +
-        (type == "tv" ? "tv" : "movie") +
+        (type === "tv" ? "tv" : "movie") +
         `?api_key=${
           import.meta.env.VITE_MOVIE_API_KEY
         }&language=en-US&with_genres=${genre}`
@@ -46,7 +46,7 @@ const MoviesSerie = ({ type }: { type: string }) => {
       .catch((error) => {
         console.error("Error fetching movies or series data:", error);
       });
-  }, [genre, location]);
+  }, [genre, type]);
 
   return (
     <Flex w="100%" direction="column" rowGap="28px">
@@ -60,13 +60,13 @@ const MoviesSerie = ({ type }: { type: string }) => {
           fadeDuration={3}
         >
           <Text fontSize="32px" fontWeight="bold">
-            {type == "tv" ? "Series" : "Movies"}
+            {type === "tv" ? "Series" : "Movies"}
           </Text>
         </SkeletonText>
         <MovieSelect
           isloading={isloading}
           setIsLoading={setIsLoading}
-          type={type}
+          type={type as string}
           setStateFun={setGenre}
           changeFun={changeGenre}
         />
@@ -75,10 +75,8 @@ const MoviesSerie = ({ type }: { type: string }) => {
         {watchCards.map((watchcard) => (
           <GridItem w="100%" key={watchcard.id}>
             <WatchCard
-              isLink={true}
-              givenWidth="100%"
               id={watchcard.id}
-              type={type.toLocaleLowerCase() == "series" ? "tv" : "movie"}
+              type={type?.toLocaleLowerCase() === "tv" ? "tv" : "movie"}
               title={
                 watchcard?.name ? watchcard?.name : (watchcard?.title as string)
               }

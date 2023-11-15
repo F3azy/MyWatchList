@@ -27,8 +27,9 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Home />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/movies" element={<MovieSerie type={"Movies"} />} />
-            <Route path="/series" element={<MovieSerie type={"tv"} />} />
+            {/* <Route path="/movies" element={<MovieSerie type={"Movies"} />} />
+            <Route path="/series" element={<MovieSerie type={"tv"} />} /> */}
+            <Route path="/browse/:type" element={<MovieSerie />} />
             <Route path="/info/:type/:name/:id" element={<MovieSerieInfo />} />
             <Route path="/myList" element={<MyList />} />
             <Route path="/random" element={<Random />} />

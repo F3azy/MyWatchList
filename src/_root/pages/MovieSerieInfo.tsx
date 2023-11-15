@@ -1,11 +1,15 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Carousel from "@/components/shared/Carousel";
-import { Movie } from "@/types/common";
+import CarouselItem from "@/components/shared/CarouselItem";
+import WatchCard from "@/components/shared/WatchCard";
+import { useFetch } from "@/hooks/fetchData";
+
+const imageURL = "https://image.tmdb.org/t/p/original/";
 
 const MovieSeriesInfo = () => {
-  const { type, id } = useParams();
+  const { type, name, id } = useParams();
 
   const urlDetails = `https://api.themoviedb.org/3/${type}/${id}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
@@ -24,8 +28,6 @@ const MovieSeriesInfo = () => {
   }&language=en-US`;
   const [details, setDetails] = useState({});
   const [watchProviders, setWatchProviders] = useState({});
-  const [similar, setSimilar] = useState<Movie[]>([]);
-  const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [isloading, setIsLoading] = useState(true);
 
@@ -33,8 +35,7 @@ const MovieSeriesInfo = () => {
     setIsLoading(true);
     setDetails({});
     setWatchProviders([]);
-    setSimilar([]);
-    setImages([]);
+
     setVideos([]);
     const fetching = async () => {
       try {
@@ -49,21 +50,13 @@ const MovieSeriesInfo = () => {
         const randomPage = Math.floor(Math.random() * (10 - 1 + 1) + 1);
         const similarResponse = await fetch(urlSimilar + `&page=${randomPage}`);
         const similarJSON = await similarResponse.json();
-        setSimilar(
-          similarJSON.results.filter((m: Movie) => m.poster_path != null)
-        );
 
         const imagesResponse = await fetch(urlImages);
         const imagesJSON = await imagesResponse.json();
-        if (imagesJSON.backdrops.length > 30)
-          setImages(imagesJSON.backdrops.slice(0, 30));
-        else setImages(imagesJSON.backdrops);
 
         const videosResponse = await fetch(urlVideos);
         const videosJSON = await videosResponse.json();
         setVideos(videosJSON.results);
-
-        // console.log(similarJSON.results);
       } catch (error) {
         console.error(`Error fetching movie info:`, error);
       }
@@ -73,31 +66,59 @@ const MovieSeriesInfo = () => {
     setIsLoading(false);
   }, [id]);
 
+  const { data: images, loading: loadingImages } = useFetch<{
+    backdrops: {
+      file_path: string;
+    }[];
+  }>(urlImages);
+
+  const { data: similar } = useFetch<{
+    results: {
+      id: number;
+      poster_path: string;
+      name?: string;
+      title?: string;
+    }[];
+  }>(urlSimilar);
+
   return (
     <Flex direction="column" rowGap="28px">
       <Carousel
-        id={id}
-        columnGap={20}
-        watchCards={images}
-        pages={images.length / 2}
-        visible={2}
-        isLink={false}
+        elementsTotal={images?.backdrops?.length as number}
+        visibleElements={3}
         animate={true}
-        isloading={isloading}
-        watchCardMinH="300px"
-      />
+        isloading={loadingImages}
+      >
+        {images?.backdrops.map((image, idx) => (
+          <CarouselItem key={idx}>
+            <Image
+              borderRadius="8px"
+              border="4px solid"
+              borderColor="brand.dark.600"
+              boxShadow="0px 20px 15px -10px black"
+              background="linear-gradient(#141414 97%, #030303) border-box"
+              src={imageURL + image.file_path}
+              alt={name ? name + idx : idx.toString()}
+            />
+          </CarouselItem>
+        ))}
+      </Carousel>
       <Carousel
-        id={id}
-        isLink={true}
-        columnGap={20}
-        carouselTitle="Similar"
-        carouselType={type}
-        pages={similar.length / 7}
-        visible={7}
-        watchCardMinH="200px"
-        watchCards={similar}
-        isloading={isloading}
-      />
+        carouselTitle={"Similar"}
+        elementsTotal={similar?.results.length as number}
+        visibleElements={8}
+      >
+        {similar?.results?.map((watchcard) => (
+          <CarouselItem key={watchcard.id}>
+            <WatchCard
+              id={watchcard.id}
+              type={type}
+              title={watchcard?.name || watchcard?.title}
+              SpecImageURL={watchcard?.poster_path}
+            />
+          </CarouselItem>
+        ))}
+      </Carousel>
     </Flex>
   );
 };

@@ -27,7 +27,7 @@ const Home = () => {
         ))}
       </Grid>
       <Flex direction="column" rowGap="28px">
-        {data?.map((carousel, idx) => (
+        {data?.map((carousel, idx) => 
           <Carousel
             key={idx}
             carouselTitle={HomeCarousels.titles[idx]}
@@ -35,31 +35,24 @@ const Home = () => {
             visibleElements={5}
             isloading={loading}
           >
-            {carousel.map((watchcard) => {
-              // console.log(watchcard);
-
-              return (
-                <CarouselItem key={watchcard.id}>
-                  <WatchCard
-                    // givenWidth={`calc(${watchCardWidth}%)`}
-                    // minH={watchCardMinH}
-                    isLink={true}
-                    id={watchcard.id}
-                    type={
-                      watchcard.media_type
-                        ? (watchcard.media_type as string)
-                        : "tv"
-                    }
-                    title={watchcard?.name || (watchcard?.title as string)}
-                    SpecImageURL={
-                      watchcard?.poster_path || (watchcard?.file_path as string)
-                    }
-                  />
-                </CarouselItem>
-              );
-            })}
+            {carousel.map((watchcard) => 
+              <CarouselItem key={watchcard.id}>
+                <WatchCard
+                  id={watchcard.id}
+                  type={
+                    watchcard.media_type
+                      ? (watchcard.media_type as string)
+                      : "tv"
+                  }
+                  title={watchcard?.name || (watchcard?.title as string)}
+                  SpecImageURL={
+                    watchcard?.poster_path || (watchcard?.file_path as string)
+                  }
+                />
+              </CarouselItem>
+            )}
           </Carousel>
-        ))}
+        )}
       </Flex>
     </Flex>
   );
