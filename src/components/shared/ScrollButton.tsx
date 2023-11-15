@@ -79,7 +79,9 @@ const ScrollButton = ({as, direction, showButton, carousel, carouselWidth, curre
       visibility={showButton ? "visible" : "hidden"}
       w="80px" 
       h="100%"
+      zIndex={9}
       position="absolute"
+      top={0}
       left={(direction == "left") ? "-20" : "auto"}
       right={(direction == "right") ? "-20" : "auto"} 
     >
@@ -91,15 +93,15 @@ const ScrollButton = ({as, direction, showButton, carousel, carouselWidth, curre
         alignItems="center" 
         bg="#1f1f1f" 
         position="absolute" 
-        zIndex={9}
-        boxShadow="0 0 10px 10px #1f1f1f"
+
+        boxShadow="0 0 10px 15px #1f1f1f"
         right={(direction == "right") ? "0" : "auto"}
         left={(direction == "left") ? "0" : "auto"}
         opacity={0.5}
         _hover={{
           cursor: "pointer",
           bg: "#131313",
-          boxShadow: "0 0 10px 10px #131313"
+          boxShadow: "0 0 10px 15px #131313"
         }}
         onClick={(showButton && !clicked) ? move : undefined}
       >

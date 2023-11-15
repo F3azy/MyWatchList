@@ -102,33 +102,33 @@ export const HomeCarousels = {
     "Top Rated Series",
   ],
   urls: [
-    `https://api.themoviedb.org/3/trending/all/day?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US`,
-    `https://api.themoviedb.org/3/trending/all/week?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (3 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (5 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/movie/popular?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/tv/airing_today?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/tv/on_the_air?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
-    `https://api.themoviedb.org/3/tv/popular?api_key=${
-      import.meta.env.VITE_MOVIE_API_KEY
-    }&language=en-US&page=1${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/trending/all/day?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US`,
+    // `https://api.themoviedb.org/3/trending/all/week?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (3 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/movie/now_playing?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (5 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/movie/upcoming?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/movie/popular?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/movie/top_rated?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/tv/airing_today?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/tv/on_the_air?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
+    // `https://api.themoviedb.org/3/tv/popular?api_key=${
+    //   import.meta.env.VITE_MOVIE_API_KEY
+    // }&language=en-US&page=1${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,
     `https://api.themoviedb.org/3/tv/top_rated?api_key=${
       import.meta.env.VITE_MOVIE_API_KEY
     }&language=en-US&page=${Math.floor(Math.random() * (10 - 1 + 1) + 1)}`,

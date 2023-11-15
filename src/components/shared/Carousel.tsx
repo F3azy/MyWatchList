@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import WatchCard from "./WatchCard";
-import { Flex, Text, SkeletonText, Grid } from "@chakra-ui/react";
+import { Flex, Text, SkeletonText, Grid, Box } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import ScrollButton from "./ScrollButton";
 import { Movie } from "../../types/common";
@@ -177,15 +177,28 @@ type CarouselProps = {
 const Carousel = ({
   carouselTitle,
   isloading,
+  elementsTotal,
+  visibleElements,
+  showButtons = true,
   children,
 }: {
-  carouselTitle: string;
+  carouselTitle?: string;
   isloading: boolean;
+  elementsTotal: number;
+  showButtons?: boolean;
+  visibleElements: number;
   children: React.ReactNode;
 }) => {
+
+  const [page, setPage] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number>(0);
+  // const [watchCardWidth, setWatchCardWidth] = useState(100 / (pages * visible));
+  
+
   return (
     <Flex direction="column" rowGap="8px">
-      {carouselTitle ? (
+      {carouselTitle && 
         <SkeletonText
           skeletonHeight="36px"
           noOfLines={1}
@@ -198,10 +211,41 @@ const Carousel = ({
             {carouselTitle}
           </Text>
         </SkeletonText>
-      ) : (
-        ""
-      )}
-      <Grid border="red solid 1px">{children}</Grid>
+      }
+      <Box position="relative">
+        <ScrollButton
+          as={ChevronLeftIcon}
+          direction="left"
+          showButton={showButtons}
+          carousel={carouselRef}
+          carouselWidth={width}
+          currentPage={page}
+          setCurrentPage={setPage}
+          // id={id}
+        />
+        <Grid
+          ref={carouselRef}
+          w={`${(100 * elementsTotal) / visibleElements}%`}
+          templateColumns={`repeat(${elementsTotal}, 1fr)`}
+          columnGap="20px"
+          // transform={`translate(${0}%)`}
+          style={{ transform: "translate(0%)" }}
+        >
+          {children}
+        </Grid>
+        <ScrollButton
+          as={ChevronRightIcon}
+          direction="right"
+          showButton={showButtons}
+          carousel={carouselRef}
+          carouselWidth={width}
+          currentPage={page}
+          setCurrentPage={setPage}
+          // animate={watchCards.length == 1 ? false : animate}
+          // pages={pages}
+          isloading={isloading}
+        />
+      </Box>
     </Flex>
   );
 };

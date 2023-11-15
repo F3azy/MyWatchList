@@ -5,10 +5,13 @@ import Collection from "@/components/Collection";
 import { CollectionBoxes } from "@/constans/CollectionBoxes";
 import { HomeCarousels } from "@/constans/HomeCarousel";
 import { useMultipleFetch } from "@/hooks/fetchData";
+import CarouselItem from "@/components/shared/CarouselItem";
+import WatchCard from "@/components/shared/WatchCard";
 
 const Home = () => {
-
-  const { data, loading, error } = useMultipleFetch<Movie[]>(HomeCarousels.urls);
+  const { data, loading, error } = useMultipleFetch<Movie[]>(
+    HomeCarousels.urls
+  );
 
   return (
     <Flex direction="column" rowGap="28px">
@@ -37,6 +40,40 @@ const Home = () => {
             isloading={loading}
           />
         )} */}
+        {data?.map((carousel, idx) => (
+          <Carousel
+            key={idx}
+            carouselTitle={HomeCarousels.titles[idx]}
+            elementsTotal={carousel.length}
+            visibleElements={6}
+            // pages={carousel.length / 5}
+            isloading={loading}
+          >
+            {carousel.map((watchcard) => {
+              // console.log(watchcard);
+
+              return (
+                <CarouselItem key={watchcard.id}>
+                  <WatchCard
+                    // givenWidth={`calc(${watchCardWidth}%)`}
+                    // minH={watchCardMinH}
+                    isLink={true}
+                    id={watchcard.id}
+                    type={
+                      watchcard.media_type
+                        ? (watchcard.media_type as string)
+                        : "tv"
+                    }
+                    title={watchcard?.name || (watchcard?.title as string)}
+                    SpecImageURL={
+                      watchcard?.poster_path || (watchcard?.file_path as string)
+                    }
+                  />
+                </CarouselItem>
+              );
+            })}
+          </Carousel>
+        ))}
       </Flex>
     </Flex>
   );

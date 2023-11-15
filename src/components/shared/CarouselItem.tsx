@@ -1,8 +1,11 @@
+import { GridItem } from "@chakra-ui/react";
 
-const CarouselItem = () => {
+const CarouselItem = ({children}: {children: React.ReactNode}) => {
   return (
-    <div>CarouselItem</div>
-  )
+    <GridItem>
+        {children}
+    </GridItem>
+    )
 };
 
 export default CarouselItem;
