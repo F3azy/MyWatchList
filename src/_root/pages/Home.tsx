@@ -27,26 +27,12 @@ const Home = () => {
         ))}
       </Grid>
       <Flex direction="column" rowGap="28px">
-        {/* {data?.map((carousel, idx) => 
-          <Carousel
-            isLink={true}
-            key={idx}
-            columnGap={20}
-            carouselTitle={HomeCarousels.titles[idx]}
-            pages={carousel.length / 5}
-            visible={5}
-            watchCardMinH="300px"
-            watchCards={carousel}
-            isloading={loading}
-          />
-        )} */}
         {data?.map((carousel, idx) => (
           <Carousel
             key={idx}
             carouselTitle={HomeCarousels.titles[idx]}
             elementsTotal={carousel.length}
-            visibleElements={6}
-            // pages={carousel.length / 5}
+            visibleElements={5}
             isloading={loading}
           >
             {carousel.map((watchcard) => {

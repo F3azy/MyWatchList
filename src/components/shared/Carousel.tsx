@@ -1,178 +1,24 @@
-import { useEffect, useState, useRef, useLayoutEffect } from "react";
-import WatchCard from "./WatchCard";
+import { useEffect, useState } from "react";
 import { Flex, Text, SkeletonText, Grid, Box } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import ScrollButton from "./ScrollButton";
-import { Movie } from "../../types/common";
+import useInterval from "@/hooks/useInterval";
 
 type CarouselProps = {
   carouselTitle?: string;
-  carouselType?: string | null;
-  watchCards: Movie[];
-  isloading?: boolean;
-  pages: number;
-  visible: number;
-  isLink: boolean;
-  columnGap: number;
-  id?: string;
+  isloading: boolean;
+  elementsTotal: number;
+  visibleElements: number;
+  gap?: number;
+  showButtons?: boolean;
   animate?: boolean;
-  watchCardMinH?: string;
+  children: React.ReactNode;
 };
 
-// const Carousel = ({
-//   carouselTitle,
-//   carouselType,
-//   watchCards,
-//   isloading,
-//   pages,
-//   visible,
-//   isLink,
-//   columnGap,
-//   id,
-//   animate,
-//   watchCardMinH,
-// }: CarouselProps) => {
-//   const [showLeftButton, setLeftShowButton] = useState(false);
-//   const [showRightButton, setRightShowButton] = useState(false);
-//   const [page, setPage] = useState(0);
-//   const carouselRef = useRef<HTMLDivElement>(null);
-//   const [width, setWidth] = useState<number>(0);
-//   const [watchCardWidth, setWatchCardWidth] = useState(100 / (pages * visible));
-
-//   useLayoutEffect(() => {
-//     function handleResize(): void {
-//       if (carouselRef.current) {
-//         setWidth(
-//           ((carouselRef.current?.getBoundingClientRect().width -
-//             (pages * visible - 1) * columnGap) /
-//             (pages * visible)) *
-//             visible +
-//             visible * columnGap
-//         );
-//       }
-//     }
-
-//     if (pages == 1) {
-//       setLeftShowButton(false);
-//       setRightShowButton(false);
-//     }
-
-//     setWatchCardWidth(100 / (pages * visible));
-
-//     window.addEventListener("resize", handleResize);
-
-//     handleResize();
-
-//     // return () => {
-//     //   window.removeEventListener("resize", handleResize);
-//     //   clearTimeout(timer);
-//     // };
-//   }, [pages, visible, id]);
-
-//   useEffect(() => {
-//     page == 0
-//       ? setTimeout(() => {
-//           setLeftShowButton(false);
-//         }, 500)
-//       : setLeftShowButton(true);
-//     page == Math.ceil(pages - 1)
-//       ? setTimeout(() => {
-//           setRightShowButton(false);
-//         }, 500)
-//       : setRightShowButton(true);
-//   }, [page, pages]);
-
-//   // console.log(CarouselType);
-
-//   if (carouselRef.current) {
-//     if (
-//       width <
-//       ((carouselRef.current?.getBoundingClientRect().width -
-//         (pages * visible - 1) * columnGap) /
-//         (pages * visible)) *
-//         visible +
-//         visible * columnGap
-//     )
-//       setWidth(
-//         ((carouselRef.current?.getBoundingClientRect().width -
-//           (pages * visible - 1) * columnGap) /
-//           (pages * visible)) *
-//           visible +
-//           visible * columnGap
-//       );
-//   }
-
-//   return (
-//     <Flex minW="100%" direction="column" rowGap="8px">
-//       {carouselTitle ? (
-//         <SkeletonText
-//           skeletonHeight="36px"
-//           noOfLines={1}
-//           isLoaded={!isloading}
-//           startColor="brand.primary"
-//           endColor="brand.tertiary"
-//           fadeDuration={3}
-//         >
-//           <Text fontSize="24px" fontWeight="bold">
-//             {carouselTitle}
-//           </Text>
-//         </SkeletonText>
-//       ) : (
-//         ""
-//       )}
-//       <Flex position="relative" align="center">
-//         <ScrollButton
-//           as={ChevronLeftIcon}
-//           direction="left"
-//           showButton={showLeftButton}
-//           carousel={carouselRef}
-//           carouselWidth={width}
-//           currentPage={page}
-//           setCurrentPage={setPage}
-//           id={id}
-//         />
-//         <Flex
-//           minW={`calc(${100 * pages}% + ${columnGap * (pages - 1)}px)`}
-//           minH={watchCardMinH}
-//           ref={carouselRef}
-//           columnGap={`${columnGap}px`}
-//           style={{ transform: "translate(0px)" }}
-//         >
-//           {watchCards.map((watchcard) => (
-//             <WatchCard
-//               key={watchcard.id ? watchcard.id : watchcard?.file_path}
-//               givenWidth={`calc(${watchCardWidth}%)`}
-//               minH={watchCardMinH}
-//               isLink={isLink}
-//               id={watchcard.id}
-//               type={carouselType ? carouselType : (watchcard.media_type as string)}
-//               title={
-//                 watchcard?.name ? watchcard?.name : (watchcard?.title as string)
-//               }
-//               SpecImageURL={
-//                 watchcard?.poster_path
-//                   ? watchcard?.poster_path
-//                   : (watchcard?.file_path as string)
-//               }
-//             />
-//           ))}
-//         </Flex>
-//         <ScrollButton
-//           as={ChevronRightIcon}
-//           direction="right"
-//           showButton={showRightButton}
-//           carousel={carouselRef}
-//           carouselWidth={width}
-//           currentPage={page}
-//           setCurrentPage={setPage}
-//           animate={watchCards.length == 1 ? false : animate}
-//           pages={pages}
-//           isloading={isloading}
-//         />
-//       </Flex>
-//     </Flex>
-//   );
-// };
+const ACTIONS = {
+  NEXT: "NEXT",
+  PREVIOUS: "PREVIOUS",
+};
 
 const Carousel = ({
   carouselTitle,
@@ -180,25 +26,47 @@ const Carousel = ({
   elementsTotal,
   visibleElements,
   showButtons = true,
+  gap = 20,
   children,
-}: {
-  carouselTitle?: string;
-  isloading: boolean;
-  elementsTotal: number;
-  showButtons?: boolean;
-  visibleElements: number;
-  children: React.ReactNode;
-}) => {
+  animate,
+}: CarouselProps) => {
+  const pages = Math.ceil(elementsTotal / visibleElements);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [clicked, setClicked] = useState(false);
 
-  const [page, setPage] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number>(0);
-  // const [watchCardWidth, setWatchCardWidth] = useState(100 / (pages * visible));
-  
+  function changePage(action: string) {
+    switch (action) {
+      case ACTIONS.NEXT:
+        if (currentPage >= pages - 1) setCurrentPage(0);
+        else setCurrentPage((prev) => prev + 1);
+        break;
+      case ACTIONS.PREVIOUS:
+        if (currentPage <= 0) break;
+        setCurrentPage((prev) => prev - 1);
+        break;
+      default:
+        console.log("No case worked");
+        break;
+    }
+    setClicked(true);
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => setClicked(false), 1000);
+
+    return () => clearTimeout(timer);
+  }, [clicked]);
+
+  useInterval(
+    () => {
+      changePage(ACTIONS.NEXT);
+    },
+    !clicked && !isloading && animate ? 5000 : null
+  );
 
   return (
     <Flex direction="column" rowGap="8px">
-      {carouselTitle && 
+      {carouselTitle && (
         <SkeletonText
           skeletonHeight="36px"
           noOfLines={1}
@@ -211,25 +79,28 @@ const Carousel = ({
             {carouselTitle}
           </Text>
         </SkeletonText>
-      }
+      )}
       <Box position="relative">
         <ScrollButton
           as={ChevronLeftIcon}
           direction="left"
           showButton={showButtons}
-          carousel={carouselRef}
-          carouselWidth={width}
-          currentPage={page}
-          setCurrentPage={setPage}
-          // id={id}
+          onClick={() => changePage(ACTIONS.PREVIOUS)}
         />
         <Grid
-          ref={carouselRef}
-          w={`${(100 * elementsTotal) / visibleElements}%`}
+          w={`calc(${(100 * elementsTotal) / visibleElements}% + ${
+            (gap * elementsTotal) / visibleElements - gap
+          }px)`}
           templateColumns={`repeat(${elementsTotal}, 1fr)`}
-          columnGap="20px"
-          // transform={`translate(${0}%)`}
-          style={{ transform: "translate(0%)" }}
+          columnGap={`${gap}px`}
+          transition={`transform ${800}ms ease-in-out`}
+          style={{
+            transform: `translateX(calc((-${
+              (100 * visibleElements) / elementsTotal
+            }% - ${
+              gap * (visibleElements / elementsTotal)
+            }px) * ${currentPage})`,
+          }}
         >
           {children}
         </Grid>
@@ -237,13 +108,7 @@ const Carousel = ({
           as={ChevronRightIcon}
           direction="right"
           showButton={showButtons}
-          carousel={carouselRef}
-          carouselWidth={width}
-          currentPage={page}
-          setCurrentPage={setPage}
-          // animate={watchCards.length == 1 ? false : animate}
-          // pages={pages}
-          isloading={isloading}
+          onClick={() => changePage(ACTIONS.NEXT)}
         />
       </Box>
     </Flex>
