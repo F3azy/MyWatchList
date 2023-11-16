@@ -7,7 +7,7 @@ export type CollectionBox = {
 export type WatchCardInfo = {
   title: string;
   id: number;
-  type: "movie" | "tv";
+  media: "movie" | "tv";
 };
 
 type CollectionsInfo = {

@@ -7,13 +7,13 @@ type Genres = {
 };
 
 const MovieSelect = ({
-  type,
+  media,
   isloading,
   setIsLoading,
   setStateFun,
   changeFun,
 }: {
-  type: string;
+  media: string;
   isloading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setStateFun: React.Dispatch<React.SetStateAction<string>>;
@@ -29,7 +29,7 @@ const MovieSelect = ({
       try {
         const response = await fetch(
           url +
-            (type === "tv" ? "tv" : "movie") +
+            (media === "tv" ? "tv" : "movie") +
             `/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
         );
         const json = await response.json();
@@ -45,7 +45,7 @@ const MovieSelect = ({
     };
 
     fetching();
-  }, [type]);
+  }, [media]);
 
   return (
     <Skeleton

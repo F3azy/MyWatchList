@@ -23,8 +23,8 @@ const CollectionList = () => {
           <GridItem w="100%" key={watchcard.id}>
             <WatchCard
               id={watchcard.id}
-              type={
-                CollectionsArrays[name as keyof CollectionsList].watchCards[idx].type
+              media={
+                CollectionsArrays[name as keyof CollectionsList].watchCards[idx].media
               }
               title={watchcard.name || watchcard.title}
               SpecImageURL={watchcard.poster_path}
