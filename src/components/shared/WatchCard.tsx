@@ -7,11 +7,13 @@ const WatchCard = ({
   type,
   title,
   SpecImageURL,
+  isLink = true
 }: {
   id?: number;
   type?: string;
   title?: string;
   SpecImageURL: string;
+  isLink?: boolean;
 }) => {
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -50,7 +52,7 @@ const WatchCard = ({
         transform: "translate(0, -10px)",
       }}
     >
-      <Link as={RouterLink} to={"/info/" + type + "/" + title + "/" + id}>
+      <Link as={RouterLink} to={isLink ? "/info/" + type + "/" + title + "/" + id : ""}>
         <ChakraIMG
           h="100%"
           borderRadius="8px"

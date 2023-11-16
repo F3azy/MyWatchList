@@ -22,7 +22,7 @@ export default function useMultipleFetch<T = unknown>(
         const json = await response.json();
 
         setLoading(false);
-        return json.results;
+        return json;
       } catch (error) {
         setLoading(false);
         setError(error as string);

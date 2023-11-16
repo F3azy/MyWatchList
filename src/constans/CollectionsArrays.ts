@@ -1,5 +1,18 @@
 import { CollectionsList, WatchCardInfo } from "@/types/collection";
 
+const url = "https://api.themoviedb.org/3/";
+
+function getUrls(collectionArray: WatchCardInfo[]): string[] {
+  return collectionArray.map(
+    (coll) =>
+      url +
+      coll.type +
+      "/" +
+      coll.id +
+      `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
+  );
+}
+
 const MarvelArray: WatchCardInfo[] = [
   { title: "Captain America: The First Avenger", id: 1771, type: "movie" },
   { title: "Marvel's Agent Carter", id: 61550, type: "tv" },
@@ -192,25 +205,31 @@ export const CollectionsArrays: CollectionsList = {
   Marvel: {
     name: "Marvel",
     watchCards: MarvelArray,
+    urls: getUrls(MarvelArray),
   },
   HarryPotter: {
     name: "Harry Potter",
     watchCards: HarryPotterArray,
+    urls: getUrls(HarryPotterArray),
   },
   StarWars: {
     name: "Star Wars",
     watchCards: StarWarsArray,
+    urls: getUrls(StarWarsArray),
   },
   LordoftheRings: {
     name: "Lord of the Rings",
     watchCards: LordoftheRingsArray,
+    urls: getUrls(LordoftheRingsArray),
   },
   PiratesOfCaribbean: {
     name: "Pirates Of Caribbean",
     watchCards: PiratesOfCaribbeanArray,
+    urls: getUrls(PiratesOfCaribbeanArray),
   },
   Twilight: {
     name: "Twilight",
     watchCards: TwilightArray,
+    urls: getUrls(TwilightArray),
   },
 };

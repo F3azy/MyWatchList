@@ -7,12 +7,13 @@ export type CollectionBox = {
 export type WatchCardInfo = {
   title: string;
   id: number;
-  type: string;
+  type: "movie" | "tv";
 };
 
 type CollectionsInfo = {
   name: string;
   watchCards: WatchCardInfo[];
+  urls: string[];
 };
 
 export type CollectionsList = {

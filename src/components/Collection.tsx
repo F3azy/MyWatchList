@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Box, Image, AbsoluteCenter, Link } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { Box, Image, AbsoluteCenter } from "@chakra-ui/react";
 import { CollectionBox } from "@/types/collection";
 
 const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
@@ -22,6 +22,9 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
 
   return (
     <Box
+      as={Link}
+      to={"/collection/" + name}
+      display="block"
       bgGradient="linear(brand.dark.700, brand.dark.800)"
       border="4px solid"
       borderColor="brand.dark.600"
@@ -41,20 +44,15 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
       onMouseEnter={startVideo}
       onMouseLeave={stopVideo}
     >
-      <Link
-        as={RouterLink}
-        to={"/collection/" + name}
-      >
-        <Box visibility={showBG ? "visible" : "hidden"}>
-          <video ref={videoRef} loop playsInline muted>
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        </Box>
+      <Box visibility={showBG ? "visible" : "hidden"}>
+        <video ref={videoRef} loop playsInline muted>
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      </Box>
 
-        <AbsoluteCenter w="90%">
-          <Image src={logoSrc} />
-        </AbsoluteCenter>
-      </Link>
+      <AbsoluteCenter w="90%">
+        <Image src={logoSrc} />
+      </AbsoluteCenter>
     </Box>
   );
 };

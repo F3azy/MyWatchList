@@ -1,7 +1,7 @@
 import { images, videos } from "@/assets/collections";
 import { CollectionBox } from "@/types/collection";
 
-export const CollectionBoxes: Array<CollectionBox> = [
+const CollectionBoxes: Array<CollectionBox> = [
   {
     name: "Marvel",
     logoSrc: images.marvel,
@@ -33,3 +33,5 @@ export const CollectionBoxes: Array<CollectionBox> = [
     videoSrc: videos.twilight,
   },
 ];
+
+export default CollectionBoxes;
