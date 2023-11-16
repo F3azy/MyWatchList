@@ -1,5 +1,5 @@
 export type CollectionBox = {
-  name?: string;
+  name: string;
   logoSrc: string;
   videoSrc: string;
 };

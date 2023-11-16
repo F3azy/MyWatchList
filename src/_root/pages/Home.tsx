@@ -42,7 +42,7 @@ const Home = () => {
             <CarouselItem key={watchcard.id}>
               <WatchCard
                 id={watchcard.id}
-                type={watchcard.media_type==="movie" ? watchcard.media_type : "tv"}
+                type={watchcard.media_type}
                 title={watchcard.name || watchcard.title}
                 SpecImageURL={watchcard.poster_path}
               />

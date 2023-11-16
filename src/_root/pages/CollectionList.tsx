@@ -2,7 +2,7 @@ import { Flex, Text, Grid, GridItem } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import WatchCard from "@/components/shared/WatchCard";
 import { CollectionsArrays } from "@/constans/CollectionsArrays";
-import { Multi} from "@/types/common";
+import { Multi } from "@/types/common";
 import { CollectionsList } from "@/types/collection";
 import useMultipleFetch from "@/hooks/useMultipleFetch";
 
@@ -24,10 +24,9 @@ const CollectionList = () => {
             <WatchCard
               id={watchcard.id}
               type={
-                CollectionsArrays[name as keyof CollectionsList].watchCards[idx]
-                  ?.type
+                CollectionsArrays[name as keyof CollectionsList].watchCards[idx].type
               }
-              title={watchcard.name || watchcard?.title}
+              title={watchcard.name || watchcard.title}
               SpecImageURL={watchcard.poster_path}
             />
           </GridItem>
