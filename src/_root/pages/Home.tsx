@@ -4,7 +4,7 @@ import Carousel from "@/components/shared/Carousel";
 import Collection from "@/components/Collection";
 import { CollectionBoxes } from "@/constans/CollectionBoxes";
 import { HomeCarousels } from "@/constans/HomeCarousel";
-import { useMultipleFetch } from "@/hooks/fetchData";
+import useMultipleFetch from "@/hooks/useMultipleFetch";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
 

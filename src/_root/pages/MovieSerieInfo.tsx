@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
-import { useFetch } from "@/hooks/fetchData";
+import useFetch from "@/hooks/useFetch";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
