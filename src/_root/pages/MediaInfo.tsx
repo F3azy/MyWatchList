@@ -8,7 +8,7 @@ import useFetch from "@/hooks/useFetch";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
-const MovieSeriesInfo = () => {
+const MediaInfo = () => {
   const { media_type, name, id } = useParams();
 
   const urlDetails = `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${
@@ -123,4 +123,4 @@ const MovieSeriesInfo = () => {
   );
 };
 
-export default MovieSeriesInfo;
+export default MediaInfo;

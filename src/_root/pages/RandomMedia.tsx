@@ -18,7 +18,7 @@ async function fetching(url: string) {
   }
 }
 
-const Random = () => {
+const RandomMedia = () => {
   const [media_type, setMedia_type] = useState("movie");
   const [genre, setGenre] = useState("");
   const [isloadingGenres, setIsLoadingGenres] = useState(true);
@@ -125,4 +125,4 @@ const Random = () => {
   );
 };
 
-export default Random;
+export default RandomMedia;

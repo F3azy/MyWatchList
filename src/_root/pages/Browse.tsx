@@ -13,7 +13,7 @@ import MovieSelect from "@/components/shared/GenreSelect";
 import { Multi } from "@/types/common";
 import useFetch from "@/hooks/useFetch";
 
-const MoviesSerie = () => {
+const Browse = () => {
   const { media_type } = useParams();
 
   const url = "https://api.themoviedb.org/3/discover/";
@@ -73,4 +73,4 @@ const MoviesSerie = () => {
   );
 };
 
-export default MoviesSerie;
+export default Browse;

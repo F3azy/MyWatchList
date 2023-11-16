@@ -7,10 +7,10 @@ import {
   Home,
   CollectionList,
   Search,
-  MovieSerie,
-  MovieSerieInfo,
+  Browse,
+  MediaInfo,
   MyList,
-  Random,
+  RandomMedia,
   Friends,
 } from "@/_root/pages";
 import AuthLayout from "@/_auth/AuthLayout";
@@ -27,10 +27,10 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Home />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/browse/:media_type" element={<MovieSerie />} />
-            <Route path="/info/:media_type/:name/:id" element={<MovieSerieInfo />} />
+            <Route path="/browse/:media_type" element={<Browse />} />
+            <Route path="/info/:media_type/:name/:id" element={<MediaInfo />} />
             <Route path="/myList" element={<MyList />} />
-            <Route path="/random" element={<Random />} />
+            <Route path="/random" element={<RandomMedia />} />
             <Route path="/collection/:name" element={<CollectionList />} />
             <Route path="/friends" element={<Friends />} />
           </Route>
