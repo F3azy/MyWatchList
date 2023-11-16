@@ -5,7 +5,7 @@ import WatchCard from "@/components/shared/WatchCard";
 import { Movie } from "@/types/common";
 
 const Random = () => {
-  const [media, setType] = useState("movie");
+  const [media_type, setType] = useState("movie");
   const [genre, setGenre] = useState("");
   const [isloadingGenres, setIsLoadingGenres] = useState(true);
   const [watchCard, setWatchCard] = useState<Movie>();
@@ -25,7 +25,7 @@ const Random = () => {
         const randomPage = Math.floor(Math.random() * (500 - 1 + 1) + 1);
         const response = await fetch(
           url +
-            media +
+            media_type +
             `?api_key=${
               import.meta.env.VITE_MOVIE_API_KEY
             }&language=en-US&with_genres=${genre}&page=${randomPage}`
@@ -59,7 +59,7 @@ const Random = () => {
         <MovieSelect
           isloading={isloadingGenres}
           setIsLoading={setIsLoadingGenres}
-          media={media}
+          media_type={media_type}
           setStateFun={setGenre}
           changeFun={changeGenre}
         />
@@ -71,7 +71,7 @@ const Random = () => {
         {watchCard ? (
           <WatchCard
             id={watchCard.id}
-            media={media}
+            media_type={media_type}
             title={
               watchCard.name ? watchCard.name : (watchCard.title as string)
             }

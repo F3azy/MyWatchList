@@ -9,21 +9,21 @@ import useFetch from "@/hooks/useFetch";
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
 const MovieSeriesInfo = () => {
-  const { media, name, id } = useParams();
+  const { media_type, name, id } = useParams();
 
-  const urlDetails = `https://api.themoviedb.org/3/${media}/${id}?api_key=${
+  const urlDetails = `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
-  const urlWatchProviders = `https://api.themoviedb.org/3/${media}/${id}/watch/providers?api_key=${
+  const urlWatchProviders = `https://api.themoviedb.org/3/${media_type}/${id}/watch/providers?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }`;
-  const urlSimilar = `https://api.themoviedb.org/3/${media}/${id}/similar?api_key=${
+  const urlSimilar = `https://api.themoviedb.org/3/${media_type}/${id}/similar?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${media}/${id}/images?api_key=${
+  const urlImages = `https://api.themoviedb.org/3/${media_type}/${id}/images?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&include_image_language=en,null`;
-  const urlVideos = `https://api.themoviedb.org/3/${media}/${id}/videos?api_key=${
+  const urlVideos = `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
   const [details, setDetails] = useState({});
@@ -112,7 +112,7 @@ const MovieSeriesInfo = () => {
           <CarouselItem key={watchcard.id}>
             <WatchCard
               id={watchcard.id}
-              media={media}
+              media_type={media_type}
               title={watchcard?.name || watchcard?.title}
               SpecImageURL={watchcard?.poster_path}
             />

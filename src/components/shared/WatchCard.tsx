@@ -4,13 +4,13 @@ import { Link as RouterLink } from "react-router-dom";
 
 const WatchCard = ({
   id,
-  media,
+  media_type,
   title,
   SpecImageURL,
   isLink = true
 }: {
   id?: number;
-  media?: string;
+  media_type?: string;
   title?: string;
   SpecImageURL: string;
   isLink?: boolean;
@@ -52,7 +52,7 @@ const WatchCard = ({
         transform: "translate(0, -10px)",
       }}
     >
-      <Link as={RouterLink} to={isLink ? "/info/" + media + "/" + title + "/" + id : ""}>
+      <Link as={RouterLink} to={isLink ? "/info/" + media_type + "/" + title + "/" + id : ""}>
         <ChakraIMG
           h="100%"
           borderRadius="8px"
