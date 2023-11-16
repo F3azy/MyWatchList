@@ -1,46 +1,87 @@
 import { Flex, HStack, Text, Select, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MovieSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
-import { Movie, Multi, TV } from "@/types/common";
+import { Multi } from "@/types/common";
+import { useSearchParams } from "react-router-dom";
 
-const url = "https://api.themoviedb.org/3/discover/";
+const discoverURL = "https://api.themoviedb.org/3/discover/";
+const mediaURL = "https://api.themoviedb.org/3/";
+
+async function fetching(url: string) {
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error(`Error fetching in Random Page:`, error);
+  }
+}
 
 const Random = () => {
-  const [media_type, setType] = useState("movie");
+  const [media_type, setMedia_type] = useState("movie");
   const [genre, setGenre] = useState("");
   const [isloadingGenres, setIsLoadingGenres] = useState(true);
   const [watchCard, setWatchCard] = useState<Multi>();
 
-  function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
-    setType(event.currentTarget.value);
-  }
+  const [searchParams, setSearchParams] = useSearchParams({
+    media_type: "",
+    genre: "",
+    id: "",
+  });
 
-  function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
-    setGenre(event.currentTarget.value);
-  }
+  useEffect(() => {
+    if (searchParams.get("media_type") !== "")
+      setMedia_type(searchParams.get("media_type") as string);
+    if (searchParams.get("genre") !== "")
+      setGenre(searchParams.get("genre") as string);
+    if (searchParams.get("id") !== "") {
+      Promise.resolve(
+        fetching(
+          mediaURL +
+            searchParams.get("media_type") +
+            "/" +
+            searchParams.get("id") +
+            `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
+        )
+      ).then((value) => {
+        setWatchCard(value);
+      });
+    }
+  }, []);
 
   function searchRand() {
-    const fetching = async () => {
-      try {
-        const randomPage = Math.floor(Math.random() * (500 - 1 + 1) + 1);
-        const response = await fetch(
-          url +
-            media_type +
-            `?api_key=${
-              import.meta.env.VITE_MOVIE_API_KEY
-            }&language=en-US&with_genres=${genre}&page=${randomPage}`
+    const randomPage = Math.floor(Math.random() * (500 - 1 + 1) + 1);
+    Promise.resolve(
+      fetching(
+        discoverURL +
+        media_type +
+        `?api_key=${
+            import.meta.env.VITE_MOVIE_API_KEY
+          }&language=en-US&with_genres=${genre}&page=${randomPage}`
+          )
+          ).then((value) => {
+            const randomIdx = Math.floor(Math.random() * 20);
+            setWatchCard(value.results[randomIdx]);
+            setSearchParams(
+              (prev) => {
+                prev.set("genre", genre);
+                prev.set("media_type", media_type);
+                prev.set("id", value.results[randomIdx].id);
+                return prev;
+              },
+        { replace: true }
         );
-        const json = await response.json();
-
-        const randomIdx = Math.floor(Math.random() * 20);
-        setWatchCard(json.results[randomIdx]);
-      } catch (error) {
-        console.error(`Error fetching in Random Page:`, error);
-      }
-    };
-    fetching();
-  }
+      });
+    }
+    
+    function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
+      setMedia_type(event.currentTarget.value);
+    }
+  
+    function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+      setGenre(event.currentTarget.value);
+    }
 
   return (
     <Flex flex={1} direction="column" rowGap={20} align="center">
