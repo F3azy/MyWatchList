@@ -11,20 +11,37 @@ import WatchCard from "@/components/shared/WatchCard";
 import { Multi } from "@/types/common";
 import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "@/hooks/useFetch";
+import { useSearchParams } from "react-router-dom";
 
 const Search = () => {
   const url = "https://api.themoviedb.org/3/search/multi";
-  const [title, setTitle] = useState("");
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    q: "",
+  });
+
+  const [title, setTitle] = useState(searchParams.get("q") as string);
 
   const { data: watchCards } = useFetch<{ results: Multi[] }>(
     url +
       `?api_key=${
         import.meta.env.VITE_MOVIE_API_KEY
-      }&query=${title}&language=en-US`
+      }&query=${encodeURIComponent(title)}&language=en-US`
   );
 
   function getTitle(event: FormEvent<HTMLInputElement>): void {
     setTitle(event.currentTarget.value);
+    setSearchParams(
+      (prev) => {
+        prev.set("q", event.currentTarget.value);
+        return prev;
+      },
+      { replace: true }
+    );
+    if (searchParams.get("q") === "") {
+      searchParams.delete("q");
+      setSearchParams(searchParams);
+    }
   }
 
   return (
@@ -44,6 +61,7 @@ const Search = () => {
           type="text"
           placeholder="Title..."
           onInput={getTitle}
+          value={title}
         />
       </InputGroup>
       <Grid w="100%" templateColumns="repeat(8, 1fr)" gap={6}>
