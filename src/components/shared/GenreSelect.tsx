@@ -6,22 +6,21 @@ type Genres = {
   name: string;
 };
 
+const url = "https://api.themoviedb.org/3/genre/";
+
 const MovieSelect = ({
   media_type,
-  isloading,
-  setIsLoading,
   setStateFun,
   changeFun,
+  defaultValue,
 }: {
   media_type: string;
-  isloading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setStateFun: React.Dispatch<React.SetStateAction<string>>;
   changeFun?: React.ChangeEventHandler<HTMLSelectElement>;
+  defaultValue?: string;
 }) => {
   const [genres, setGenres] = useState<Genres[]>([]);
-  const [defaultVal, setDefaultVal] = useState("");
-  const url = "https://api.themoviedb.org/3/genre/";
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -34,8 +33,8 @@ const MovieSelect = ({
         );
         const json = await response.json();
         setGenres(json.genres);
-        setStateFun(json.genres[0].id);
-        setDefaultVal(json.genres[0].name);
+        if (defaultValue !== "") setStateFun(defaultValue as string);
+        else setStateFun(json.genres[0].id);
         setTimeout(() => setIsLoading(false), 800);
       } catch (error) {
         console.error("Error fetching genres:", error);
@@ -58,7 +57,7 @@ const MovieSelect = ({
       <Select
         w="200px"
         variant="base"
-        defaultValue={defaultVal}
+        defaultValue={defaultValue}
         onChange={changeFun}
       >
         {genres?.map((genre) => (

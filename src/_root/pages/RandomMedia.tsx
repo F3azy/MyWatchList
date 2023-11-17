@@ -19,22 +19,22 @@ async function fetching(url: string) {
 }
 
 const RandomMedia = () => {
-  const [media_type, setMedia_type] = useState("movie");
-  const [genre, setGenre] = useState("");
-  const [isloadingGenres, setIsLoadingGenres] = useState(true);
-  const [watchCard, setWatchCard] = useState<Multi>();
-
   const [searchParams, setSearchParams] = useSearchParams({
-    media_type: "",
+    media_type: "movie",
     genre: "",
     id: "",
   });
 
+  const [media_type, setMedia_type] = useState(
+    searchParams.get("media_type") as string
+  );
+  const [defaultGenre, setdefaultGenre] = useState(
+    searchParams.get("genre") as string
+  );
+  const [genre, setGenre] = useState("");
+  const [watchCard, setWatchCard] = useState<Multi>();
+
   useEffect(() => {
-    if (searchParams.get("media_type") !== "")
-      setMedia_type(searchParams.get("media_type") as string);
-    if (searchParams.get("genre") !== "")
-      setGenre(searchParams.get("genre") as string);
     if (searchParams.get("id") !== "") {
       Promise.resolve(
         fetching(
@@ -44,44 +44,67 @@ const RandomMedia = () => {
             searchParams.get("id") +
             `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
         )
-      ).then((value) => {
+      ).then((value: Multi) => {
         setWatchCard(value);
       });
     }
   }, []);
 
   function searchRand() {
-    const randomPage = Math.floor(Math.random() * (500 - 1 + 1) + 1);
     Promise.resolve(
       fetching(
         discoverURL +
-        media_type +
-        `?api_key=${
+          media_type +
+          `?api_key=${
             import.meta.env.VITE_MOVIE_API_KEY
-          }&language=en-US&with_genres=${genre}&page=${randomPage}`
-          )
-          ).then((value) => {
-            const randomIdx = Math.floor(Math.random() * 20);
-            setWatchCard(value.results[randomIdx]);
-            setSearchParams(
-              (prev) => {
-                prev.set("genre", genre);
-                prev.set("media_type", media_type);
-                prev.set("id", value.results[randomIdx].id);
-                return prev;
-              },
-        { replace: true }
+          }&language=en-US&with_genres=${genre}`
+      )
+    ).then((pages) => {
+      const randomPage = Math.floor(
+        Math.random() * (Math.min(pages.total_pages, 500) - 1 + 1) + 1
+      );
+      Promise.resolve(
+        fetching(
+          discoverURL +
+            media_type +
+            `?api_key=${
+              import.meta.env.VITE_MOVIE_API_KEY
+            }&language=en-US&with_genres=${genre}&page=${randomPage}`
+        )
+      ).then((value) => {
+        console.log(
+          discoverURL +
+            media_type +
+            `?api_key=${
+              import.meta.env.VITE_MOVIE_API_KEY
+            }&language=en-US&with_genres=${genre}&page=${randomPage}`
+        );
+
+        const randomIdx = Math.floor(Math.random() * 20);
+        setWatchCard(value.results[randomIdx]);
+        setSearchParams(
+          (prev) => {
+            prev.set("genre", genre);
+            prev.set("media_type", media_type);
+            prev.set("id", value.results[randomIdx].id);
+            return prev;
+          },
+          { replace: true }
         );
       });
-    }
-    
-    function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
-      setMedia_type(event.currentTarget.value);
-    }
-  
-    function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
-      setGenre(event.currentTarget.value);
-    }
+    });
+  }
+
+  function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
+    setMedia_type(event.currentTarget.value);
+    setdefaultGenre("");
+  }
+
+  function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
+    setGenre(event.currentTarget.value);
+  }
 
   return (
     <Flex flex={1} direction="column" rowGap={20} align="center">
@@ -92,18 +115,17 @@ const RandomMedia = () => {
         <Select
           w="200px"
           variant="base"
-          defaultValue="movie"
+          defaultValue={media_type !== "" ? media_type : "movie"}
           onChange={changeType}
         >
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
         </Select>
         <MovieSelect
-          isloading={isloadingGenres}
-          setIsLoading={setIsLoadingGenres}
           media_type={media_type}
           setStateFun={setGenre}
           changeFun={changeGenre}
+          defaultValue={defaultGenre}
         />
         <Button variant="full" borderRadius="full" onClick={searchRand}>
           Search

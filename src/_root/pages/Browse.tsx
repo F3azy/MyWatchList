@@ -18,7 +18,6 @@ const Browse = () => {
 
   const url = "https://api.themoviedb.org/3/discover/";
   const [genre, setGenre] = useState("");
-  const [isloading, setIsLoading] = useState(true);
 
   function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
     setGenre(event.currentTarget.value);
@@ -32,26 +31,13 @@ const Browse = () => {
       }&language=en-US&with_genres=${genre}`
   );
 
-  console.log(watchCards);
-
   return (
     <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
-        <SkeletonText
-          skeletonHeight="48px"
-          noOfLines={1}
-          isLoaded={!isloading}
-          startColor="brand.primary"
-          endColor="brand.tertiary"
-          fadeDuration={3}
-        >
           <Text fontSize="32px" fontWeight="bold">
             {media_type === "tv" ? "Series" : "Movies"}
           </Text>
-        </SkeletonText>
         <MovieSelect
-          isloading={isloading}
-          setIsLoading={setIsLoading}
           media_type={media_type as string}
           setStateFun={setGenre}
           changeFun={changeGenre}
