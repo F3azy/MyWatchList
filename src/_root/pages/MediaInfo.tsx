@@ -7,6 +7,7 @@ import WatchCard from "@/components/shared/WatchCard";
 import useFetch from "@/hooks/useFetch";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
+const maxElements = 50;
 
 const MediaInfo = () => {
   const { media_type, name, id } = useParams();
@@ -84,12 +85,12 @@ const MediaInfo = () => {
   return (
     <Flex direction="column" rowGap="28px">
       <Carousel
-        elementsTotal={images?.backdrops?.length as number}
+        elementsTotal={images?.backdrops.slice(0, maxElements).length as number}
         visibleElements={3}
         animate={true}
         isloading={loadingImages}
       >
-        {images?.backdrops.map((image, idx) => (
+        {images?.backdrops.slice(0, maxElements).map((image, idx) => (
           <CarouselItem key={idx}>
             <Image
               borderRadius="8px"
