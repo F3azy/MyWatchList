@@ -4,7 +4,6 @@ import {
   Text,
   Grid,
   GridItem,
-  SkeletonText,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";

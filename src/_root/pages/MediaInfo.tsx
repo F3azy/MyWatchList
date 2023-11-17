@@ -1,5 +1,4 @@
-import { Flex, Image } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Flex, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
@@ -27,51 +26,26 @@ const MediaInfo = () => {
   const urlVideos = `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
-  const [details, setDetails] = useState({});
-  const [watchProviders, setWatchProviders] = useState({});
-  const [videos, setVideos] = useState([]);
-  const [isloading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setDetails({});
-    setWatchProviders([]);
-
-    setVideos([]);
-    const fetching = async () => {
-      try {
-        const detailsResponse = await fetch(urlDetails);
-        const detailsJSON = await detailsResponse.json();
-        setDetails(detailsJSON);
-
-        const watchProviderssResponse = await fetch(urlWatchProviders);
-        const watchProvidersJSON = await watchProviderssResponse.json();
-        setWatchProviders(watchProvidersJSON.results);
-
-        const randomPage = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-        const similarResponse = await fetch(urlSimilar + `&page=${randomPage}`);
-        const similarJSON = await similarResponse.json();
-
-        const imagesResponse = await fetch(urlImages);
-        const imagesJSON = await imagesResponse.json();
-
-        const videosResponse = await fetch(urlVideos);
-        const videosJSON = await videosResponse.json();
-        setVideos(videosJSON.results);
-      } catch (error) {
-        console.error(`Error fetching movie info:`, error);
-      }
-    };
-
-    fetching();
-    setIsLoading(false);
-  }, [id]);
 
   const { data: images, loading: loadingImages } = useFetch<{
     backdrops: {
       file_path: string;
     }[];
+    logos: {
+      file_path: string;
+    }[];
+    posters: {
+      file_path: string;
+    }[];
   }>(urlImages);
+
+  console.log(images);
+
+  const { data: details } = useFetch(urlDetails);
+
+  const { data: providers } = useFetch(urlWatchProviders);
+
+  const { data: videos } = useFetch(urlVideos);
 
   const { data: similar } = useFetch<{
     results: {
@@ -84,7 +58,53 @@ const MediaInfo = () => {
 
   return (
     <Flex direction="column" rowGap="28px">
-      <Carousel
+      <Flex overflow="hidden" position="relative">
+        <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
+          <VStack pr="60px" py="40px">
+            {images?.logos[0] ? (
+              <Image
+                w="60%"
+                src={imageURL + images?.logos[0].file_path}
+                alt={name ? name + "logo" : "media_logo"}
+              />
+            ) : (
+              <Heading>{details?.name || details?.title}</Heading>
+            )}
+          </VStack>
+        </Box>
+        <Box
+          position="absolute"
+          top={0}
+          bottom={0}
+          left="40%"
+          right="30%"
+          zIndex={10}
+          bg="linear-gradient(to right, #141414, #14141400)"
+        />
+        <Box flex={0.6}>
+          <Carousel
+            elementsTotal={
+              images?.backdrops.slice(0, maxElements).length as number
+            }
+            showButtons={false}
+            gap={0}
+            visibleElements={1}
+            animate={true}
+            isloading={loadingImages}
+          >
+            {images?.backdrops.slice(0, maxElements).map((image, idx) => (
+              <CarouselItem key={idx}>
+                <Image
+                  w="100%"
+                  src={imageURL + image.file_path}
+                  alt={name ? name + idx : idx.toString()}
+                />
+              </CarouselItem>
+            ))}
+          </Carousel>
+        </Box>
+      </Flex>
+      {/* <Carousel
         elementsTotal={images?.backdrops.slice(0, maxElements).length as number}
         visibleElements={3}
         animate={true}
@@ -103,7 +123,7 @@ const MediaInfo = () => {
             />
           </CarouselItem>
         ))}
-      </Carousel>
+      </Carousel> */}
       <Carousel
         carouselTitle={"Similar"}
         elementsTotal={similar?.results.length as number}
