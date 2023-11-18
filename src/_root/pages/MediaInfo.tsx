@@ -4,6 +4,8 @@ import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
 import useFetch from "@/hooks/useFetch";
+import { Multi } from "@/types/common";
+import { MediaImages, MultiDetails, Providers, Similar, Videos } from "@/types/mediaInfo";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -27,34 +29,15 @@ const MediaInfo = () => {
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
 
-  const { data: images, loading: loadingImages } = useFetch<{
-    backdrops: {
-      file_path: string;
-    }[];
-    logos: {
-      file_path: string;
-    }[];
-    posters: {
-      file_path: string;
-    }[];
-  }>(urlImages);
+  const { data: images, loading: loadingImages } = useFetch<MediaImages>(urlImages);
 
-  console.log(images);
+  const { data: details } = useFetch<MultiDetails>(urlDetails);
 
-  const { data: details } = useFetch(urlDetails);
+  const { data: providers } = useFetch<Providers>(urlWatchProviders);
+  
+  const { data: videos } = useFetch<Videos>(urlVideos);
 
-  const { data: providers } = useFetch(urlWatchProviders);
-
-  const { data: videos } = useFetch(urlVideos);
-
-  const { data: similar } = useFetch<{
-    results: {
-      id: number;
-      poster_path: string;
-      name?: string;
-      title?: string;
-    }[];
-  }>(urlSimilar);
+  const { data: similar } = useFetch<Similar>(urlSimilar);
 
   return (
     <Flex direction="column" rowGap="28px">
@@ -95,7 +78,6 @@ const MediaInfo = () => {
             {images?.backdrops.slice(0, maxElements).map((image, idx) => (
               <CarouselItem key={idx}>
                 <Image
-                  w="100%"
                   src={imageURL + image.file_path}
                   alt={name ? name + idx : idx.toString()}
                 />
@@ -126,10 +108,10 @@ const MediaInfo = () => {
       </Carousel> */}
       <Carousel
         carouselTitle={"Similar"}
-        elementsTotal={similar?.results.length as number}
+        elementsTotal={similar?.results.filter((m) => m.poster_path != null).length as number}
         visibleElements={8}
       >
-        {similar?.results?.map((watchcard) => (
+        {similar?.results.filter((m) => m.poster_path != null)?.map((watchcard) => (
           <CarouselItem key={watchcard.id}>
             <WatchCard
               id={watchcard.id}
