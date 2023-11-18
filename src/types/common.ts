@@ -13,7 +13,7 @@ export type TV = BaseFetchType & {
 };
 
 export type Multi = Movie & TV & {
-  media_type: "movie" | "tv";
+  media_type?: "movie" | "tv";
 }
 
 

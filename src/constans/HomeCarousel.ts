@@ -11,6 +11,18 @@ export const HomeCarousels = {
     "Popular Series",
     "Top Rated Series",
   ],
+  media_type: [
+    "",
+    "",
+    "movie",
+    "movie",
+    "movie",
+    "movie",
+    "tv",
+    "tv",
+    "tv",
+    "tv",
+  ],
   urls: [
     `https://api.themoviedb.org/3/trending/all/day?api_key=${
       import.meta.env.VITE_MOVIE_API_KEY

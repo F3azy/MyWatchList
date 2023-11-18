@@ -15,6 +15,9 @@ const Home = () => {
     error,
   } = useMultipleFetch<{ results: Multi[] }>(HomeCarousels.urls);
 
+  console.log(carousels);
+  
+
   return (
     <Flex direction="column" rowGap="28px">
       <Grid templateColumns="repeat(6, 1fr)" gap={5}>
@@ -40,7 +43,7 @@ const Home = () => {
             <CarouselItem key={watchcard.id}>
               <WatchCard
                 id={watchcard.id}
-                media_type={watchcard.media_type}
+                media_type={watchcard.media_type || HomeCarousels.media_type[idx]}
                 title={watchcard.name || watchcard.title}
                 SpecImageURL={watchcard.poster_path}
               />
