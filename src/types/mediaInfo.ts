@@ -50,8 +50,8 @@ type BaseDetails = {
   poster_path: string;
   backdrop_path: string;
   genres: {
-    name: string[];
-  };
+    name: string;
+  }[];
   homepage: string;
   overview: string;
   vote_average: number;
