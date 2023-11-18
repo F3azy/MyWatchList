@@ -17,7 +17,10 @@ export default function useMultipleFetch<T = unknown>(
       try {
         const response = await fetch(url, options);
 
-        if (!response.ok) throw new Error("In useMultipleFetch");
+        if (!response.ok)
+          throw new Error(
+            "\nCode: " + response.status + " \nurl: " + response.url
+          );
 
         const json = await response.json();
 

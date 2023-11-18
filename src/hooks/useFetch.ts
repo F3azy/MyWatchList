@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-export default function useFetch<T = unknown>(url: string, options: object = {}) {
+export default function useFetch<T = unknown>(
+  url: string,
+  options: object = {}
+) {
   const [data, setData] = useState<T | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
@@ -14,7 +17,10 @@ export default function useFetch<T = unknown>(url: string, options: object = {})
       try {
         const response = await fetch(url, options);
 
-        if (!response.ok) throw new Error("In useFetch");
+        if (!response.ok)
+          throw new Error(
+            "\nCode: " + response.status + " \nurl: " + response.url
+          );
 
         const json = await response.json();
 
