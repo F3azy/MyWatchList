@@ -1,11 +1,25 @@
-import { Box, Flex, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Heading,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
 import useFetch from "@/hooks/useFetch";
-import { Multi } from "@/types/common";
-import { MediaImages, MultiDetails, Providers, Similar, Videos } from "@/types/mediaInfo";
+import {
+  MediaImages,
+  MultiDetails,
+  Providers,
+  Similar,
+  Videos,
+  MultiCertification,
+} from "@/types/mediaInfo";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -28,31 +42,103 @@ const MediaInfo = () => {
   const urlVideos = `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
+  const urlCertification =
+    media_type === "movie"
+      ? `https://api.themoviedb.org/3/${media_type}/${id}/release_dates?api_key=${
+          import.meta.env.VITE_MOVIE_API_KEY
+        }&language=en-US`
+      : `https://api.themoviedb.org/3/${media_type}/${id}/content_ratings?api_key=${
+          import.meta.env.VITE_MOVIE_API_KEY
+        }&language=en-US`;
 
-  const { data: images, loading: loadingImages } = useFetch<MediaImages>(urlImages);
+  const { data: images, loading: loadingImages } =
+    useFetch<MediaImages>(urlImages);
 
   const { data: details } = useFetch<MultiDetails>(urlDetails);
 
   const { data: providers } = useFetch<Providers>(urlWatchProviders);
-  
+
   const { data: videos } = useFetch<Videos>(urlVideos);
 
   const { data: similar } = useFetch<Similar>(urlSimilar);
+
+  const { data: certification } =
+    useFetch<MultiCertification>(urlCertification);
+
+  // console.log(images?.logos.find(image => (image.height > 200 && image.height < 500)));
+  console.log(certification);
 
   return (
     <Flex direction="column" rowGap="28px">
       <Flex overflow="hidden" position="relative">
         <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
-          <VStack pr="60px" py="40px">
+          <VStack gap="16px" fontWeight="bold" letterSpacing="1px">
             {images?.logos[0] ? (
               <Image
-                w="60%"
-                src={imageURL + images?.logos[0].file_path}
-                alt={name ? name + "logo" : "media_logo"}
+                w="70%"
+                // src={imageURL + images?.logos[0].file_path}
+                src={
+                  imageURL +
+                  images?.logos.find(
+                    (image) => image.height > 200 && image.height < 500
+                  )?.file_path
+                }
+                alt={name ? name + "-logo" : "media_logo"}
               />
             ) : (
               <Heading>{details?.name || details?.title}</Heading>
             )}
+            <HStack justify="space-between" gap={20}>
+              <Text>
+                {details?.runtime
+                  ? Math.floor(details?.runtime / 60) +
+                    "h " +
+                    (details?.runtime % 60) +
+                    "min"
+                  : details?.number_of_seasons}
+              </Text>
+              <Text>
+                {media_type === "movie"
+                  ? certification?.results
+                      .find((cer) => cer.iso_3166_1 === "US")
+                      ?.release_dates?.at(0)?.certification
+                  : certification?.results.find(
+                      (cer) => cer.iso_3166_1 === "US"
+                    )?.rating}
+              </Text>
+              <Text>{details?.release_date || details?.first_air_date}</Text>
+            </HStack>
+            {details?.tagline !== "" && (
+              <Text as="em">
+                <q>{details?.tagline}</q>
+              </Text>
+            )}
+            <Text
+              w="90%"
+              pr="16px"
+              textAlign="justify"
+              overflowY="scroll"
+              h="200px"
+              css={{
+                "&::-webkit-scrollbar": {
+                  width: "14px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#56B4DC",
+                  border: "4px solid rgba(0, 0, 0, 0)",
+                  backgroundClip: "padding-box",
+                  borderRadius: "24px",
+                },
+              }}
+            >
+              {details?.overview}
+            </Text>
+            <Text>
+              {details?.genres.map(
+                (genre, idx) =>
+                  genre.name + (idx != details?.genres.length - 1 ? " | " : "")
+              )}
+            </Text>
           </VStack>
         </Box>
         <Box
@@ -86,41 +172,25 @@ const MediaInfo = () => {
           </Carousel>
         </Box>
       </Flex>
-      {/* <Carousel
-        elementsTotal={images?.backdrops.slice(0, maxElements).length as number}
-        visibleElements={3}
-        animate={true}
-        isloading={loadingImages}
-      >
-        {images?.backdrops.slice(0, maxElements).map((image, idx) => (
-          <CarouselItem key={idx}>
-            <Image
-              borderRadius="8px"
-              border="4px solid"
-              borderColor="brand.dark.600"
-              boxShadow="0px 20px 15px -10px black"
-              background="linear-gradient(#141414 97%, #030303) border-box"
-              src={imageURL + image.file_path}
-              alt={name ? name + idx : idx.toString()}
-            />
-          </CarouselItem>
-        ))}
-      </Carousel> */}
       <Carousel
         carouselTitle={"Similar"}
-        elementsTotal={similar?.results.filter((m) => m.poster_path != null).length as number}
+        elementsTotal={
+          similar?.results.filter((m) => m.poster_path != null).length as number
+        }
         visibleElements={8}
       >
-        {similar?.results.filter((m) => m.poster_path != null)?.map((watchcard) => (
-          <CarouselItem key={watchcard.id}>
-            <WatchCard
-              id={watchcard.id}
-              media_type={media_type}
-              title={watchcard?.name || watchcard?.title}
-              SpecImageURL={watchcard?.poster_path}
-            />
-          </CarouselItem>
-        ))}
+        {similar?.results
+          .filter((m) => m.poster_path != null)
+          ?.map((watchcard) => (
+            <CarouselItem key={watchcard.id}>
+              <WatchCard
+                id={watchcard.id}
+                media_type={media_type}
+                title={watchcard?.name || watchcard?.title}
+                SpecImageURL={watchcard?.poster_path}
+              />
+            </CarouselItem>
+          ))}
       </Carousel>
     </Flex>
   );
