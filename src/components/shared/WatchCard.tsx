@@ -52,7 +52,7 @@ const WatchCard = ({
         transform: "translate(0, -10px)",
       }}
     >
-      <Link as={RouterLink} to={isLink ? "/info/" + media_type + "/" + title + "/" + id : ""}>
+      <Link as={RouterLink} to={isLink ? "/info/" + media_type + "/" + title?.replaceAll(" ", "-") + "/" + id : ""}>
         <ChakraIMG
           h="100%"
           borderRadius="8px"
