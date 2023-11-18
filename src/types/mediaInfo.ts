@@ -20,9 +20,9 @@ export type Similar = {
 };
 
 type Provider = {
-  display_priority: 9;
-  logo_path: "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg";
-  provider_name: "Crunchyroll";
+  display_priority: number;
+  logo_path: string;
+  provider_name: string;
 };
 
 export type Providers = {
@@ -42,8 +42,8 @@ export type Videos = {
     name: string;
     official: boolean;
     site: string;
-  }[]
-}
+  }[];
+};
 
 type BaseDetails = {
   id: number;
@@ -55,6 +55,7 @@ type BaseDetails = {
   homepage: string;
   overview: string;
   vote_average: number;
+  tagline: string;
 };
 
 type MovieDetails = BaseDetails & {
@@ -77,3 +78,13 @@ type TVDetails = BaseDetails & {
 };
 
 export type MultiDetails = MovieDetails & TVDetails;
+
+export type MultiCertification = {
+  results: {
+    iso_3166_1: string;
+    rating?: string;
+    release_dates?: {
+      certification: string;
+    }[];
+  }[];
+};
