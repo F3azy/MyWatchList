@@ -4,6 +4,7 @@ export type MediaImages = {
   }[];
   logos: {
     file_path: string;
+    height: number;
   }[];
   posters: {
     file_path: string;
