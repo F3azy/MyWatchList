@@ -15,9 +15,6 @@ const Home = () => {
     error,
   } = useMultipleFetch<{ results: Multi[] }>(HomeCarousels.urls);
 
-  console.log(carousels);
-  
-
   return (
     <Flex direction="column" rowGap="28px">
       <Grid templateColumns="repeat(6, 1fr)" gap={5}>

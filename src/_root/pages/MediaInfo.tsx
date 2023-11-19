@@ -20,9 +20,19 @@ import {
   Videos,
   MultiCertification,
 } from "@/types/mediaInfo";
+import Ratings from "@/components/Ratings";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
+
+function switchWidthForLogoImage(height: number, width: number): string {
+  if (width / height < 1.5) return "25%";
+  if (width / height < 2) return "35%";
+  if (width / height < 2.5) return "40%";
+  if (width / height < 3) return "50%";
+
+  return "60%";
+}
 
 const MediaInfo = () => {
   const { media_type, name, id } = useParams();
@@ -65,80 +75,112 @@ const MediaInfo = () => {
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
 
-  // console.log(images?.logos.find(image => (image.height > 200 && image.height < 500)));
-  console.log(certification);
+  const media_logo =
+    images?.logos[Math.floor(Math.random() * images?.logos.length)];
+
+  const hours: string =
+    Math.floor((details?.runtime as number) / 60) +
+    "h " +
+    ((details?.runtime as number) % 60) +
+    "min";
+
+  const media_certification =
+    media_type === "movie"
+      ? certification?.results
+          .find((cer) => cer.iso_3166_1 === "US")
+          ?.release_dates?.at(0)?.certification
+      : certification?.results.find((cer) => cer.iso_3166_1 === "US")?.rating;
 
   return (
     <Flex direction="column" rowGap="28px">
       <Flex overflow="hidden" position="relative">
         <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
-          <VStack gap="16px" fontWeight="bold" letterSpacing="1px">
-            {images?.logos[0] ? (
+          <VStack
+            h="100%"
+            maxH="100%"
+            justify="center"
+            gap="16px"
+            fontWeight="bold"
+            letterSpacing="1px"
+          >
+            {media_logo ? (
               <Image
-                w="70%"
-                // src={imageURL + images?.logos[0].file_path}
-                src={
-                  imageURL +
-                  images?.logos.find(
-                    (image) => image.height > 200 && image.height < 500
-                  )?.file_path
-                }
+                w={switchWidthForLogoImage(media_logo.height, media_logo.width)}
+                src={imageURL + media_logo.file_path}
                 alt={name ? name + "-logo" : "media_logo"}
               />
             ) : (
-              <Heading>{details?.name || details?.title}</Heading>
+              <Heading as="h1" w="80%" textAlign="center">
+                {details?.name || details?.title}
+              </Heading>
             )}
-            <HStack justify="space-between" gap={20}>
-              <Text>
-                {details?.runtime
-                  ? Math.floor(details?.runtime / 60) +
-                    "h " +
-                    (details?.runtime % 60) +
-                    "min"
-                  : details?.number_of_seasons}
-              </Text>
-              <Text>
-                {media_type === "movie"
-                  ? certification?.results
-                      .find((cer) => cer.iso_3166_1 === "US")
-                      ?.release_dates?.at(0)?.certification
-                  : certification?.results.find(
-                      (cer) => cer.iso_3166_1 === "US"
-                    )?.rating}
-              </Text>
-              <Text>{details?.release_date || details?.first_air_date}</Text>
-            </HStack>
+
+            <Ratings rating={details?.vote_average as number} />
+
+            {!(
+              details?.runtime ||
+              details?.number_of_seasons ||
+              media_certification ||
+              details?.release_date ||
+              details?.first_air_date
+            ) ? (
+              ""
+            ) : (
+              <HStack justify="space-between" gap={20}>
+                {(details?.runtime || details?.number_of_seasons) && (
+                  <Text>
+                    {details?.runtime ? hours : details?.number_of_seasons}
+                  </Text>
+                )}
+
+                {media_certification && <Text>{media_certification}</Text>}
+
+                {(details?.release_date || details?.first_air_date) && (
+                  <Text>
+                    {details?.release_date || details?.first_air_date}
+                  </Text>
+                )}
+              </HStack>
+            )}
+
             {details?.tagline !== "" && (
-              <Text as="em">
+              <Text as="em" maxW="50%" textAlign="center">
                 <q>{details?.tagline}</q>
               </Text>
             )}
-            <Text
-              w="90%"
-              pr="16px"
-              textAlign="justify"
-              overflowY="scroll"
-              h="200px"
-              css={{
-                "&::-webkit-scrollbar": {
-                  width: "14px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#56B4DC",
-                  border: "4px solid rgba(0, 0, 0, 0)",
-                  backgroundClip: "padding-box",
-                  borderRadius: "24px",
-                },
-              }}
-            >
-              {details?.overview}
-            </Text>
-            <Text>
-              {details?.genres.map(
-                (genre, idx) =>
-                  genre.name + (idx != details?.genres.length - 1 ? " | " : "")
-              )}
-            </Text>
+
+            {details?.overview && (
+              <Text
+                w="80%"
+                pr="4px"
+                textAlign="justify"
+                overflowY="scroll"
+                maxH="120px"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "13px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#56B4DC",
+                    border: "4px solid rgba(0, 0, 0, 0)",
+                    backgroundClip: "padding-box",
+                    borderRadius: "24px",
+                  },
+                }}
+              >
+                {details?.overview}
+              </Text>
+            )}
+
+            {details?.genres && (
+              <Text>
+                {details?.genres.map(
+                  (genre, idx) =>
+                    genre.name +
+                    (idx != details?.genres.length - 1 ? " | " : "")
+                )}
+              </Text>
+            )}
           </VStack>
         </Box>
         <Box
@@ -158,7 +200,11 @@ const MediaInfo = () => {
             showButtons={false}
             gap={0}
             visibleElements={1}
-            animate={true}
+            animate={
+              (images?.backdrops.slice(0, maxElements).length as number) <= 2
+                ? false
+                : true
+            }
             isloading={loadingImages}
           >
             {images?.backdrops.slice(0, maxElements).map((image, idx) => (
