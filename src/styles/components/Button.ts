@@ -15,6 +15,10 @@ const ButtonTheme = {
         color: "#141414",
         borderColor: "#56B4DC",
       },
+      _active: {
+        bg: "#3492BA",
+        borderColor: "#3492BA",
+      },
     },
   },
 };
