@@ -1,8 +1,12 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   HStack,
   Heading,
+  Icon,
+  IconButton,
   Image,
   Text,
   VStack,
@@ -11,6 +15,7 @@ import { useParams } from "react-router-dom";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
+import Ratings from "@/components/Ratings";
 import useFetch from "@/hooks/useFetch";
 import {
   MediaImages,
@@ -20,7 +25,8 @@ import {
   Videos,
   MultiCertification,
 } from "@/types/mediaInfo";
-import Ratings from "@/components/Ratings";
+import { FaPlay } from "react-icons/fa";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -181,6 +187,25 @@ const MediaInfo = () => {
                 )}
               </Text>
             )}
+
+            <HStack gap="12px">
+              <Button variant="outline" leftIcon={<FaPlay />}>
+                Trailer
+              </Button>
+              <Icon 
+              as={IoIosAddCircleOutline} 
+              m={"0 !important"} 
+              boxSize="40px" 
+              color="#56B4DC"
+              _hover={{
+                cursor: "pointer",
+                color: "#3492BA",
+              }}
+              _active={{
+                color: "#127098",
+              }}
+              />
+            </HStack>
           </VStack>
         </Box>
         <Box
