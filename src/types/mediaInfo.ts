@@ -21,6 +21,10 @@ export type Similar = {
   }[];
 };
 
+export type Recommended = Similar & {
+  media_type: "tv" | "movie";
+} 
+
 type Provider = {
   display_priority: number;
   logo_path: string;
@@ -44,6 +48,7 @@ export type Videos = {
     name: string;
     official: boolean;
     site: string;
+    type: string;
   }[];
 };
 
