@@ -1,13 +1,16 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   HStack,
   Heading,
   Icon,
-  IconButton,
   Image,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -24,18 +27,19 @@ import {
   Similar,
   Videos,
   MultiCertification,
+  Recommended,
 } from "@/types/mediaInfo";
 import { FaPlay } from "react-icons/fa";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoAdd, IoCheckmark } from "react-icons/io5";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
 
 function switchWidthForLogoImage(height: number, width: number): string {
-  if (width / height < 1.5) return "25%";
-  if (width / height < 2) return "35%";
-  if (width / height < 2.5) return "40%";
-  if (width / height < 3) return "50%";
+  if (width / height < 1.5) return "15%";
+  if (width / height < 2) return "25%";
+  if (width / height < 2.5) return "35%";
+  if (width / height < 3) return "45%";
 
   return "60%";
 }
@@ -58,6 +62,9 @@ const MediaInfo = () => {
   const urlVideos = `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
+  const urlRecommended = `https://api.themoviedb.org/3/${media_type}/${id}/recommendations?api_key=${
+    import.meta.env.VITE_MOVIE_API_KEY
+  }&language=en-US&page=1`;
   const urlCertification =
     media_type === "movie"
       ? `https://api.themoviedb.org/3/${media_type}/${id}/release_dates?api_key=${
@@ -76,13 +83,15 @@ const MediaInfo = () => {
 
   const { data: videos } = useFetch<Videos>(urlVideos);
 
+  const { data: recommended } = useFetch<Recommended>(urlRecommended);
+
   const { data: similar } = useFetch<Similar>(urlSimilar);
 
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
 
   const media_logo =
-    images?.logos[Math.floor(Math.random() * images?.logos.length)];
+    images?.logos[Math.round(Math.random() * (images?.logos.length - 1))];
 
   const hours: string =
     Math.floor((details?.runtime as number) / 60) +
@@ -97,6 +106,12 @@ const MediaInfo = () => {
           ?.release_dates?.at(0)?.certification
       : certification?.results.find((cer) => cer.iso_3166_1 === "US")?.rating;
 
+  const trailers = videos?.results.filter(
+    (video) =>
+      video?.type.toLowerCase() === "trailer" &&
+      video?.site.toLowerCase() === "youtube"
+  );
+
   return (
     <Flex direction="column" rowGap="28px">
       <Flex overflow="hidden" position="relative">
@@ -105,7 +120,7 @@ const MediaInfo = () => {
             h="100%"
             maxH="100%"
             justify="center"
-            gap="16px"
+            gap="20px"
             fontWeight="bold"
             letterSpacing="1px"
           >
@@ -132,10 +147,12 @@ const MediaInfo = () => {
             ) ? (
               ""
             ) : (
-              <HStack justify="space-between" gap={20}>
+              <HStack justify="space-between" gap="60px" m="0 !important">
                 {(details?.runtime || details?.number_of_seasons) && (
                   <Text>
-                    {details?.runtime ? hours : details?.number_of_seasons}
+                    {details?.runtime
+                      ? hours
+                      : "Seasons " + details?.number_of_seasons}
                   </Text>
                 )}
 
@@ -150,7 +167,7 @@ const MediaInfo = () => {
             )}
 
             {details?.tagline !== "" && (
-              <Text as="em" maxW="50%" textAlign="center">
+              <Text as="em" maxW="50%" textAlign="center" m="0 !important">
                 <q>{details?.tagline}</q>
               </Text>
             )}
@@ -158,6 +175,7 @@ const MediaInfo = () => {
             {details?.overview && (
               <Text
                 w="80%"
+                m="0 !important"
                 pr="4px"
                 textAlign="justify"
                 overflowY="scroll"
@@ -179,7 +197,7 @@ const MediaInfo = () => {
             )}
 
             {details?.genres && (
-              <Text>
+              <Text m="0 !important">
                 {details?.genres.map(
                   (genre, idx) =>
                     genre.name +
@@ -188,23 +206,46 @@ const MediaInfo = () => {
               </Text>
             )}
 
-            <HStack gap="12px">
-              <Button variant="outline" leftIcon={<FaPlay />}>
-                Trailer
-              </Button>
-              <Icon 
-              as={IoIosAddCircleOutline} 
-              m={"0 !important"} 
-              boxSize="40px" 
-              color="#56B4DC"
-              _hover={{
-                cursor: "pointer",
-                color: "#3492BA",
-              }}
-              _active={{
-                color: "#127098",
-              }}
-              />
+            <HStack gap="16px" m="0 !important">
+              {trailers?.length && (
+                <Button
+                  variant="outline"
+                  leftIcon={<FaPlay />}
+                  onClick={() => {
+                    if (trailers?.length)
+                      window.open(
+                        "https://www.youtube.com/watch/" +
+                          trailers?.at(
+                            Math.round(Math.random() * (trailers?.length - 1))
+                          )?.key,
+                        "_blank"
+                      );
+                  }}
+                >
+                  Trailer
+                </Button>
+              )}
+              <Box
+                h="full"
+                m="0 !important"
+                p="4px"
+                border="solid 1px"
+                borderColor="brand.secondary"
+                borderRadius="full"
+                color="brand.secondary"
+                _hover={{
+                  bg: "#56B4DC",
+                  color: "#141414",
+                  borderColor: "#56B4DC",
+                  cursor: "pointer",
+                }}
+                _active={{
+                  bg: "#3492BA",
+                  borderColor: "#3492BA",
+                }}
+              >
+                <Icon as={IoAdd || IoCheckmark} boxSize="full" />
+              </Box>
             </HStack>
           </VStack>
         </Box>
@@ -212,10 +253,10 @@ const MediaInfo = () => {
           position="absolute"
           top={0}
           bottom={0}
-          left="40%"
           right="30%"
+          left="40%"
           zIndex={10}
-          bg="linear-gradient(to right, #141414, #14141400)"
+          bg="linear-gradient(to right, #141414, transparent)"
         />
         <Box flex={0.6}>
           <Carousel
@@ -243,26 +284,60 @@ const MediaInfo = () => {
           </Carousel>
         </Box>
       </Flex>
-      <Carousel
-        carouselTitle={"Similar"}
-        elementsTotal={
-          similar?.results.filter((m) => m.poster_path != null).length as number
-        }
-        visibleElements={8}
-      >
-        {similar?.results
-          .filter((m) => m.poster_path != null)
-          ?.map((watchcard) => (
-            <CarouselItem key={watchcard.id}>
-              <WatchCard
-                id={watchcard.id}
-                media_type={media_type}
-                title={watchcard?.name || watchcard?.title}
-                SpecImageURL={watchcard?.poster_path}
-              />
-            </CarouselItem>
-          ))}
-      </Carousel>
+      <Tabs variant="brandColor">
+        <TabList>
+          <Tab>Recommended</Tab>
+          <Tab>Similar</Tab>
+          <Tab>Details</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel px={0}>
+            <Carousel
+              elementsTotal={
+                recommended?.results.filter((m) => m.poster_path != null)
+                  .length as number
+              }
+              visibleElements={8}
+            >
+              {recommended?.results
+                .filter((m) => m.poster_path != null)
+                ?.map((watchcard) => (
+                  <CarouselItem key={watchcard.id}>
+                    <WatchCard
+                      id={watchcard.id}
+                      media_type={media_type}
+                      title={watchcard?.name || watchcard?.title}
+                      SpecImageURL={watchcard?.poster_path}
+                    />
+                  </CarouselItem>
+                ))}
+            </Carousel>
+          </TabPanel>
+          <TabPanel px={0}>
+            <Carousel
+              elementsTotal={
+                similar?.results.filter((m) => m.poster_path != null)
+                  .length as number
+              }
+              visibleElements={8}
+            >
+              {similar?.results
+                .filter((m) => m.poster_path != null)
+                ?.map((watchcard) => (
+                  <CarouselItem key={watchcard.id}>
+                    <WatchCard
+                      id={watchcard.id}
+                      media_type={media_type}
+                      title={watchcard?.name || watchcard?.title}
+                      SpecImageURL={watchcard?.poster_path}
+                    />
+                  </CarouselItem>
+                ))}
+            </Carousel>
+          </TabPanel>
+          <TabPanel px={0}></TabPanel>
+        </TabPanels>
+      </Tabs>
     </Flex>
   );
 };
