@@ -25,7 +25,7 @@ const Ratings = ({ rating }: {rating: number}) => {
   }, [rating]);
 
   return (
-    <Flex align="center" columnGap={{ base: "4px", md: "8px" }}>
+    <Flex align="center" columnGap={{ base: "4px", md: "8px" }} m="0 !important">
       {rateStars.map((rate, idx) => (
         <RateStarIcon key={idx} offset={rate} id={idx} />
       ))}
