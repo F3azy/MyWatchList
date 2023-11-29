@@ -28,7 +28,6 @@ const darkVariant = definePartsStyle({
     },
   },
   tablist: {
-    borderBottom: "2x solid",
     borderColor: "#363636",
   },
   tabpanel: {
@@ -38,8 +37,26 @@ const darkVariant = definePartsStyle({
   },
 });
 
+const mediaInfoVariant = definePartsStyle({
+  tab: {
+    fontWeight: "semibold",
+    letterSpacing: "1px",
+    _selected: {
+      color: "brand.secondary",
+      borderBottom: "4px solid",
+      borderColor: "brand.secondary",
+      mb: '-4px'
+    },
+  },
+  tablist: {
+    borderBottom: "4px solid",
+    borderColor: "inherit",
+  },
+});
+
 const variants = {
   dark: darkVariant,
+  brandColor: mediaInfoVariant,
 };
 
 const TabsTheme = defineMultiStyleConfig({ variants });
