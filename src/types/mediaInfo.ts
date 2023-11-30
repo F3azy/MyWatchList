@@ -21,8 +21,14 @@ export type Similar = {
   }[];
 };
 
-export type Recommended = Similar & {
-  media_type: "tv" | "movie";
+export type Recommended = {
+  results: {
+    id: number;
+    poster_path: string;
+    name?: string;
+    title?: string;
+    media_type: "tv" | "movie";
+  }[];
 } 
 
 type Provider = {
