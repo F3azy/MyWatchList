@@ -1,10 +1,4 @@
-import {
-  Flex,
-  HStack,
-  Text,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Flex, HStack, Text, Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import WatchCard from "@/components/shared/WatchCard";
@@ -25,7 +19,7 @@ const Browse = () => {
 
   const { data: watchCards } = useFetch<{ results: Multi[] }>(
     url +
-      (media_type === "tv" ? "tv" : "movie") +
+      media_type +
       `?api_key=${
         import.meta.env.VITE_MOVIE_API_KEY
       }&language=en-US&with_genres=${genre}`
@@ -34,9 +28,9 @@ const Browse = () => {
   return (
     <Flex w="100%" direction="column" rowGap="28px">
       <HStack columnGap="16px">
-          <Text fontSize="32px" fontWeight="bold">
-            {media_type === "tv" ? "Series" : "Movies"}
-          </Text>
+        <Text fontSize="32px" fontWeight="bold">
+          {media_type === "tv" ? "Series" : "Movies"}
+        </Text>
         <MovieSelect
           media_type={media_type as string}
           setStateFun={setGenre}
@@ -48,7 +42,7 @@ const Browse = () => {
           <GridItem w="100%" key={watchcard.id}>
             <WatchCard
               id={watchcard.id}
-              media_type={media_type?.toLocaleLowerCase() === "tv" ? "tv" : "movie"}
+              media_type={media_type}
               title={watchcard.name || watchcard.title}
               SpecImageURL={watchcard.poster_path}
             />
