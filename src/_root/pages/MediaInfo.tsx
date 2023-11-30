@@ -305,7 +305,7 @@ const MediaInfo = () => {
                   <CarouselItem key={watchcard.id}>
                     <WatchCard
                       id={watchcard.id}
-                      media_type={media_type}
+                      media_type={watchcard.media_type}
                       title={watchcard?.name || watchcard?.title}
                       SpecImageURL={watchcard?.poster_path}
                     />
