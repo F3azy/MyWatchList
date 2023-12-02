@@ -85,7 +85,7 @@ const Carousel = ({
         <ScrollButton
           as={ChevronLeftIcon}
           direction="left"
-          showButton={showButtons}
+          showButton={showButtons && pages > 1}
           onClick={() => changePage(ACTIONS.PREVIOUS)}
         />
         <Grid
@@ -108,7 +108,7 @@ const Carousel = ({
         <ScrollButton
           as={ChevronRightIcon}
           direction="right"
-          showButton={showButtons}
+          showButton={showButtons && pages > 1}
           onClick={() => changePage(ACTIONS.NEXT)}
         />
       </Box>
