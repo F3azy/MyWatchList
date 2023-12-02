@@ -29,7 +29,7 @@ export type Recommended = {
     title?: string;
     media_type: "tv" | "movie";
   }[];
-} 
+};
 
 type Provider = {
   display_priority: number;
@@ -99,5 +99,19 @@ export type MultiCertification = {
     release_dates?: {
       certification: string;
     }[];
+  }[];
+};
+
+export type Season = {
+  name: string;
+  poster_path: string;
+  season_number: number;
+  episodes: {
+    episode_number: number;
+    name: string;
+    overview: string;
+    runtime: number;
+    still_path: string;
+    vote_average: string;
   }[];
 };
