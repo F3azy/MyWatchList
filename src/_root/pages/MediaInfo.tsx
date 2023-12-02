@@ -28,10 +28,12 @@ import {
   Videos,
   MultiCertification,
   Recommended,
+  Season,
 } from "@/types/mediaInfo";
 import { FaPlay } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
+import { useState } from "react";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -97,8 +99,9 @@ const MediaInfo = () => {
   const hours: string =
     Math.floor((details?.runtime as number) / 60) +
     "h " +
-    ((details?.runtime as number) % 60) +
-    "min";
+    ((details?.runtime as number) % 60 === 0
+      ? ""
+      : ((details?.runtime as number) % 60) + "min");
 
   const media_certification =
     media_type === "movie"
@@ -113,7 +116,13 @@ const MediaInfo = () => {
       video?.site.toLowerCase() === "youtube"
   );
 
-  // console.log(recommended);
+  const [currentSeason, setCurrentSeason] = useState(0);
+
+  const seasonUrl = `https://api.themoviedb.org/3/tv/${id}/season/${currentSeason}?api_key=${
+    import.meta.env.VITE_MOVIE_API_KEY
+  }&language=en-US`;
+  
+  const { data: seasonInfo } = useFetch<Season>(seasonUrl);
 
   return (
     <Flex direction="column" rowGap="28px">
@@ -289,11 +298,51 @@ const MediaInfo = () => {
       </Flex>
       <Tabs variant="brandColor">
         <TabList>
+          {media_type === "tv" && <Tab>Seasons</Tab>}
           {!!recommended?.results.length && <Tab>Recommended</Tab>}
           {!!similar?.results.length && <Tab>Similar</Tab>}
           <Tab>Details</Tab>
         </TabList>
         <TabPanels>
+          {media_type === "tv" && (
+            <TabPanel px={0}>
+              <Tabs variant="seasons">
+                <TabList>
+                  {details?.seasons.map((season) => (
+                    <Tab
+                      key={season.season_number}
+                      onClick={() => setCurrentSeason(season.season_number)}
+                    >
+                      {season.name}
+                    </Tab>
+                  ))}
+                </TabList>
+                <TabPanel>
+                  {seasonInfo && (
+                    <Carousel
+                      elementsTotal={
+                        seasonInfo?.episodes.filter((m) => m.still_path != null)
+                          .length as number
+                      }
+                      visibleElements={5}
+                    >
+                      {seasonInfo?.episodes
+                        .filter((m) => m.still_path != null)
+                        ?.map((watchcard) => (
+                          <CarouselItem key={watchcard.episode_number}>
+                            <WatchCard
+                              isLink={false}
+                              SpecImageURL={watchcard?.still_path}
+                            />
+                          </CarouselItem>
+                        ))}
+                    </Carousel>
+                  )}
+                </TabPanel>
+              </Tabs>
+            </TabPanel>
+          )}
+
           {!!recommended?.results.length && (
             <TabPanel px={0}>
               <Carousel
@@ -318,6 +367,7 @@ const MediaInfo = () => {
               </Carousel>
             </TabPanel>
           )}
+
           {!!similar?.results.length && (
             <TabPanel px={0}>
               <Carousel
@@ -342,6 +392,7 @@ const MediaInfo = () => {
               </Carousel>
             </TabPanel>
           )}
+
           <TabPanel px={0}></TabPanel>
         </TabPanels>
       </Tabs>
