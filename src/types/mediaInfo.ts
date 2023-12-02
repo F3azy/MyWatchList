@@ -102,16 +102,19 @@ export type MultiCertification = {
   }[];
 };
 
+export type Episode = {
+  episode_number: number;
+  season_number: number;
+  name: string;
+  overview: string;
+  runtime: number;
+  still_path: string;
+  vote_average: string;
+}
+
 export type Season = {
   name: string;
   poster_path: string;
   season_number: number;
-  episodes: {
-    episode_number: number;
-    name: string;
-    overview: string;
-    runtime: number;
-    still_path: string;
-    vote_average: string;
-  }[];
+  episodes: Episode[];
 };
