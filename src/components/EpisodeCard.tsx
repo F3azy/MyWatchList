@@ -8,6 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Episode } from "@/types/mediaInfo";
+import { motion } from "framer-motion";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -76,9 +77,32 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
             zIndex={0}
             bg="linear-gradient(to top, #141414, transparent)"
           />
-          <Text position="absolute" fontWeight="semibold" bottom={2} left={2}>
-            S{episode.season_number} E{episode.episode_number} - {episode.name}
-          </Text>
+          <Box
+            position="absolute"
+            w="75%"
+            overflow="hidden"
+            bottom={2}
+            left={2}
+          >
+            <Text
+              as={motion.p}
+              w="max-content"
+              animate={{
+                x: ["-100%", "100%"],
+                transition: {
+                  duration: 15,
+                  ease: "linear",
+                  repeat: Infinity,
+                  repeatType: "loop",
+                },
+              }}
+              whiteSpace="nowrap"
+              fontWeight="semibold"
+            >
+              S{episode.season_number} E{episode.episode_number} -{" "}
+              {episode.name}
+            </Text>
+          </Box>
           {episode.runtime && (
             <Text position="absolute" bottom={2} right={2}>
               {episode.runtime} min
