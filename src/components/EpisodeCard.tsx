@@ -34,8 +34,6 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
     decode();
   }, [episode]);
 
-  console.log(episode.runtime);
-
   return (
     <Skeleton
       borderRadius="4px"
