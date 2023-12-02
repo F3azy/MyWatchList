@@ -31,6 +31,7 @@ import {
 } from "@/types/mediaInfo";
 import { FaPlay } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
+import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -83,9 +84,9 @@ const MediaInfo = () => {
 
   const { data: videos } = useFetch<Videos>(urlVideos);
 
-  const { data: recommended } = useFetch<Recommended>(urlRecommended);
+  const { data: recommended } = useFetchRandomPage<Recommended>(urlRecommended);
 
-  const { data: similar } = useFetch<Similar>(urlSimilar);
+  const { data: similar } = useFetchRandomPage<Similar>(urlSimilar);
 
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
@@ -111,6 +112,8 @@ const MediaInfo = () => {
       video?.type.toLowerCase() === "trailer" &&
       video?.site.toLowerCase() === "youtube"
   );
+
+  // console.log(recommended);
 
   return (
     <Flex direction="column" rowGap="28px">
@@ -286,55 +289,59 @@ const MediaInfo = () => {
       </Flex>
       <Tabs variant="brandColor">
         <TabList>
-          <Tab>Recommended</Tab>
-          <Tab>Similar</Tab>
+          {!!recommended?.results.length && <Tab>Recommended</Tab>}
+          {!!similar?.results.length && <Tab>Similar</Tab>}
           <Tab>Details</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel px={0}>
-            <Carousel
-              elementsTotal={
-                recommended?.results.filter((m) => m.poster_path != null)
-                  .length as number
-              }
-              visibleElements={8}
-            >
-              {recommended?.results
-                .filter((m) => m.poster_path != null)
-                ?.map((watchcard) => (
-                  <CarouselItem key={watchcard.id}>
-                    <WatchCard
-                      id={watchcard.id}
-                      media_type={watchcard.media_type}
-                      title={watchcard?.name || watchcard?.title}
-                      SpecImageURL={watchcard?.poster_path}
-                    />
-                  </CarouselItem>
-                ))}
-            </Carousel>
-          </TabPanel>
-          <TabPanel px={0}>
-            <Carousel
-              elementsTotal={
-                similar?.results.filter((m) => m.poster_path != null)
-                  .length as number
-              }
-              visibleElements={8}
-            >
-              {similar?.results
-                .filter((m) => m.poster_path != null)
-                ?.map((watchcard) => (
-                  <CarouselItem key={watchcard.id}>
-                    <WatchCard
-                      id={watchcard.id}
-                      media_type={media_type}
-                      title={watchcard?.name || watchcard?.title}
-                      SpecImageURL={watchcard?.poster_path}
-                    />
-                  </CarouselItem>
-                ))}
-            </Carousel>
-          </TabPanel>
+          {!!recommended?.results.length && (
+            <TabPanel px={0}>
+              <Carousel
+                elementsTotal={
+                  recommended?.results.filter((m) => m.poster_path != null)
+                    .length as number
+                }
+                visibleElements={8}
+              >
+                {recommended?.results
+                  .filter((m) => m.poster_path != null)
+                  ?.map((watchcard) => (
+                    <CarouselItem key={watchcard.id}>
+                      <WatchCard
+                        id={watchcard.id}
+                        media_type={watchcard.media_type}
+                        title={watchcard?.name || watchcard?.title}
+                        SpecImageURL={watchcard?.poster_path}
+                      />
+                    </CarouselItem>
+                  ))}
+              </Carousel>
+            </TabPanel>
+          )}
+          {!!similar?.results.length && (
+            <TabPanel px={0}>
+              <Carousel
+                elementsTotal={
+                  similar?.results.filter((m) => m.poster_path != null)
+                    .length as number
+                }
+                visibleElements={8}
+              >
+                {similar?.results
+                  .filter((m) => m.poster_path != null)
+                  ?.map((watchcard) => (
+                    <CarouselItem key={watchcard.id}>
+                      <WatchCard
+                        id={watchcard.id}
+                        media_type={media_type}
+                        title={watchcard?.name || watchcard?.title}
+                        SpecImageURL={watchcard?.poster_path}
+                      />
+                    </CarouselItem>
+                  ))}
+              </Carousel>
+            </TabPanel>
+          )}
           <TabPanel px={0}></TabPanel>
         </TabPanels>
       </Tabs>
