@@ -34,6 +34,7 @@ import { FaPlay } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import { useState } from "react";
+import EpisodeCard from "@/components/EpisodeCard";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 const maxElements = 50;
@@ -121,7 +122,7 @@ const MediaInfo = () => {
   const seasonUrl = `https://api.themoviedb.org/3/tv/${id}/season/${currentSeason}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
   }&language=en-US`;
-  
+
   const { data: seasonInfo } = useFetch<Season>(seasonUrl);
 
   return (
@@ -305,7 +306,7 @@ const MediaInfo = () => {
         </TabList>
         <TabPanels>
           {media_type === "tv" && (
-            <TabPanel px={0}>
+            <TabPanel px={0} minH="300px">
               <Tabs variant="seasons">
                 <TabList>
                   {details?.seasons.map((season) => (
@@ -328,11 +329,10 @@ const MediaInfo = () => {
                     >
                       {seasonInfo?.episodes
                         .filter((m) => m.still_path != null)
-                        ?.map((watchcard) => (
-                          <CarouselItem key={watchcard.episode_number}>
-                            <WatchCard
-                              isLink={false}
-                              SpecImageURL={watchcard?.still_path}
+                        ?.map((episode) => (
+                          <CarouselItem key={episode.episode_number}>
+                            <EpisodeCard
+                              episode={episode}
                             />
                           </CarouselItem>
                         ))}
