@@ -54,9 +54,20 @@ const mediaInfoVariant = definePartsStyle({
   },
 });
 
+const mediaInfoSeasonsVariant = definePartsStyle({
+  tab: {
+    fontWeight: "semibold",
+    letterSpacing: "1px",
+    _selected: {
+      color: "brand.secondary",
+    },
+  },
+});
+
 const variants = {
   dark: darkVariant,
   brandColor: mediaInfoVariant,
+  seasons: mediaInfoSeasonsVariant,
 };
 
 const TabsTheme = defineMultiStyleConfig({ variants });
