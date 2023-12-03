@@ -8,6 +8,9 @@ import {
   Heading,
   Icon,
   Image,
+  Stat,
+  StatLabel,
+  StatNumber,
   Tab,
   TabList,
   TabPanel,
@@ -36,6 +39,7 @@ import Ratings from "@/components/Ratings";
 import EpisodeCard from "@/components/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
+import MediaDetail from "@/components/MediaDetail";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -135,6 +139,8 @@ const MediaInfo = () => {
 
   const { data: seasonInfo } = useFetch<Season>(seasonUrl);
 
+  console.log(providers);
+
   return (
     <Flex direction="column" rowGap="28px">
       <Flex overflow="hidden" position="relative">
@@ -183,7 +189,15 @@ const MediaInfo = () => {
 
                 {(details?.release_date || details?.first_air_date) && (
                   <Text>
-                    {details?.release_date || details?.first_air_date}
+                    {details?.release_date
+                      ? new Date(details?.release_date).getFullYear().toString()
+                      : new Date(details?.first_air_date)
+                          .getFullYear()
+                          .toString() +
+                        "-" +
+                        new Date(details?.last_air_date)
+                          .getFullYear()
+                          .toString()}
                   </Text>
                 )}
               </HStack>
@@ -430,7 +444,80 @@ const MediaInfo = () => {
             </TabPanel>
           )}
 
-          <TabPanel px={0}></TabPanel>
+          <TabPanel px={0}>
+            <VStack gap="12px" align="flex-start">
+              <Heading as="h2">{details?.name || details?.title}</Heading>
+              <Flex justify="space-between">
+                {details?.overview && (
+                  <Text flex={0.5} textAlign="justify" fontSize="20px">
+                    {details?.overview}
+                  </Text>
+                )}
+                <Flex flex={0.5} justify="space-evenly">
+                  <VStack gap="16px" align="flex-start">
+                    {(details?.runtime || details?.episode_run_time) && (
+                      <MediaDetail
+                        label="Run time:"
+                        value={
+                          details?.runtime
+                            ? hours
+                            : details?.episode_run_time + " min"
+                        }
+                      />
+                    )}
+
+                    {(details?.release_date || details?.first_air_date) && (
+                      <MediaDetail
+                        label="Released:"
+                        value={
+                          details?.release_date
+                            ? new Date(details?.release_date)
+                                .getFullYear()
+                                .toString()
+                            : new Date(details?.first_air_date)
+                                .getFullYear()
+                                .toString() +
+                              "-" +
+                              new Date(details?.last_air_date)
+                                .getFullYear()
+                                .toString()
+                        }
+                      />
+                    )}
+
+                    {details?.genres && (
+                      <MediaDetail
+                        label="Genres:"
+                        value={details?.genres
+                          .map((genre) => genre.name)
+                          .join(", ")}
+                      />
+                    )}
+                  </VStack>
+                  <VStack gap="16px" align="flex-start">
+                    {media_certification && (
+                      <MediaDetail label="Age:" value={media_certification} />
+                    )}
+                    {details?.created_by && (
+                      <MediaDetail
+                        label="Created by:"
+                        value={details?.created_by
+                          .map((creator) => creator.name)
+                          .join(", ")}
+                      />
+                    )}
+                    {details?.vote_average && (
+                      <MediaDetail
+                        label="Rating:"
+                        value={details?.vote_average + "/10"}
+                      />
+                    )}
+                  </VStack>
+                </Flex>
+              </Flex>
+              
+            </VStack>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>
