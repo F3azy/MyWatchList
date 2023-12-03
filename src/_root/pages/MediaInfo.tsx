@@ -40,6 +40,7 @@ import EpisodeCard from "@/components/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import MediaDetail from "@/components/MediaDetail";
+import WatchProvider from "@/components/WatchProvider";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -138,8 +139,6 @@ const MediaInfo = () => {
   }&language=en-US`;
 
   const { data: seasonInfo } = useFetch<Season>(seasonUrl);
-
-  console.log(providers);
 
   return (
     <Flex direction="column" rowGap="28px">
@@ -515,7 +514,21 @@ const MediaInfo = () => {
                   </VStack>
                 </Flex>
               </Flex>
-              
+              {providers?.results["US"] && (
+                <Flex gap="60px">
+                  {Object.keys(providers?.results["US"]).map((keyName, i) => {
+                    type ProvidersKey = keyof Providers["results"]["US"];
+                    if (keyName !== "link")
+                      return (
+                        <WatchProvider
+                          key={i}
+                          label={keyName.toUpperCase()}
+                          providers={providers?.results["US"][keyName as ProvidersKey]}
+                        />
+                      );
+                  })}
+                </Flex>
+              )}
             </VStack>
           </TabPanel>
         </TabPanels>
