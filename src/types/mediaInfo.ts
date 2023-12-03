@@ -1,15 +1,13 @@
+export type MediaImageProp = {
+  file_path: string;
+  height: number;
+  width: number;
+}
+
 export type MediaImages = {
-  backdrops: {
-    file_path: string;
-  }[];
-  logos: {
-    file_path: string;
-    height: number;
-    width: number;
-  }[];
-  posters: {
-    file_path: string;
-  }[];
+  backdrops: MediaImageProp[];
+  logos: MediaImageProp[];
+  posters: MediaImageProp[];
 };
 
 export type Similar = {
