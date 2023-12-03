@@ -1,5 +1,12 @@
-import { useEffect, useState } from "react";
-import { Flex, Text, SkeletonText, Grid, Box } from "@chakra-ui/react";
+import { Children, useEffect, useState } from "react";
+import {
+  Flex,
+  Text,
+  SkeletonText,
+  Grid,
+  Box,
+  GridItem,
+} from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import ScrollButton from "./ScrollButton";
 import useInterval from "@/hooks/useInterval";
@@ -20,6 +27,9 @@ const ACTIONS = {
   PREVIOUS: "PREVIOUS",
 };
 
+const range = (start: number, stop: number, step: number) =>
+  Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
+
 const Carousel = ({
   carouselTitle,
   isloading,
@@ -37,7 +47,7 @@ const Carousel = ({
   function changePage(action: string) {
     switch (action) {
       case ACTIONS.NEXT:
-        if(clicked) break;
+        if (clicked) break;
         if (currentPage >= pages - 1) setCurrentPage(0);
         else setCurrentPage((prev) => prev + 1);
         break;
@@ -93,7 +103,7 @@ const Carousel = ({
             (gap * elementsTotal) / visibleElements - gap
           }px)`}
           templateColumns={`repeat(${elementsTotal}, 1fr)`}
-          columnGap={`${gap}px`}
+          columnGap={`min(${gap}px, 1%)`}
           transition={`transform ${800}ms ease-in-out`}
           style={{
             transform: `translateX(calc((-${
