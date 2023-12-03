@@ -33,7 +33,7 @@ import {
 import { FaPlay } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EpisodeCard from "@/components/EpisodeCard";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
@@ -117,7 +117,7 @@ const MediaInfo = () => {
       video?.site.toLowerCase() === "youtube"
   );
 
-  const [currentSeason, setCurrentSeason] = useState(0);
+  const [currentSeason, setCurrentSeason] = useState(1);
 
   const seasonUrl = `https://api.themoviedb.org/3/tv/${id}/season/${currentSeason}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
@@ -306,40 +306,65 @@ const MediaInfo = () => {
         </TabList>
         <TabPanels>
           {media_type === "tv" && (
-            <TabPanel px={0} minH="300px">
-              <Tabs variant="seasons">
-                <TabList>
-                  {details?.seasons.map((season) => (
-                    <Tab
-                      key={season.season_number}
-                      onClick={() => setCurrentSeason(season.season_number)}
-                    >
-                      {season.name}
-                    </Tab>
-                  ))}
-                </TabList>
-                <TabPanel>
-                  {seasonInfo && (
-                    <Carousel
-                      elementsTotal={
-                        seasonInfo?.episodes.filter((m) => m.still_path != null)
-                          .length as number
-                      }
-                      visibleElements={5}
-                    >
-                      {seasonInfo?.episodes
-                        .filter((m) => m.still_path != null)
-                        ?.map((episode) => (
-                          <CarouselItem key={episode.episode_number}>
-                            <EpisodeCard
-                              episode={episode}
-                            />
-                          </CarouselItem>
-                        ))}
-                    </Carousel>
-                  )}
-                </TabPanel>
-              </Tabs>
+            <TabPanel px={0} minH="200px">
+              {details?.seasons && (
+                <Tabs variant="seasons">
+                  <TabList>
+                    {details?.seasons
+                      .filter((season) => season.season_number !== 0)
+                      .map((season) =>
+                        season.episode_count !== 0 ? (
+                          <Tab
+                            key={season.season_number}
+                            onClick={() =>
+                              setCurrentSeason(season.season_number)
+                            }
+                          >
+                            {season.name}
+                          </Tab>
+                        ) : (
+                          ""
+                        )
+                      )}
+                    {details?.seasons
+                      .filter((season) => season.season_number === 0)
+                      .map((season) =>
+                        season.episode_count !== 0 ? (
+                          <Tab
+                            key={season.season_number}
+                            onClick={() =>
+                              setCurrentSeason(season.season_number)
+                            }
+                          >
+                            {season.name}
+                          </Tab>
+                        ) : (
+                          ""
+                        )
+                      )}
+                  </TabList>
+                  <TabPanel>
+                    {seasonInfo && (
+                      <Carousel
+                        elementsTotal={
+                          seasonInfo?.episodes.filter(
+                            (m) => m.still_path != null
+                          ).length as number
+                        }
+                        visibleElements={5}
+                      >
+                        {seasonInfo?.episodes
+                          .filter((m) => m.still_path != null)
+                          ?.map((episode) => (
+                            <CarouselItem key={episode.episode_number}>
+                              <EpisodeCard episode={episode} />
+                            </CarouselItem>
+                          ))}
+                      </Carousel>
+                    )}
+                  </TabPanel>
+                </Tabs>
+              )}
             </TabPanel>
           )}
 
