@@ -85,17 +85,17 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
             left={2}
           >
             <Text
-              as={motion.p}
-              animate={{
-                x: ["-150%", "100%"],
-                transition: {
-                  duration: 15,
-                  ease: "linear",
-                  repeat: Infinity,
-                  repeatType: "loop",
-                },
-              }}
-              whiteSpace="nowrap"
+              // as={motion.p}
+              // animate={{
+              //   x: ["-150%", "100%"],
+              //   transition: {
+              //     duration: 15,
+              //     ease: "linear",
+              //     repeat: Infinity,
+              //     repeatType: "loop",
+              //   },
+              // }}
+              // whiteSpace="nowrap"
               fontWeight="semibold"
             >
               S{episode.season_number} E{episode.episode_number} -{" "}
