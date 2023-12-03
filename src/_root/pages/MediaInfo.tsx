@@ -274,19 +274,19 @@ const MediaInfo = () => {
         <Box flex={0.6}>
           <Carousel
             elementsTotal={
-              images?.backdrops.slice(0, maxElements).length as number
+              images?.backdrops.length as number
             }
             showButtons={false}
             gap={0}
             visibleElements={1}
             animate={
-              (images?.backdrops.slice(0, maxElements).length as number) <= 2
+              (images?.backdrops.length as number) <= 2
                 ? false
                 : true
             }
             isloading={loadingImages}
           >
-            {images?.backdrops.slice(0, maxElements).map((image, idx) => (
+            {images?.backdrops.map((image, idx) => (
               <CarouselItem key={idx}>
                 <Image
                   src={imageURL + image.file_path}

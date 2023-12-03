@@ -62,7 +62,7 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
             "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
         }}
       >
-        <Box w="100%" position="relative">
+        <Box position="relative">
           <ChakraIMG
             w="100%"
             src={imageURL + episode?.still_path}
@@ -86,9 +86,8 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
           >
             <Text
               as={motion.p}
-              w="max-content"
               animate={{
-                x: ["-100%", "100%"],
+                x: ["-150%", "100%"],
                 transition: {
                   duration: 15,
                   ease: "linear",
