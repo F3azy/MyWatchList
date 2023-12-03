@@ -32,6 +32,7 @@ import {
 } from "@/types/mediaInfo";
 import { FaPlay } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
+import { FiExternalLink } from "react-icons/fi";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import { useState, useEffect } from "react";
 import EpisodeCard from "@/components/EpisodeCard";
@@ -118,6 +119,10 @@ const MediaInfo = () => {
   );
 
   const [currentSeason, setCurrentSeason] = useState(1);
+
+  useEffect(() => {
+    setCurrentSeason(1);
+  }, [id])
 
   const seasonUrl = `https://api.themoviedb.org/3/tv/${id}/season/${currentSeason}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
@@ -238,6 +243,18 @@ const MediaInfo = () => {
                   Trailer
                 </Button>
               )}
+              {details?.homepage !== "" && (
+                <Button
+                  variant="outline"
+                  leftIcon={<FiExternalLink />}
+                  onClick={() => {
+                    if (details?.homepage !== "")
+                      window.open(details?.homepage, "_blank");
+                  }}
+                >
+                  Homepage
+                </Button>
+              )}
               <Box
                 h="full"
                 m="0 !important"
@@ -273,17 +290,11 @@ const MediaInfo = () => {
         />
         <Box flex={0.6}>
           <Carousel
-            elementsTotal={
-              images?.backdrops.length as number
-            }
+            elementsTotal={images?.backdrops.length as number}
             showButtons={false}
             gap={0}
             visibleElements={1}
-            animate={
-              (images?.backdrops.length as number) <= 2
-                ? false
-                : true
-            }
+            animate={(images?.backdrops.length as number) <= 2 ? false : true}
             isloading={loadingImages}
           >
             {images?.backdrops.map((image, idx) => (
