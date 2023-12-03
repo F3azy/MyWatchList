@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -14,12 +16,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import Carousel from "@/components/shared/Carousel";
-import CarouselItem from "@/components/shared/CarouselItem";
-import WatchCard from "@/components/shared/WatchCard";
-import Ratings from "@/components/Ratings";
-import useFetch from "@/hooks/useFetch";
 import {
   MediaImages,
   MultiDetails,
@@ -29,16 +25,19 @@ import {
   MultiCertification,
   Recommended,
   Season,
+  MediaImageProp,
 } from "@/types/mediaInfo";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaExternalLinkAlt } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
-import { FiExternalLink } from "react-icons/fi";
-import useFetchRandomPage from "@/hooks/useFetchRandomPage";
-import { useState, useEffect } from "react";
+import Carousel from "@/components/shared/Carousel";
+import CarouselItem from "@/components/shared/CarouselItem";
+import WatchCard from "@/components/shared/WatchCard";
+import Ratings from "@/components/Ratings";
 import EpisodeCard from "@/components/EpisodeCard";
+import useFetch from "@/hooks/useFetch";
+import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
-const maxElements = 50;
 
 function switchWidthForLogoImage(height: number, width: number): string {
   if (width / height < 1.5) return "15%";
@@ -95,9 +94,6 @@ const MediaInfo = () => {
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
 
-  const media_logo =
-    images?.logos[Math.round(Math.random() * (images?.logos.length - 1))];
-
   const hours: string =
     Math.floor((details?.runtime as number) / 60) +
     "h " +
@@ -118,11 +114,20 @@ const MediaInfo = () => {
       video?.site.toLowerCase() === "youtube"
   );
 
+  const [media_logo, setMedia_logo] = useState<MediaImageProp>();
   const [currentSeason, setCurrentSeason] = useState(1);
 
   useEffect(() => {
     setCurrentSeason(1);
-  }, [id])
+  }, [id]);
+
+  useEffect(() => {
+    setMedia_logo(
+      images?.logos[
+        Math.round(Math.random() * (images?.logos.length - 1))
+      ] as MediaImageProp
+    );
+  }, [images]);
 
   const seasonUrl = `https://api.themoviedb.org/3/tv/${id}/season/${currentSeason}?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
@@ -246,7 +251,7 @@ const MediaInfo = () => {
               {details?.homepage !== "" && (
                 <Button
                   variant="outline"
-                  leftIcon={<FiExternalLink />}
+                  leftIcon={<FaExternalLinkAlt />}
                   onClick={() => {
                     if (details?.homepage !== "")
                       window.open(details?.homepage, "_blank");
@@ -322,37 +327,33 @@ const MediaInfo = () => {
                 <Tabs variant="seasons">
                   <TabList>
                     {details?.seasons
-                      .filter((season) => season.season_number !== 0)
-                      .map((season) =>
-                        season.episode_count !== 0 ? (
-                          <Tab
-                            key={season.season_number}
-                            onClick={() =>
-                              setCurrentSeason(season.season_number)
-                            }
-                          >
-                            {season.name}
-                          </Tab>
-                        ) : (
-                          ""
-                        )
-                      )}
+                      .filter(
+                        (season) =>
+                          season.season_number !== 0 &&
+                          season.episode_count !== 0
+                      )
+                      .map((season) => (
+                        <Tab
+                          key={season.season_number}
+                          onClick={() => setCurrentSeason(season.season_number)}
+                        >
+                          {season.name}
+                        </Tab>
+                      ))}
                     {details?.seasons
-                      .filter((season) => season.season_number === 0)
-                      .map((season) =>
-                        season.episode_count !== 0 ? (
-                          <Tab
-                            key={season.season_number}
-                            onClick={() =>
-                              setCurrentSeason(season.season_number)
-                            }
-                          >
-                            {season.name}
-                          </Tab>
-                        ) : (
-                          ""
-                        )
-                      )}
+                      .filter(
+                        (season) =>
+                          season.season_number === 0 &&
+                          season.episode_count !== 0
+                      )
+                      .map((season) => (
+                        <Tab
+                          key={season.season_number}
+                          onClick={() => setCurrentSeason(season.season_number)}
+                        >
+                          {season.name}
+                        </Tab>
+                      ))}
                   </TabList>
                   <TabPanel>
                     {seasonInfo && (
