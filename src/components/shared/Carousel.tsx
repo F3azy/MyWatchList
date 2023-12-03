@@ -93,7 +93,7 @@ const Carousel = ({
             (gap * elementsTotal) / visibleElements - gap
           }px)`}
           templateColumns={`repeat(${elementsTotal}, 1fr)`}
-          columnGap={`min(${gap}px, 1%)`}
+          columnGap={pages > 1 ? `min(${gap}px, 1%)` : `${gap}px`}
           transition={`transform ${800}ms ease-in-out`}
           style={{
             transform: `translateX(calc((-${
