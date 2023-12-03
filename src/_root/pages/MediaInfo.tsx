@@ -170,7 +170,7 @@ const MediaInfo = () => {
                   <Text>
                     {details?.runtime
                       ? hours
-                      : "Seasons " + details?.number_of_seasons}
+                      : "Seasons: " + details?.number_of_seasons}
                   </Text>
                 )}
 
