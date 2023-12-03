@@ -1,12 +1,5 @@
-import { Children, useEffect, useState } from "react";
-import {
-  Flex,
-  Text,
-  SkeletonText,
-  Grid,
-  Box,
-  GridItem,
-} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Flex, Text, SkeletonText, Grid, Box } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import ScrollButton from "./ScrollButton";
 import useInterval from "@/hooks/useInterval";
@@ -26,9 +19,6 @@ const ACTIONS = {
   NEXT: "NEXT",
   PREVIOUS: "PREVIOUS",
 };
-
-const range = (start: number, stop: number, step: number) =>
-  Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
 
 const Carousel = ({
   carouselTitle,
