@@ -78,7 +78,12 @@ type MovieDetails = BaseDetails & {
 type TVDetails = BaseDetails & {
   name: string;
   first_air_date: string;
+  last_air_date: string;
   number_of_seasons: number;
+  episode_run_time: number;
+  created_by: {
+    name: string;
+  }[];
   seasons: {
     id: number;
     season_number: number;
