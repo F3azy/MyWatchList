@@ -80,7 +80,7 @@ type TVDetails = BaseDetails & {
   first_air_date: string;
   last_air_date: string;
   number_of_seasons: number;
-  episode_run_time: number;
+  episode_run_time: number[];
   created_by: {
     name: string;
   }[];

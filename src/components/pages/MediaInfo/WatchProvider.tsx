@@ -3,7 +3,7 @@ import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
-const WatchProvider = ({
+const WatchProviders = ({
   label,
   providers,
 }: {
@@ -12,10 +12,12 @@ const WatchProvider = ({
 }) => {
   return (
     <VStack align="flex-start">
-      <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">{label}:</Text>
+      <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
+        {label}:
+      </Text>
       <HStack>
         {providers.map((provider, idx) => (
-          <Box key={idx} overflow="hidden" rounded="lg">
+          <Box boxSize={"70px"} key={idx} overflow="hidden" rounded="lg">
             <Image
               alt={provider.provider_name}
               src={imageURL + provider.logo_path}
@@ -27,4 +29,4 @@ const WatchProvider = ({
   );
 };
 
-export default WatchProvider;
+export default WatchProviders;
