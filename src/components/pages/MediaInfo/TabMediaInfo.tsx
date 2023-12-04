@@ -2,6 +2,7 @@ import { Flex, Grid, GridItem, Heading, Text, VStack } from "@chakra-ui/react";
 import { MultiDetails, Providers } from "@/types/mediaInfo";
 import MediaDetail from "@/components/pages/MediaInfo/MediaDetail";
 import WatchProviders from "@/components/pages/MediaInfo/WatchProvider";
+import { getYear, minutesToHours } from "@/utils";
 
 const TabMediaInfo = ({
   details,
@@ -12,16 +13,6 @@ const TabMediaInfo = ({
   media_certification: string | undefined;
   providers: Providers | undefined;
 }) => {
-  const hours: string =
-    Math.floor((details?.runtime as number) / 60) +
-    "h " +
-    ((details?.runtime as number) % 60 === 0
-      ? ""
-      : ((details?.runtime as number) % 60) + "min");
-
-console.log(providers);
-
-
   return (
     <VStack gap="24px" align="flex-start">
       <Heading as="h2">{details?.name || details?.title}</Heading>
@@ -33,62 +24,62 @@ console.log(providers);
         )}
         <Grid flex={0.5} templateColumns="repeat(2, 1fr)" gap="16px">
           {!!(details?.runtime || details?.episode_run_time.length) && (
-          <GridItem>
+            <GridItem>
               <MediaDetail
                 label="Run time:"
                 value={
-                  details?.runtime ? hours : details?.episode_run_time + " min"
+                  details?.runtime
+                    ? minutesToHours(details?.runtime as number)
+                    : details?.episode_run_time + " min"
                 }
               />
-          </GridItem>
-            )}
+            </GridItem>
+          )}
           {(details?.release_date || details?.first_air_date) && (
-          <GridItem>
+            <GridItem>
               <MediaDetail
                 label="Released:"
                 value={
                   details?.release_date
-                    ? new Date(details?.release_date).getFullYear().toString()
-                    : new Date(details?.first_air_date)
-                        .getFullYear()
-                        .toString() +
+                    ? getYear(details?.release_date)
+                    : getYear(details?.first_air_date) +
                       "-" +
-                      new Date(details?.last_air_date).getFullYear().toString()
+                      getYear(details?.last_air_date)
                 }
               />
-          </GridItem>
-            )}
+            </GridItem>
+          )}
           {details?.genres && (
-          <GridItem>
+            <GridItem>
               <MediaDetail
                 label="Genres:"
                 value={details?.genres.map((genre) => genre.name).join(", ")}
               />
-          </GridItem>
-            )}
+            </GridItem>
+          )}
           {media_certification && (
-          <GridItem>
+            <GridItem>
               <MediaDetail label="Age:" value={media_certification} />
-          </GridItem>
-            )}
-          {details?.created_by && details?.created_by.length && (
-          <GridItem>
+            </GridItem>
+          )}
+          {!!(details?.created_by && details?.created_by.length) && (
+            <GridItem>
               <MediaDetail
                 label="Created by:"
                 value={details?.created_by
                   .map((creator) => creator.name)
                   .join(", ")}
               />
-          </GridItem>
-            )}
+            </GridItem>
+          )}
           {details?.vote_average && (
-          <GridItem>
+            <GridItem>
               <MediaDetail
                 label="Rating:"
                 value={details?.vote_average + "/10"}
               />
-          </GridItem>
-            )}
+            </GridItem>
+          )}
         </Grid>
       </Flex>
       {providers?.results["US"] && (

@@ -12,6 +12,7 @@ import { MultiDetails, Videos, MediaImageProp } from "@/types/mediaInfo";
 import { FaPlay, FaExternalLinkAlt } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import Ratings from "@/components/pages/MediaInfo/Ratings";
+import { getYear, minutesToHours } from "@/utils";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -35,13 +36,6 @@ const MainMediaInfo = ({
   media_logo: MediaImageProp | undefined;
   media_certification: string | undefined;
 }) => {
-  const hours: string =
-    Math.floor((details?.runtime as number) / 60) +
-    "h " +
-    ((details?.runtime as number) % 60 === 0
-      ? ""
-      : ((details?.runtime as number) % 60) + "min");
-
   const trailers = videos?.results.filter(
     (video) =>
       video?.type.toLowerCase() === "trailer" &&
@@ -84,7 +78,7 @@ const MainMediaInfo = ({
           {(details?.runtime || details?.number_of_seasons) && (
             <Text>
               {details?.runtime
-                ? hours
+                ? minutesToHours(details?.runtime as number)
                 : "Seasons: " + details?.number_of_seasons}
             </Text>
           )}
@@ -94,10 +88,10 @@ const MainMediaInfo = ({
           {(details?.release_date || details?.first_air_date) && (
             <Text>
               {details?.release_date
-                ? new Date(details?.release_date).getFullYear().toString()
-                : new Date(details?.first_air_date).getFullYear().toString() +
+                ? getYear(details?.release_date)
+                : getYear(details?.first_air_date) +
                   "-" +
-                  new Date(details?.last_air_date).getFullYear().toString()}
+                  getYear(details?.last_air_date)}
             </Text>
           )}
         </HStack>
