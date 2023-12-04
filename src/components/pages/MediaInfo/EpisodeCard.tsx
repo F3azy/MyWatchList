@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Image as ChakraIMG,
-  HStack,
-  Skeleton,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Image as ChakraIMG, Skeleton, Text } from "@chakra-ui/react";
 import { Episode } from "@/types/mediaInfo";
 import { motion } from "framer-motion";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
-const EpisodeCard = ({ episode }: { episode: Episode }) => {
+const EpisodeCard = ({
+  episode,
+  onClick,
+}: {
+  episode: Episode;
+  onClick?: () => void;
+}) => {
   const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -49,6 +48,7 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
       }}
     >
       <Box
+        onClick={onClick}
         bg="brand.dark.800"
         overflow="hidden"
         borderRadius="8px"
