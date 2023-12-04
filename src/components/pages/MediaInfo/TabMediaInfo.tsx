@@ -1,4 +1,4 @@
-import { Flex, Heading, Text, VStack } from "@chakra-ui/react";
+import { Flex, Grid, GridItem, Heading, Text, VStack } from "@chakra-ui/react";
 import { MultiDetails, Providers } from "@/types/mediaInfo";
 import MediaDetail from "@/components/pages/MediaInfo/MediaDetail";
 import WatchProviders from "@/components/pages/MediaInfo/WatchProvider";
@@ -19,30 +19,31 @@ const TabMediaInfo = ({
       ? ""
       : ((details?.runtime as number) % 60) + "min");
 
-console.log(details);
+console.log(providers);
 
 
   return (
     <VStack gap="24px" align="flex-start">
       <Heading as="h2">{details?.name || details?.title}</Heading>
-      <Flex justify="space-between">
+      <Flex gap="120px">
         {details?.overview && (
           <Text flex={0.5} textAlign="justify" fontSize="20px">
             {details?.overview}
           </Text>
         )}
-        <Flex flex={0.5} justify="space-evenly">
-          <VStack gap="16px" align="flex-start">
-            {(details?.runtime || details?.episode_run_time.length) && (
+        <Grid flex={0.5} templateColumns="repeat(2, 1fr)" gap="16px">
+          {!!(details?.runtime || details?.episode_run_time.length) && (
+          <GridItem>
               <MediaDetail
                 label="Run time:"
                 value={
                   details?.runtime ? hours : details?.episode_run_time + " min"
                 }
               />
+          </GridItem>
             )}
-
-            {(details?.release_date || details?.first_air_date) && (
+          {(details?.release_date || details?.first_air_date) && (
+          <GridItem>
               <MediaDetail
                 label="Released:"
                 value={
@@ -55,35 +56,40 @@ console.log(details);
                       new Date(details?.last_air_date).getFullYear().toString()
                 }
               />
+          </GridItem>
             )}
-
-            {details?.genres && (
+          {details?.genres && (
+          <GridItem>
               <MediaDetail
                 label="Genres:"
                 value={details?.genres.map((genre) => genre.name).join(", ")}
               />
+          </GridItem>
             )}
-          </VStack>
-          <VStack gap="16px" align="flex-start">
-            {media_certification && (
+          {media_certification && (
+          <GridItem>
               <MediaDetail label="Age:" value={media_certification} />
+          </GridItem>
             )}
-            {details?.created_by && details?.created_by.length && (
+          {details?.created_by && details?.created_by.length && (
+          <GridItem>
               <MediaDetail
                 label="Created by:"
                 value={details?.created_by
                   .map((creator) => creator.name)
                   .join(", ")}
               />
+          </GridItem>
             )}
-            {details?.vote_average && (
+          {details?.vote_average && (
+          <GridItem>
               <MediaDetail
                 label="Rating:"
                 value={details?.vote_average + "/10"}
               />
+          </GridItem>
             )}
-          </VStack>
-        </Flex>
+        </Grid>
       </Flex>
       {providers?.results["US"] && (
         <Flex gap="40px 60px" wrap="wrap">
