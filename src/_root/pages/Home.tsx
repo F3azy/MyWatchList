@@ -2,7 +2,7 @@ import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
-import Collection from "@/components/Collection";
+import Collection from "@/components/pages/Home/Collection";
 import CollectionBoxes from "@/constans/CollectionBoxes";
 import { HomeCarousels } from "@/constans/HomeCarousel";
 import { Multi } from "@/types/common";

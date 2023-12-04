@@ -1,7 +1,7 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import { Input, Divider, Button, Text, Stack, HStack } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
-import AuthIcons from "@/components/AuthIcons";
+import AuthIcons from "@/components/forms/AuthIcons";
 
 const SignInForm = () => {
   return (

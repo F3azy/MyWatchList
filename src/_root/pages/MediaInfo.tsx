@@ -8,9 +8,6 @@ import {
   Heading,
   Icon,
   Image,
-  Stat,
-  StatLabel,
-  StatNumber,
   Tab,
   TabList,
   TabPanel,
@@ -35,12 +32,12 @@ import { IoAdd, IoCheckmark } from "react-icons/io5";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import WatchCard from "@/components/shared/WatchCard";
-import Ratings from "@/components/Ratings";
-import EpisodeCard from "@/components/EpisodeCard";
+import Ratings from "@/components/pages/MediaInfo/Ratings";
+import EpisodeCard from "@/components/pages/MediaInfo/EpisodeCard";
+import MediaDetail from "@/components/pages/MediaInfo/MediaDetail";
+import WatchProvider from "@/components/pages/MediaInfo/WatchProvider";
 import useFetch from "@/hooks/useFetch";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
-import MediaDetail from "@/components/MediaDetail";
-import WatchProvider from "@/components/WatchProvider";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
