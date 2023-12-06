@@ -26,7 +26,7 @@ import EpisodeCard from "@/components/pages/MediaInfo/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
 import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
 import MediaDetail from "./MediaDetail";
-import ProductionMemberCard from "./ProductionMemberCard";
+import GuestStarMemberCard from "./GuestStarMemberCard";
 
 const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -164,7 +164,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   >
                     {episodeData?.guest_stars.map((star, idx) => (
                       <CarouselItem key={idx}>
-                        <ProductionMemberCard member={star} />
+                        <GuestStarMemberCard star={star} />
                       </CarouselItem>
                     ))}
                   </Carousel>

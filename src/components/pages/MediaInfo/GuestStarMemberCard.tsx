@@ -1,4 +1,4 @@
-import { GuestStarMember } from "@/types/mediaInfo";
+import { MediaProductionMember } from "@/types/mediaInfo";
 import { Box, Image, Text, VStack } from "@chakra-ui/react";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
@@ -6,7 +6,7 @@ const imageURL = "https://image.tmdb.org/t/p/original/";
 const GuestStarMemberCard = ({
   star
 }: {
-  star: GuestStarMember
+  star: MediaProductionMember
 }) => {
   return (
     <VStack h="full" align="flex-start">
