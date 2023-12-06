@@ -10,6 +10,13 @@ const baseStyle = definePartsStyle({
     background:
       "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
   },
+  closeButton: {
+    _hover: {
+      color: "brand.secondary",
+      border: "1px solid",
+      borderColor: "brand.secondary",
+    },
+  },
 });
 
 const modalTheme = defineMultiStyleConfig({
