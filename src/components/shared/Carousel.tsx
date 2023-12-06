@@ -11,6 +11,7 @@ type CarouselProps = {
   visibleElements: number;
   gap?: number;
   showButtons?: boolean;
+  isScrollable?: boolean;
   animate?: boolean;
   children: React.ReactNode;
 };
@@ -26,6 +27,7 @@ const Carousel = ({
   elementsTotal,
   visibleElements,
   showButtons = true,
+  isScrollable,
   gap = 20,
   children,
   animate,
@@ -85,11 +87,25 @@ const Carousel = ({
           </Text>
         </SkeletonText>
       )}
-      <Box position="relative">
+      <Box
+        position="relative"
+        overflowX={isScrollable ? "scroll" : "visible"}
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "14px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#56B4DC",
+            border: "4px solid rgba(0, 0, 0, 0)",
+            backgroundClip: "padding-box",
+            borderRadius: "24px",
+          },
+        }}
+      >
         <ScrollButton
           as={ChevronLeftIcon}
           direction="left"
-          showButton={showButtons && pages > 1}
+          showButton={showButtons && pages > 1 && !isScrollable}
           onClick={() => changePage(ACTIONS.PREVIOUS)}
         />
         <Grid
@@ -112,7 +128,7 @@ const Carousel = ({
         <ScrollButton
           as={ChevronRightIcon}
           direction="right"
-          showButton={showButtons && pages > 1}
+          showButton={showButtons && pages > 1 && !isScrollable}
           onClick={() => changePage(ACTIONS.NEXT)}
         />
       </Box>
