@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import RateStarIcon from "@/assets/StarIcon";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 const Ratings = ({ rating }: {rating: number}) => {
   const [rateStars, setRateStars] = useState<Array<string>>([]);
