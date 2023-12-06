@@ -26,7 +26,7 @@ import EpisodeCard from "@/components/pages/MediaInfo/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
 import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
 import MediaDetail from "./MediaDetail";
-import GuestStarMemberCard from "./GuestStarMemberCard";
+import ProductionMemberCard from "./ProductionMemberCard";
 
 const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -105,22 +105,17 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         <TabPanel>
           {seasonInfo && (
             <Carousel
-              elementsTotal={
-                seasonInfo?.episodes.filter((m) => m.still_path != null)
-                  .length as number
-              }
+              elementsTotal={seasonInfo?.episodes.length as number}
               visibleElements={5}
             >
-              {seasonInfo?.episodes
-                .filter((m) => m.still_path != null)
-                ?.map((episode) => (
-                  <CarouselItem key={episode.episode_number}>
-                    <EpisodeCard
-                      episode={episode}
-                      onClick={() => openModal(episode.episode_number)}
-                    />
-                  </CarouselItem>
-                ))}
+              {seasonInfo?.episodes?.map((episode) => (
+                <CarouselItem key={episode.episode_number}>
+                  <EpisodeCard
+                    episode={episode}
+                    onClick={() => openModal(episode.episode_number)}
+                  />
+                </CarouselItem>
+              ))}
             </Carousel>
           )}
         </TabPanel>
@@ -158,27 +153,30 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   value={episodeData?.air_date as string}
                 />
               </HStack>
-              {episodeData?.guest_stars.length &&
-              <Box w="full" px="60px">
-                <Text color="brand.secondary" mb="8px">
-                  Episode guest cast:
-                </Text>
-                <Carousel
-                  elementsTotal={episodeData?.guest_stars.length as number}
-                  visibleElements={4}
+              {episodeData?.guest_stars.length && (
+                <Box w="full" px="60px">
+                  <Text color="brand.secondary" mb="8px">
+                    Episode guest cast:
+                  </Text>
+                  <Carousel
+                    elementsTotal={episodeData?.guest_stars.length as number}
+                    visibleElements={4}
                   >
-                  {episodeData?.guest_stars.map((star,idx) => (
-                    <CarouselItem key={idx}>
-                      <GuestStarMemberCard star={star} />
-                    </CarouselItem>
-                  ))}
-                </Carousel>
-              </Box>
-                }
+                    {episodeData?.guest_stars.map((star, idx) => (
+                      <CarouselItem key={idx}>
+                        <ProductionMemberCard member={star} />
+                      </CarouselItem>
+                    ))}
+                  </Carousel>
+                </Box>
+              )}
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <ButtonGroup mt={episodeData?.guest_stars.length ? "12px" : 0} gap="8px">
+            <ButtonGroup
+              mt={episodeData?.guest_stars.length ? "12px" : 0}
+              gap="8px"
+            >
               <Button
                 variant="full"
                 leftIcon={
