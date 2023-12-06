@@ -1,18 +1,38 @@
-import { Flex, Grid, GridItem, Heading, Text, VStack } from "@chakra-ui/react";
-import { MultiDetails, Providers } from "@/types/mediaInfo";
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import {
+  MediaProductionMember,
+  MultiDetails,
+  Providers,
+} from "@/types/mediaInfo";
 import MediaDetail from "@/components/pages/MediaInfo/MediaDetail";
 import WatchProviders from "@/components/pages/MediaInfo/WatchProvider";
 import { getYear, minutesToHours } from "@/utils";
+import Carousel from "@/components/shared/Carousel";
+import CarouselItem from "@/components/shared/CarouselItem";
+import ProductionMemberCard from "./ProductionMemberCard";
 
 const TabMediaInfo = ({
   details,
   media_certification,
   providers,
+  cast,
+  crew,
 }: {
   details: MultiDetails;
   media_certification: string;
   providers: Providers;
+  cast: MediaProductionMember[];
+  crew: MediaProductionMember[];
 }) => {
+
   return (
     <VStack gap="24px" align="flex-start">
       <Heading as="h2">{details?.name || details?.title}</Heading>
@@ -96,6 +116,34 @@ const TabMediaInfo = ({
               );
           })}
         </Flex>
+      )}
+      {!!cast?.length && (
+        <VStack align="flex-start">
+          <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
+            Cast:
+          </Text>
+          <Carousel elementsTotal={cast?.length} visibleElements={8}>
+            {cast?.map((member) => (
+              <CarouselItem key={member.id}>
+                <ProductionMemberCard member={member} />
+              </CarouselItem>
+            ))}
+          </Carousel>
+        </VStack>
+      )}
+      {!!crew?.length && (
+        <Box w="calc(100vw - 180px)">
+          <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
+            Crew:
+          </Text>
+          <Carousel elementsTotal={crew?.length as number} visibleElements={10}>
+            {crew?.map((member, idx) => (
+              <CarouselItem key={idx}>
+                <ProductionMemberCard member={member} />
+              </CarouselItem>
+            ))}
+          </Carousel>
+        </Box>
       )}
     </VStack>
   );
