@@ -39,6 +39,7 @@ const RandomMedia = () => {
   const { data: mediaWatchCard } = useFetch<MultiMediaResult>(media);
 
   useEffect(() => {
+    setMedia("");
     if (searchParams.get("id") !== "") {
       setMedia(
         mediaURL +
@@ -127,7 +128,7 @@ const RandomMedia = () => {
         </Button>
       </HStack>
       <Flex w="60%" flex={1} justify="center" align="center">
-        {mediaWatchCard ? (
+        {mediaWatchCard && (
           <WatchCard
             id={mediaWatchCard.id}
             media_type={media_type}
@@ -136,8 +137,6 @@ const RandomMedia = () => {
               mediaWatchCard.backdrop_path || mediaWatchCard.poster_path
             }
           />
-        ) : (
-          ""
         )}
       </Flex>
     </Flex>
