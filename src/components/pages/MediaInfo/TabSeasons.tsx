@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import {
+  Box,
+  Button,
+  ButtonGroup,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Tab,
@@ -11,6 +16,7 @@ import {
   TabPanel,
   Tabs,
   Text,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Episode, MultiDetails, Season } from "@/types/mediaInfo";
@@ -18,6 +24,9 @@ import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import EpisodeCard from "@/components/pages/MediaInfo/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
+import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
+import MediaDetail from "./MediaDetail";
+import GuestStarMemberCard from "./GuestStarMemberCard";
 
 const TabSeasons = ({ details }: { details: MultiDetails | undefined }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -61,6 +70,8 @@ const TabSeasons = ({ details }: { details: MultiDetails | undefined }) => {
     onClose();
     setEpisodeData(undefined);
   }
+
+  console.log(episodeData);
 
   return (
     <>
@@ -121,6 +132,7 @@ const TabSeasons = ({ details }: { details: MultiDetails | undefined }) => {
         onClose={closeModal}
         blockScrollOnMount={false}
         isCentered
+        size="3xl"
       >
         <ModalOverlay />
         <ModalContent>
@@ -131,7 +143,55 @@ const TabSeasons = ({ details }: { details: MultiDetails | undefined }) => {
             </Text>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{episodeData?.overview}</ModalBody>
+          <ModalBody overflowX="clip">
+            <VStack w="full" align="flex-start" gap="12px">
+              <Text textAlign="justify">{episodeData?.overview}</Text>
+              <HStack w="full" justify="space-between">
+                <MediaDetail
+                  label="Runtime"
+                  value={episodeData?.runtime + " min"}
+                />
+                <MediaDetail
+                  label="Rating"
+                  value={episodeData?.vote_average + "/10"}
+                />
+                <MediaDetail
+                  label="Air date"
+                  value={episodeData?.air_date as string}
+                />
+              </HStack>
+              <Box w="full" px="60px">
+                <Text color="brand.secondary" mb="8px">
+                  Cast:
+                </Text>
+                <Carousel
+                  elementsTotal={episodeData?.guest_stars.length as number}
+                  visibleElements={4}
+                >
+                  {episodeData?.guest_stars.map((star) => (
+                    <CarouselItem>
+                      <GuestStarMemberCard star={star} />
+                    </CarouselItem>
+                  ))}
+                </Carousel>
+              </Box>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <ButtonGroup mt="12px" gap="8px">
+              <Button
+                variant="full"
+                leftIcon={
+                  <BsBookmarkPlus size={20} /> || <BsBookmarkDash size={20} />
+                }
+              >
+                {"Mark as watched" || "Unmark as watched"}
+              </Button>
+              <Button variant="outline" onClick={closeModal}>
+                Close
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
