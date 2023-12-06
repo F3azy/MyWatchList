@@ -2,7 +2,7 @@ export type MediaImageProp = {
   file_path: string;
   height: number;
   width: number;
-}
+};
 
 export type MediaImages = {
   backdrops: MediaImageProp[];
@@ -106,11 +106,13 @@ export type MultiCertification = {
   }[];
 };
 
-export type GuestStarMember = {
+export type MediaProductionMember = {
+  id: number;
   character: string;
   name: string;
   profile_path: string;
-}
+  job: string
+};
 
 export type Episode = {
   episode_number: number;
@@ -121,12 +123,17 @@ export type Episode = {
   runtime: number;
   still_path: string;
   vote_average: string;
-  guest_stars: GuestStarMember[]; 
-}
+  guest_stars: MediaProductionMember[];
+};
 
 export type Season = {
   name: string;
   poster_path: string;
   season_number: number;
   episodes: Episode[];
+};
+
+export type Credits = {
+  cast: MediaProductionMember[];
+  crew: MediaProductionMember[];
 };
