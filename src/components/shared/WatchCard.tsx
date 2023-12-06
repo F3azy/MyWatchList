@@ -7,13 +7,11 @@ const WatchCard = ({
   media_type,
   title,
   SpecImageURL,
-  isLink = true
 }: {
   id?: number;
   media_type?: string;
   title?: string;
   SpecImageURL: string;
-  isLink?: boolean;
 }) => {
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -54,7 +52,7 @@ const WatchCard = ({
         boxShadow: "0px 30px 30px -10px black",
       }}
     >
-      <Link as={RouterLink} to={isLink ? "/info/" + media_type + "/" + title?.replaceAll(" ", "-") + "/" + id : ""}>
+      <Link as={RouterLink} to={"/info/" + media_type + "/" + title?.replaceAll(" ", "-") + "/" + id}>
         <ChakraIMG
           h="100%"
           borderRadius="8px"
