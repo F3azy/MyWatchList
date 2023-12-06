@@ -154,13 +154,14 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                 />
               </HStack>
               {episodeData?.guest_stars.length && (
-                <Box w="full" px="60px">
+                <Box w="full">
                   <Text color="brand.secondary" mb="8px">
                     Episode guest cast:
                   </Text>
                   <Carousel
                     elementsTotal={episodeData?.guest_stars.length as number}
                     visibleElements={4}
+                    isScrollable
                   >
                     {episodeData?.guest_stars.map((star, idx) => (
                       <CarouselItem key={idx}>
