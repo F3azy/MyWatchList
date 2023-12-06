@@ -71,8 +71,6 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
     setEpisodeData(undefined);
   }
 
-  console.log(episodeData);
-
   return (
     <>
       <Tabs variant="seasons">
@@ -163,14 +161,14 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
               {episodeData?.guest_stars.length &&
               <Box w="full" px="60px">
                 <Text color="brand.secondary" mb="8px">
-                  Cast:
+                  Episode guest cast:
                 </Text>
                 <Carousel
                   elementsTotal={episodeData?.guest_stars.length as number}
                   visibleElements={4}
                   >
-                  {episodeData?.guest_stars.map((star) => (
-                    <CarouselItem>
+                  {episodeData?.guest_stars.map((star,idx) => (
+                    <CarouselItem key={idx}>
                       <GuestStarMemberCard star={star} />
                     </CarouselItem>
                   ))}
@@ -180,7 +178,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <ButtonGroup mt="12px" gap="8px">
+            <ButtonGroup mt={episodeData?.guest_stars.length ? "12px" : 0} gap="8px">
               <Button
                 variant="full"
                 leftIcon={
