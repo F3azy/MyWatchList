@@ -9,9 +9,9 @@ const TabMediaInfo = ({
   media_certification,
   providers,
 }: {
-  details: MultiDetails | undefined;
-  media_certification: string | undefined;
-  providers: Providers | undefined;
+  details: MultiDetails;
+  media_certification: string;
+  providers: Providers;
 }) => {
   return (
     <VStack gap="24px" align="flex-start">

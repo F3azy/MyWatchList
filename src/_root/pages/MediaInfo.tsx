@@ -137,7 +137,7 @@ const MediaInfo = () => {
           
           {media_type === "tv" && (
             <TabPanel px={0} minH="200px">
-              {details?.seasons && <TabSeasons details={details} />}
+              {details?.seasons && <TabSeasons details={details as MultiDetails} />}
             </TabPanel>
           )}
 
@@ -193,9 +193,9 @@ const MediaInfo = () => {
 
           <TabPanel px={0}>
             <TabMediaInfo
-              details={details}
-              media_certification={media_certification}
-              providers={providers}
+              details={details as MultiDetails}
+              media_certification={media_certification as string}
+              providers={providers as Providers}
             />
           </TabPanel>
         </TabPanels>

@@ -28,7 +28,7 @@ import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
 import MediaDetail from "./MediaDetail";
 import GuestStarMemberCard from "./GuestStarMemberCard";
 
-const TabSeasons = ({ details }: { details: MultiDetails | undefined }) => {
+const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
 
   useEffect(() => {
