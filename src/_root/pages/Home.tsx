@@ -5,7 +5,7 @@ import WatchCard from "@/components/shared/WatchCard";
 import Collection from "@/components/pages/Home/Collection";
 import CollectionBoxes from "@/constans/CollectionBoxes";
 import { HomeCarousels } from "@/constans/HomeCarousel";
-import { Multi } from "@/types/common";
+import { MultiMedia } from "@/types/common";
 import useMultipleFetch from "@/hooks/useMultipleFetch";
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
     data: carousels,
     loading,
     error,
-  } = useMultipleFetch<{ results: Multi[] }>(HomeCarousels.urls);
+  } = useMultipleFetch<MultiMedia>(HomeCarousels.urls);
 
   return (
     <Flex direction="column" rowGap="28px">

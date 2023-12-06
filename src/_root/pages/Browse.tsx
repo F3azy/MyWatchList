@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import WatchCard from "@/components/shared/WatchCard";
 import MovieSelect from "@/components/shared/GenreSelect";
-import { Multi } from "@/types/common";
+import { MultiMedia } from "@/types/common";
 import useFetch from "@/hooks/useFetch";
 
 const url = "https://api.themoviedb.org/3/discover/";
@@ -17,7 +17,7 @@ const Browse = () => {
     setGenre(event.currentTarget.value);
   }
 
-  const { data: watchCards } = useFetch<{ results: Multi[] }>(
+  const { data: watchCards } = useFetch<MultiMedia>(
     url +
       media_type +
       `?api_key=${

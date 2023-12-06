@@ -8,7 +8,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import WatchCard from "@/components/shared/WatchCard";
-import { Multi } from "@/types/common";
+import { MultiMedia } from "@/types/common";
 import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "@/hooks/useFetch";
 import { useSearchParams } from "react-router-dom";
@@ -22,7 +22,7 @@ const Search = () => {
 
   const [title, setTitle] = useState(searchParams.get("q") as string);
 
-  const { data: watchCards } = useFetch<{ results: Multi[] }>(
+  const { data: watchCards } = useFetch<MultiMedia>(
     url +
       `?api_key=${
         import.meta.env.VITE_MOVIE_API_KEY

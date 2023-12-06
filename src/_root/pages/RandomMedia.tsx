@@ -2,7 +2,7 @@ import { Flex, HStack, Text, Select, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import MovieSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
-import { Multi } from "@/types/common";
+import { MultiMediaResult } from "@/types/common";
 import { useSearchParams } from "react-router-dom";
 import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import useFetch from "@/hooks/useFetch";
@@ -27,8 +27,8 @@ const RandomMedia = () => {
   const [discover, setDiscover] = useState<string>("");
   const [media, setMedia] = useState<string>("");
 
-  const { data: discoverWatchCard } = useFetchRandomPage<Multi>(discover, true);
-  const { data: mediaWatchCard } = useFetch<Multi>(media);
+  const { data: discoverWatchCard } = useFetchRandomPage<MultiMediaResult>(discover, true);
+  const { data: mediaWatchCard } = useFetch<MultiMediaResult>(media);
 
   useEffect(() => {
     if (searchParams.get("id") !== "") {

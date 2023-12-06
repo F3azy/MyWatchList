@@ -1,19 +1,22 @@
-type BaseFetchType = {
+export type BaseMediaData = {
   id: number;
   poster_path: string;
   backdrop_path: string;
-}
+};
 
-export type Movie = BaseFetchType & {
+type Movie = BaseMediaData & {
   title: string;
 };
 
-export type TV = BaseFetchType & {
+type TV = BaseMediaData & {
   name: string;
 };
 
-export type Multi = Movie & TV & {
-  media_type?: "movie" | "tv";
-}
+export type MultiMediaResult = Movie &
+  TV & {
+    media_type?: "movie" | "tv";
+  };
 
-
+export type MultiMedia = {
+  results: MultiMediaResult[];
+};
