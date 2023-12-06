@@ -160,6 +160,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   value={episodeData?.air_date as string}
                 />
               </HStack>
+              {episodeData?.guest_stars.length &&
               <Box w="full" px="60px">
                 <Text color="brand.secondary" mb="8px">
                   Cast:
@@ -167,7 +168,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                 <Carousel
                   elementsTotal={episodeData?.guest_stars.length as number}
                   visibleElements={4}
-                >
+                  >
                   {episodeData?.guest_stars.map((star) => (
                     <CarouselItem>
                       <GuestStarMemberCard star={star} />
@@ -175,6 +176,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   ))}
                 </Carousel>
               </Box>
+                }
             </VStack>
           </ModalBody>
           <ModalFooter>
