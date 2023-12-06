@@ -106,7 +106,7 @@ export type MultiCertification = {
   }[];
 };
 
-export type GuestStarsMember = {
+export type GuestStarMember = {
   character: string;
   name: string;
   profile_path: string;
@@ -121,7 +121,7 @@ export type Episode = {
   runtime: number;
   still_path: string;
   vote_average: string;
-  guest_stars: GuestStarsMember[]; 
+  guest_stars: GuestStarMember[]; 
 }
 
 export type Season = {
