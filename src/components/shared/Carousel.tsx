@@ -58,6 +58,10 @@ const Carousel = ({
     return () => clearTimeout(timer);
   }, [clicked]);
 
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [children]);
+
   useInterval(
     () => {
       changePage(ACTIONS.NEXT);
