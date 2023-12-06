@@ -4,11 +4,20 @@ import MovieSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
 import { MultiMediaResult } from "@/types/common";
 import { useSearchParams } from "react-router-dom";
-import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import useFetch from "@/hooks/useFetch";
 
 const discoverURL = "https://api.themoviedb.org/3/discover/";
 const mediaURL = "https://api.themoviedb.org/3/";
+
+const fetchData = async (url: string) => {
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error(`Error fetching in useFetchRandomPage:`, error);
+  }
+};
 
 const RandomMedia = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -24,10 +33,9 @@ const RandomMedia = () => {
     searchParams.get("genre") as string
   );
   const [genre, setGenre] = useState("");
-  const [discover, setDiscover] = useState<string>("");
   const [media, setMedia] = useState<string>("");
 
-  const { data: discoverWatchCard } = useFetchRandomPage<MultiMediaResult>(discover, true);
+  const [mediaID, setMediaID] = useState<number>();
   const { data: mediaWatchCard } = useFetch<MultiMediaResult>(media);
 
   useEffect(() => {
@@ -40,21 +48,18 @@ const RandomMedia = () => {
           `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
       );
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (discoverWatchCard) {
-      setSearchParams(
-        (prev) => {
-          prev.set("genre", genre);
-          prev.set("media_type", media_type);
-          prev.set("id", discoverWatchCard?.id.toString() as string);
-          return prev;
-        },
-        { replace: true }
-      );
+    if (mediaID) {
+      setSearchParams((prev) => {
+        prev.set("genre", genre);
+        prev.set("media_type", media_type);
+        prev.set("id", mediaID?.toString() as string);
+        return prev;
+      });
     }
-  }, [discoverWatchCard]);
+  }, [mediaID]);
 
   function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
@@ -68,14 +73,32 @@ const RandomMedia = () => {
   }
 
   function searchRand() {
-    setDiscover(
-      discoverURL +
-        media_type +
-        `?api_key=${
-          import.meta.env.VITE_MOVIE_API_KEY
-        }&language=en-US&with_genres=${genre}`
-    );
-    setMedia("");
+    Promise.resolve(
+      fetchData(
+        discoverURL +
+          media_type +
+          `?api_key=${
+            import.meta.env.VITE_MOVIE_API_KEY
+          }&language=en-US&with_genres=${genre}`
+      )
+    ).then((pages) => {
+      const randomPage = Math.floor(
+        Math.random() * (Math.min(pages.total_pages, 500) - 1 + 1) + 1
+      );
+      Promise.resolve(
+        fetchData(
+          discoverURL +
+            media_type +
+            `?api_key=${
+              import.meta.env.VITE_MOVIE_API_KEY
+            }&language=en-US&with_genres=${genre}` +
+            `&page=${randomPage}`
+        )
+      ).then((value) => {
+        const randomIdx = Math.floor(Math.random() * 20);
+        setMediaID(value.results[randomIdx].id);
+      });
+    });
   }
 
   return (
@@ -88,32 +111,23 @@ const RandomMedia = () => {
           w="200px"
           variant="base"
           defaultValue={media_type !== "" ? media_type : "movie"}
-          onChange={changeType}
+          onChange={(e) => changeType(e)}
         >
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
         </Select>
         <MovieSelect
           media_type={media_type}
-          setStateFun={setGenre}
-          changeFun={changeGenre}
+          setStateFun={(e) => setGenre(e)}
+          changeFun={(e) => changeGenre(e)}
           defaultValue={defaultGenre}
         />
-        <Button variant="full" borderRadius="full" onClick={searchRand}>
+        <Button variant="full" borderRadius="full" onClick={() => searchRand()}>
           Search
         </Button>
       </HStack>
       <Flex w="60%" flex={1} justify="center" align="center">
-        {discoverWatchCard ? (
-          <WatchCard
-            id={discoverWatchCard.id}
-            media_type={media_type}
-            title={discoverWatchCard.name || discoverWatchCard.title}
-            SpecImageURL={
-              discoverWatchCard.backdrop_path || discoverWatchCard.poster_path
-            }
-          />
-        ) : mediaWatchCard ? (
+        {mediaWatchCard ? (
           <WatchCard
             id={mediaWatchCard.id}
             media_type={media_type}
