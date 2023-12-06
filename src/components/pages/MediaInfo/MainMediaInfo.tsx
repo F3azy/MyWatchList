@@ -33,10 +33,10 @@ const MainMediaInfo = ({
   media_logo,
   media_certification,
 }: {
-  details: MultiDetails | undefined;
-  videos: Videos | undefined;
-  media_logo: MediaImageProp | undefined;
-  media_certification: string | undefined;
+  details: MultiDetails;
+  videos: Videos;
+  media_logo: MediaImageProp;
+  media_certification: string;
 }) => {
   const trailers = videos?.results.filter(
     (video) =>

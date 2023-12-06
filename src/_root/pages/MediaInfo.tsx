@@ -17,6 +17,7 @@ import {
   Videos,
   MultiCertification,
   Recommended,
+  MediaImageProp,
 } from "@/types/mediaInfo";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
@@ -90,10 +91,10 @@ const MediaInfo = () => {
       <Flex overflow="hidden" position="relative">
         <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
           <MainMediaInfo
-            details={details}
-            media_logo={media_logo}
-            media_certification={media_certification}
-            videos={videos}
+            details={details as MultiDetails}
+            media_logo={media_logo as MediaImageProp}
+            media_certification={media_certification as string}
+            videos={videos as Videos}
           />
         </Box>
         <Box
