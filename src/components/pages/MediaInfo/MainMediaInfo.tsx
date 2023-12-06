@@ -4,8 +4,10 @@ import {
   HStack,
   Heading,
   Icon,
+  IconButton,
   Image,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { MultiDetails, Videos, MediaImageProp } from "@/types/mediaInfo";
@@ -167,27 +169,20 @@ const MainMediaInfo = ({
             Homepage
           </Button>
         )}
-        <Box
-          h="full"
-          m="0 !important"
-          p="4px"
-          border="solid 1px"
-          borderColor="brand.secondary"
-          borderRadius="full"
-          color="brand.secondary"
-          _hover={{
-            bg: "#56B4DC",
-            color: "#141414",
-            borderColor: "#56B4DC",
-            cursor: "pointer",
-          }}
-          _active={{
-            bg: "#3492BA",
-            borderColor: "#3492BA",
-          }}
+        <Tooltip
+          hasArrow
+          fontSize="16px"
+          label={"Add to watchlist" || "Remove from watchlist"}
+          placement="right"
         >
-          <Icon as={IoAdd || IoCheckmark} boxSize="full" />
-        </Box>
+          <IconButton
+            isRound={true}
+            variant="full"
+            aria-label="Add to list"
+            p="4px"
+            icon={<Icon as={IoAdd || IoCheckmark} boxSize="full" />}
+          />
+        </Tooltip>
       </HStack>
     </VStack>
   );
