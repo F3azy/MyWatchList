@@ -18,6 +18,8 @@ import {
   MultiCertification,
   Recommended,
   MediaImageProp,
+  Credits,
+  MediaProductionMember,
 } from "@/types/mediaInfo";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
@@ -50,7 +52,7 @@ const MediaInfo = () => {
   }&language=en-US`;
   const urlRecommended = `https://api.themoviedb.org/3/${media_type}/${id}/recommendations?api_key=${
     import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US&page=1`;
+  }&language=en-US`;
   const urlCertification =
     media_type === "movie"
       ? `https://api.themoviedb.org/3/${media_type}/${id}/release_dates?api_key=${
@@ -59,6 +61,10 @@ const MediaInfo = () => {
       : `https://api.themoviedb.org/3/${media_type}/${id}/content_ratings?api_key=${
           import.meta.env.VITE_MOVIE_API_KEY
         }&language=en-US`;
+
+  const urlCredits = `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${
+    import.meta.env.VITE_MOVIE_API_KEY
+  }&language=en-US`;
 
   const { data: images, loading: loadingImages } =
     useFetch<MediaImages>(urlImages);
@@ -75,6 +81,8 @@ const MediaInfo = () => {
 
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
+
+  const { data: credits } = useFetch<Credits>(urlCredits);
 
   const media_certification =
     media_type === "movie"
@@ -134,10 +142,11 @@ const MediaInfo = () => {
           <Tab>Details</Tab>
         </TabList>
         <TabPanels>
-          
           {media_type === "tv" && (
             <TabPanel px={0} minH="200px">
-              {details?.seasons && <TabSeasons details={details as MultiDetails} />}
+              {details?.seasons && (
+                <TabSeasons details={details as MultiDetails} />
+              )}
             </TabPanel>
           )}
 
@@ -196,6 +205,8 @@ const MediaInfo = () => {
               details={details as MultiDetails}
               media_certification={media_certification as string}
               providers={providers as Providers}
+              cast={credits?.cast as MediaProductionMember[]}
+              crew={credits?.crew as MediaProductionMember[]}
             />
           </TabPanel>
         </TabPanels>
