@@ -106,14 +106,22 @@ export type MultiCertification = {
   }[];
 };
 
+export type GuestStarsMember = {
+  character: string;
+  name: string;
+  profile_path: string;
+}
+
 export type Episode = {
   episode_number: number;
   season_number: number;
+  air_date: string;
   name: string;
   overview: string;
   runtime: number;
   still_path: string;
   vote_average: string;
+  guest_stars: GuestStarsMember[]; 
 }
 
 export type Season = {
