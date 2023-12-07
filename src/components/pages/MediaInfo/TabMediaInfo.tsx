@@ -18,6 +18,7 @@ import { getYear, minutesToHours } from "@/utils";
 import Carousel from "@/components/shared/Carousel";
 import CarouselItem from "@/components/shared/CarouselItem";
 import ProductionMemberCard from "./ProductionMemberCard";
+import SeasonSelect from "./SeasonSelect";
 
 const TabMediaInfo = ({
   details,
@@ -25,13 +26,18 @@ const TabMediaInfo = ({
   providers,
   cast,
   crew,
+  media_type,
+  setSeason,
 }: {
   details: MultiDetails;
   media_certification: string;
   providers: Providers;
   cast: MediaProductionMember[];
   crew: MediaProductionMember[];
+  media_type: string;
+  setSeason: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+
 
   return (
     <VStack gap="24px" align="flex-start">
@@ -117,34 +123,50 @@ const TabMediaInfo = ({
           })}
         </Flex>
       )}
-      {!!cast?.length && (
-        <VStack align="flex-start">
+      <Box>
+        {media_type === "tv" && (
+          <SeasonSelect details={details} setSeason={setSeason} />
+        )}
+        <VStack align="flex-start" minH="200px">
           <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
             Cast:
           </Text>
-          <Carousel elementsTotal={cast?.length} visibleElements={8}>
-            {cast?.map((member) => (
-              <CarouselItem key={member.id}>
-                <ProductionMemberCard member={member} />
-              </CarouselItem>
-            ))}
-          </Carousel>
+          {!!cast?.length ? (
+            <Carousel elementsTotal={cast?.length} visibleElements={8}>
+              {cast?.map((member) => (
+                <CarouselItem key={member.id}>
+                  <ProductionMemberCard member={member} />
+                </CarouselItem>
+              ))}
+            </Carousel>
+          ) : (
+            <Text fontWeight="semibold" fontSize="20px">
+              Nothing found
+            </Text>
+          )}
         </VStack>
-      )}
-      {!!crew?.length && (
-        <VStack align="flex-start">
+        <VStack align="flex-start" minH="200px">
           <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
             Crew:
           </Text>
-          <Carousel elementsTotal={crew?.length as number} visibleElements={10}>
-            {crew?.map((member, idx) => (
-              <CarouselItem key={idx}>
-                <ProductionMemberCard member={member} />
-              </CarouselItem>
-            ))}
-          </Carousel>
+          {!!crew?.length ? (
+            <Carousel
+              elementsTotal={crew?.length as number}
+              visibleElements={10}
+            >
+              {crew?.map((member, idx) => (
+                <CarouselItem key={idx}>
+                  <ProductionMemberCard member={member} />
+                </CarouselItem>
+              ))}
+            </Carousel>
+          ) : (
+            <Text fontWeight="semibold" fontSize="20px">
+              Nothing found
+            </Text>
+          )}
         </VStack>
-      )}
+      </Box>
     </VStack>
   );
 };
