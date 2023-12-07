@@ -1,22 +1,53 @@
 import { MediaProductionMember } from "@/types/mediaInfo";
-import { Box, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Image as ChakraIMG, Skeleton, Text, VStack } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
 const GuestStarMemberCard = ({ star }: { star: MediaProductionMember }) => {
+  const [isloading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const decode = async () => {
+      try {
+        const image = new Image();
+        image.src = imageURL + star.profile_path;
+        await image.decode();
+
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+      } catch (error) {
+        console.error("Error decoding image:", error);
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+      }
+    };
+
+    decode();
+  }, [star]);
+
   return (
-    <VStack w="100%" h="full" align="flex-start">
-      <Box w="100%" overflow="hidden">
-        <Image
-          w="100%"
-          src={imageURL + star.profile_path}
-          alt={star.name}
-          fallbackSrc="https://via.placeholder.com/150x200"
-        />
-      </Box>
-      <Text color="brand.secondary">{star.name}</Text>
-      <Text fontSize="14px">{star.character}</Text>
-    </VStack>
+    <Skeleton
+      h="full"
+      isLoaded={!isloading}
+      startColor="brand.primary"
+      endColor="brand.tertiary"
+      fadeDuration={4}
+    >
+      <VStack w="100%" h="full" align="flex-start">
+        <Box w="100%" overflow="hidden">
+          <ChakraIMG
+            w="100%"
+            src={imageURL + star.profile_path}
+            alt={star.name}
+            fallbackSrc="https://via.placeholder.com/150x200"
+          />
+        </Box>
+        <Text color="brand.secondary">{star.name}</Text>
+        <Text fontSize="14px">{star.character}</Text>
+      </VStack>
+    </Skeleton>
   );
 };
 
