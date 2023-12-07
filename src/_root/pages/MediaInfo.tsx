@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Box,
   Flex,
   Image,
+  Select,
   Tab,
   TabList,
   TabPanel,
@@ -62,10 +64,6 @@ const MediaInfo = () => {
           import.meta.env.VITE_MOVIE_API_KEY
         }&language=en-US`;
 
-  const urlCredits = `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US`;
-
   const { data: images, loading: loadingImages } =
     useFetch<MediaImages>(urlImages);
 
@@ -81,6 +79,17 @@ const MediaInfo = () => {
 
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
+
+  const [seasonNumber, setSeasonNumber] = useState("1");
+  
+  const urlCredits =
+    media_type === "movie"
+      ? `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${
+          import.meta.env.VITE_MOVIE_API_KEY
+        }&language=en-US`
+      : `https://api.themoviedb.org/3/${media_type}/${id}/season/${seasonNumber}/credits?api_key=${
+          import.meta.env.VITE_MOVIE_API_KEY
+        }&language=en-US`;
 
   const { data: credits } = useFetch<Credits>(urlCredits);
 
@@ -207,6 +216,8 @@ const MediaInfo = () => {
               providers={providers as Providers}
               cast={credits?.cast as MediaProductionMember[]}
               crew={credits?.crew as MediaProductionMember[]}
+              media_type={media_type as string}
+              setSeason={setSeasonNumber}
             />
           </TabPanel>
         </TabPanels>
