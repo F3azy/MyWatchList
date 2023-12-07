@@ -127,15 +127,13 @@ const RandomMedia = () => {
           Search
         </Button>
       </HStack>
-      <Flex w="60%" flex={1} justify="center" align="center">
+      <Flex w="60%" justify="center" align="center">
         {mediaWatchCard && (
           <WatchCard
             id={mediaWatchCard.id}
             media_type={media_type}
             title={mediaWatchCard.name || mediaWatchCard.title}
-            SpecImageURL={
-              mediaWatchCard.backdrop_path || mediaWatchCard.poster_path
-            }
+            SpecImageURL={mediaWatchCard.backdrop_path}
           />
         )}
       </Flex>
