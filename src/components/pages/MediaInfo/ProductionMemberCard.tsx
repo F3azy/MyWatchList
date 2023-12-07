@@ -23,6 +23,7 @@ const ProductionMemberCard = ({
         transition="transform 500ms ease 0s"
         _groupHover={{ transform: "scale(2) translate(20%, 10%)" }}
         src={imageURL + member.profile_path}
+        fallbackSrc='https://via.placeholder.com/150'
         alt={member.name}
       />
       <Box
@@ -42,7 +43,9 @@ const ProductionMemberCard = ({
         transition="bottom 500ms ease 0s"
         _groupHover={{ bottom: 0 }}
       >
-        <Text color="brand.secondary" fontSize="20px">{member.name}</Text>
+        <Text color="brand.secondary" fontSize="20px">
+          {member.name}
+        </Text>
         {(member.character || member.job) && (
           <Text>{member.character || member.job}</Text>
         )}
