@@ -23,7 +23,7 @@ const ProductionMemberCard = ({
         transition="transform 500ms ease 0s"
         _groupHover={{ transform: "scale(2) translate(20%, 10%)" }}
         src={imageURL + member.profile_path}
-        fallbackSrc='https://via.placeholder.com/150'
+        fallbackSrc='https://via.placeholder.com/150x200'
         alt={member.name}
       />
       <Box

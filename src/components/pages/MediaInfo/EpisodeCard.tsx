@@ -67,6 +67,7 @@ const EpisodeCard = ({
           <ChakraIMG
             w="100%"
             src={imageURL + episode?.still_path}
+            fallbackSrc='https://via.placeholder.com/100x50'
             alt={episode?.name}
           />
           <Box
