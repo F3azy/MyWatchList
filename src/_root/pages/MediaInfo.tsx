@@ -15,10 +15,8 @@ import {
   MediaImages,
   MultiDetails,
   Providers,
-  Similar,
   Videos,
   MultiCertification,
-  Recommended,
   MediaImageProp,
   Credits,
   MediaProductionMember,
@@ -31,6 +29,7 @@ import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import MainMediaInfo from "@/components/pages/MediaInfo/MainMediaInfo";
 import TabMediaInfo from "@/components/pages/MediaInfo/TabMediaInfo";
 import TabSeasons from "@/components/pages/MediaInfo/TabSeasons";
+import { MultiMedia } from "@/types/common";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -73,9 +72,9 @@ const MediaInfo = () => {
 
   const { data: videos } = useFetch<Videos>(urlVideos);
 
-  const { data: recommended } = useFetchRandomPage<Recommended>(urlRecommended);
+  const { data: recommended } = useFetchRandomPage<MultiMedia>(urlRecommended);
 
-  const { data: similar } = useFetchRandomPage<Similar>(urlSimilar);
+  const { data: similar } = useFetchRandomPage<MultiMedia>(urlSimilar);
 
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);

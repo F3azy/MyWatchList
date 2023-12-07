@@ -10,25 +10,6 @@ export type MediaImages = {
   posters: MediaImageProp[];
 };
 
-export type Similar = {
-  results: {
-    id: number;
-    poster_path: string;
-    name?: string;
-    title?: string;
-  }[];
-};
-
-export type Recommended = {
-  results: {
-    id: number;
-    poster_path: string;
-    name?: string;
-    title?: string;
-    media_type: "tv" | "movie";
-  }[];
-};
-
 export type Provider = {
   display_priority: number;
   logo_path: string;
