@@ -1,4 +1,4 @@
-export type BaseMediaData = {
+type BaseMediaData = {
   id: number;
   poster_path: string;
   backdrop_path: string;
