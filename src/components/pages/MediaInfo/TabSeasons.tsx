@@ -125,6 +125,8 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         blockScrollOnMount={false}
         isCentered
         size="3xl"
+        autoFocus={false}
+        returnFocusOnClose={false}
       >
         <ModalOverlay />
         <ModalContent>
