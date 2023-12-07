@@ -3,6 +3,8 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Grid,
+  GridItem,
   HStack,
   Modal,
   ModalBody,
@@ -102,21 +104,18 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
               </Tab>
             ))}
         </TabList>
-        <TabPanel>
+        <TabPanel px={0}>
           {seasonInfo && (
-            <Carousel
-              elementsTotal={seasonInfo?.episodes.length as number}
-              visibleElements={5}
-            >
+            <Grid templateColumns="repeat(5, 1fr)" gap="20px">
               {seasonInfo?.episodes?.map((episode) => (
-                <CarouselItem key={episode.episode_number}>
+                <GridItem key={episode.episode_number}>
                   <EpisodeCard
                     episode={episode}
                     onClick={() => openModal(episode.episode_number)}
                   />
-                </CarouselItem>
+                </GridItem>
               ))}
-            </Carousel>
+            </Grid>
           )}
         </TabPanel>
       </Tabs>
