@@ -36,6 +36,7 @@ const EpisodeCard = ({
 
   return (
     <Skeleton
+    h="100%"
       borderRadius="4px"
       isLoaded={!isloading}
       startColor="brand.primary"
@@ -50,6 +51,7 @@ const EpisodeCard = ({
       }}
     >
       <Box
+      h="100%"
         onClick={onClick}
         bg="brand.dark.800"
         overflow="hidden"
@@ -63,9 +65,10 @@ const EpisodeCard = ({
             "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
         }}
       >
-        <Box position="relative">
+        <Box h="100%" position="relative">
           <ChakraIMG
             w="100%"
+            h="100%"
             src={imageURL + episode?.still_path}
             fallbackSrc='https://via.placeholder.com/100x50'
             alt={episode?.name}
