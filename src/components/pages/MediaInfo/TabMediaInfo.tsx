@@ -132,7 +132,7 @@ const TabMediaInfo = ({
         </VStack>
       )}
       {!!crew?.length && (
-        <Box w="calc(100vw - 180px)">
+        <VStack align="flex-start">
           <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
             Crew:
           </Text>
@@ -143,7 +143,7 @@ const TabMediaInfo = ({
               </CarouselItem>
             ))}
           </Carousel>
-        </Box>
+        </VStack>
       )}
     </VStack>
   );
