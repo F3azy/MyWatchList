@@ -62,7 +62,7 @@ const Carousel = ({
 
   useEffect(() => {
     setCurrentPage(0);
-  }, [children]);
+  }, [pages]);
 
   useInterval(
     () => {
@@ -89,7 +89,7 @@ const Carousel = ({
       )}
       <Box
         position="relative"
-        overflowX={isScrollable ? "scroll" : "visible"}
+        overflowX={isScrollable && pages > 1 ? "scroll" : "visible"}
         css={{
           "&::-webkit-scrollbar": {
             width: "14px",
