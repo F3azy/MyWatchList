@@ -2,6 +2,21 @@ import WatchCard from "@/components/shared/WatchCard";
 import { MultiMediaResult } from "@/types/common";
 import { Container, Grid, GridItem, Text, VStack } from "@chakra-ui/react";
 
+function watchCardAllowDrop(event: React.DragEvent<HTMLDivElement>) {
+  event.preventDefault();
+}
+
+function watchCardDrop(event: React.DragEvent<HTMLDivElement>) {
+  event.preventDefault();
+  const data = event.dataTransfer.getData("text");
+  event.currentTarget.appendChild(document.getElementById(data) as HTMLElement);
+}
+
+function watchCardDrag(event: React.DragEvent<HTMLDivElement>) {
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text", event.currentTarget.id);
+}
+
 const WatchList = ({
   title,
   watchCards,
@@ -16,10 +31,10 @@ const WatchList = ({
       </Text>
       <Container h="full" p={0} variant="gradientBox" borderRadius="xl">
         <Grid
-          maxH="calc(75vh)"
-          h="full"
+          h="calc(75vh)"
           p={4}
           templateColumns="repeat(3, 1fr)"
+          gridAutoRows="min-content"
           gap={5}
           overflowY="scroll"
           css={{
@@ -33,14 +48,20 @@ const WatchList = ({
               borderRadius: "24px",
             },
           }}
+          onDragOver={watchCardAllowDrop}
+          onDrop={watchCardDrop}
         >
-          {watchCards?.map((Watchcard) => (
-            <GridItem>
+          {watchCards?.map((watchcard) => (
+            <GridItem
+              id={watchcard.id.toString()}
+              draggable
+              onDragStart={watchCardDrag}
+            >
               <WatchCard
-                id={Watchcard.id}
+                id={watchcard.id}
                 media_type={"movie"}
-                title={Watchcard.name || Watchcard.title}
-                SpecImageURL={Watchcard.poster_path}
+                title={watchcard.name || watchcard.title}
+                SpecImageURL={watchcard.poster_path}
               />
             </GridItem>
           ))}
