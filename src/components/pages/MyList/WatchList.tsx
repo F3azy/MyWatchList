@@ -1,29 +1,36 @@
 import WatchCard from "@/components/shared/WatchCard";
-import { MultiMediaResult } from "@/types/common";
+import { MediaList, MediaStatus } from "@/types/myList";
 import { Container, Grid, GridItem, Text, VStack } from "@chakra-ui/react";
-
-function watchCardAllowDrop(event: React.DragEvent<HTMLDivElement>) {
-  event.preventDefault();
-}
-
-function watchCardDrop(event: React.DragEvent<HTMLDivElement>) {
-  event.preventDefault();
-  const data = event.dataTransfer.getData("text");
-  event.currentTarget.appendChild(document.getElementById(data) as HTMLElement);
-}
-
-function watchCardDrag(event: React.DragEvent<HTMLDivElement>) {
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text", event.currentTarget.id);
-}
 
 const WatchList = ({
   title,
-  watchCards,
+  list,
+  mediaList,
+  onDragStart,
+  onDragEnd,
 }: {
   title: string;
-  watchCards?: MultiMediaResult[];
+  list: MediaStatus;
+  mediaList?: MediaList[];
+  onDragStart: (id: number) => void;
+  onDragEnd: (id: number, targetList: MediaStatus) => void;
 }) => {
+  const handleDragStart = (e: React.DragEvent, id: number) => {
+    onDragStart(id);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("watchCardID", id.toString());
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const id = parseInt(e.dataTransfer.getData("watchCardID"), 10);
+    onDragEnd(id, list);
+  };
+
   return (
     <VStack h="full">
       <Text as="h2" fontSize="24px" letterSpacing={1}>
@@ -48,20 +55,18 @@ const WatchList = ({
               borderRadius: "24px",
             },
           }}
-          onDragOver={watchCardAllowDrop}
-          onDrop={watchCardDrop}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
         >
-          {watchCards?.map((watchcard) => (
+          {mediaList?.map((media) => (
             <GridItem
-              id={watchcard.id.toString()}
+              key={media.watchcard.id}
               draggable
-              onDragStart={watchCardDrag}
+              onDragStart={e => handleDragStart(e, media.watchcard.id)}
             >
               <WatchCard
-                id={watchcard.id}
-                media_type={"movie"}
-                title={watchcard.name || watchcard.title}
-                SpecImageURL={watchcard.poster_path}
+                watchCard={media.watchcard}
+                media_type={media.media_type}
               />
             </GridItem>
           ))}

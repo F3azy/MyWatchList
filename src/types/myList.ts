@@ -1,6 +1,6 @@
 import { MediaType, MultiMediaResult } from "./common";
 
-type MediaStatus = "toWatch" | "watching" | "watched";
+export type MediaStatus = "toWatch" | "watching" | "watched";
 
 export type MediaDocument = {
     uid: string;
