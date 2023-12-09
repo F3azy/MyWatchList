@@ -132,6 +132,7 @@ const RandomMedia = () => {
           <WatchCard
             watchCard={mediaWatchCard}
             media_type={media_type}
+            useBackdrop
           />
         )}
       </Flex>
