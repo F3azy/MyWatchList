@@ -130,10 +130,8 @@ const RandomMedia = () => {
       <Flex w="60%" justify="center" align="center">
         {mediaWatchCard && (
           <WatchCard
-            id={mediaWatchCard.id}
+            watchCard={mediaWatchCard}
             media_type={media_type}
-            title={mediaWatchCard.name || mediaWatchCard.title}
-            SpecImageURL={mediaWatchCard.backdrop_path}
           />
         )}
       </Flex>

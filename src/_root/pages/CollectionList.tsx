@@ -22,12 +22,11 @@ const CollectionList = () => {
         {watchCards?.map((watchcard, idx) => (
           <GridItem w="100%" key={watchcard.id}>
             <WatchCard
-              id={watchcard.id}
+              watchCard={watchcard}
               media_type={
-                CollectionsArrays[name as keyof CollectionsList].watchCards[idx].media_type
+                CollectionsArrays[name as keyof CollectionsList].watchCards[idx]
+                  .media_type
               }
-              title={watchcard.name || watchcard.title}
-              SpecImageURL={watchcard.poster_path}
             />
           </GridItem>
         ))}

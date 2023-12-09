@@ -39,10 +39,8 @@ const Home = () => {
           {carousel.results.map((watchcard) => (
             <CarouselItem key={watchcard.id}>
               <WatchCard
-                id={watchcard.id}
+                watchCard={watchcard}
                 media_type={watchcard.media_type || HomeCarousels.media_type[idx]}
-                title={watchcard.name || watchcard.title}
-                SpecImageURL={watchcard.poster_path}
               />
             </CarouselItem>
           ))}

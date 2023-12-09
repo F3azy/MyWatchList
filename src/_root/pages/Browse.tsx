@@ -41,10 +41,8 @@ const Browse = () => {
         {watchCards?.results.map((watchcard) => (
           <GridItem w="100%" key={watchcard.id}>
             <WatchCard
-              id={watchcard.id}
+              watchCard={watchcard}
               media_type={media_type}
-              title={watchcard.name || watchcard.title}
-              SpecImageURL={watchcard.poster_path}
             />
           </GridItem>
         ))}
