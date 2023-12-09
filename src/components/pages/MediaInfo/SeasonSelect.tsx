@@ -1,5 +1,6 @@
 import { Select } from "@chakra-ui/react";
 import { MultiDetails } from "@/types/mediaInfo";
+import { isFutureDate } from "@/utils";
 
 const SeasonSelect = ({
   details,
@@ -17,7 +18,10 @@ const SeasonSelect = ({
     <Select w="max-content" variant="base" mb={2} onChange={seasonChange}>
       {details?.seasons
         .filter(
-          (season) => season.season_number !== 0 && season.episode_count !== 0
+          (season) =>
+            season.season_number !== 0 &&
+            season.episode_count !== 0 &&
+            !isFutureDate(season.air_date)
         )
         .map((season) => (
           <option value={season.season_number} key={season.season_number}>
