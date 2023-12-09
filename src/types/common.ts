@@ -12,9 +12,11 @@ type TV = BaseMediaData & {
   name: string;
 };
 
+export type MediaType = "movie" | "tv";
+
 export type MultiMediaResult = Movie &
   TV & {
-    media_type?: "movie" | "tv";
+    media_type?: MediaType;
   };
 
 export type MultiMedia = {
