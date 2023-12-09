@@ -60,6 +60,7 @@ type TVDetails = BaseDetails & {
   name: string;
   first_air_date: string;
   last_air_date: string;
+  next_episode_to_air: Episode;
   number_of_seasons: number;
   episode_run_time: number[];
   created_by: {
@@ -93,7 +94,7 @@ export type MediaProductionMember = {
   character: string;
   name: string;
   profile_path: string;
-  job: string
+  job: string;
 };
 
 export type Episode = {

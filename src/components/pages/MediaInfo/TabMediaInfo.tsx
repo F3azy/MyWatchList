@@ -106,6 +106,14 @@ const TabMediaInfo = ({
               />
             </GridItem>
           )}
+          {details?.next_episode_to_air && (
+            <GridItem>
+              <MediaDetail
+                label="Next episode:"
+                value={details?.next_episode_to_air.air_date}
+              />
+            </GridItem>
+          )}
         </Grid>
       </Flex>
       {providers?.results["US"] && (
