@@ -28,7 +28,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/browse/:media_type" element={<Browse />} />
-            <Route path="/info/:media_type/:name/:id" element={<MediaInfo />} />
+            <Route path="/info/:media_type/:id/:name" element={<MediaInfo />} />
             <Route path="/myList" element={<MyList />} />
             <Route path="/random" element={<RandomMedia />} />
             <Route path="/collection/:name" element={<CollectionList />} />

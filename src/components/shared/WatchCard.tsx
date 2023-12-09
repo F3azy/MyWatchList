@@ -57,10 +57,10 @@ const WatchCard = ({
           "/info/" +
           (media_type || watchCard.media_type) +
           "/" +
-          (watchCard.title?.replaceAll(" ", "-") ||
-            watchCard.name?.replaceAll(" ", "-")) +
+          watchCard.id +
           "/" +
-          watchCard.id
+          (watchCard.title?.replaceAll(" ", "-") ||
+            watchCard.name?.replaceAll(" ", "-"))
         }
       >
         <ChakraIMG
