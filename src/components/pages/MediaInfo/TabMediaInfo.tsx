@@ -132,7 +132,7 @@ const TabMediaInfo = ({
             Cast:
           </Text>
           {!!cast?.length ? (
-            <Carousel elementsTotal={cast?.length} visibleElements={8}>
+            <Carousel elementsTotal={cast?.length} visibleElements={cast?.length < 8 ? 4 : 8}>
               {cast?.map((member) => (
                 <CarouselItem key={member.id}>
                   <ProductionMemberCard member={member} />
@@ -145,14 +145,14 @@ const TabMediaInfo = ({
             </Text>
           )}
         </VStack>
-        <VStack align="flex-start" minH="200px">
+        <VStack mt="12px" align="flex-start" minH="200px">
           <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
             Crew:
           </Text>
           {!!crew?.length ? (
             <Carousel
               elementsTotal={crew?.length as number}
-              visibleElements={10}
+              visibleElements={crew?.length < 10 ? 5 : 10}
             >
               {crew?.map((member, idx) => (
                 <CarouselItem key={idx}>
