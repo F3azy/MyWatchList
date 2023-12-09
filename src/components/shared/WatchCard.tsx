@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { Image as ChakraIMG, Link, Skeleton } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { MultiMediaResult } from "@/types/common";
 
 const WatchCard = ({
-  id,
+  watchCard,
   media_type,
-  title,
-  SpecImageURL,
 }: {
-  id?: number;
+  watchCard: MultiMediaResult;
   media_type?: string;
-  title?: string;
-  SpecImageURL: string;
 }) => {
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -22,7 +19,7 @@ const WatchCard = ({
     const decode = async () => {
       try {
         const image = new Image();
-        image.src = imageURL + SpecImageURL;
+        image.src = imageURL + watchCard.poster_path;
         await image.decode();
 
         const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -35,7 +32,7 @@ const WatchCard = ({
     };
 
     decode();
-  }, [SpecImageURL]);
+  }, [watchCard]);
 
   return (
     <Skeleton
@@ -52,7 +49,18 @@ const WatchCard = ({
         boxShadow: "0px 30px 30px -10px black",
       }}
     >
-      <Link as={RouterLink} to={"/info/" + media_type + "/" + title?.replaceAll(" ", "-") + "/" + id}>
+      <Link
+        as={RouterLink}
+        to={
+          "/info/" +
+          (media_type || watchCard.media_type) +
+          "/" +
+          (watchCard.title?.replaceAll(" ", "-") ||
+            watchCard.name?.replaceAll(" ", "-")) +
+          "/" +
+          watchCard.id
+        }
+      >
         <ChakraIMG
           h="100%"
           borderRadius="8px"
@@ -64,8 +72,8 @@ const WatchCard = ({
             background:
               "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
           }}
-          src={imageURL + SpecImageURL}
-          alt={title}
+          src={imageURL + watchCard.poster_path}
+          alt={watchCard.title || watchCard.name}
         />
       </Link>
     </Skeleton>
