@@ -6,9 +6,11 @@ import { MultiMediaResult } from "@/types/common";
 const WatchCard = ({
   watchCard,
   media_type,
+  useBackdrop,
 }: {
   watchCard: MultiMediaResult;
   media_type?: string;
+  useBackdrop?: boolean;
 }) => {
   const imageURL = "https://image.tmdb.org/t/p/original/";
 
@@ -72,7 +74,7 @@ const WatchCard = ({
             background:
               "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
           }}
-          src={imageURL + watchCard.poster_path}
+          src={imageURL + (useBackdrop ? watchCard.backdrop_path || watchCard.poster_path : watchCard.poster_path)}
           alt={watchCard.title || watchCard.name}
         />
       </Link>
