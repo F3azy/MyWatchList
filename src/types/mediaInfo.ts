@@ -69,6 +69,7 @@ type TVDetails = BaseDetails & {
     id: number;
     season_number: number;
     episode_count: number;
+    air_date: string;
     name: string;
     overview: string;
     poster_path: string;

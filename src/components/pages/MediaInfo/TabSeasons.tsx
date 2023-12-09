@@ -29,6 +29,7 @@ import useFetch from "@/hooks/useFetch";
 import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
 import MediaDetail from "./MediaDetail";
 import GuestStarMemberCard from "./GuestStarMemberCard";
+import { isFutureDate } from "@/utils";
 
 const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -80,7 +81,9 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
           {details?.seasons
             .filter(
               (season) =>
-                season.season_number !== 0 && season.episode_count !== 0
+                season.season_number !== 0 &&
+                season.episode_count !== 0 &&
+                !isFutureDate(season.air_date)
             )
             .map((season) => (
               <Tab
@@ -107,14 +110,17 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         <TabPanel px={0}>
           {seasonInfo && (
             <Grid templateColumns="repeat(5, 1fr)" gap="20px">
-              {seasonInfo?.episodes?.map((episode) => (
-                <GridItem key={episode.episode_number}>
-                  <EpisodeCard
-                    episode={episode}
-                    onClick={() => openModal(episode.episode_number)}
-                  />
-                </GridItem>
-              ))}
+              {seasonInfo?.episodes?.map((episode) => {
+                if (!isFutureDate(episode.air_date))
+                  return (
+                    <GridItem key={episode.episode_number}>
+                      <EpisodeCard
+                        episode={episode}
+                        onClick={() => openModal(episode.episode_number)}
+                      />
+                    </GridItem>
+                  );
+              })}
             </Grid>
           )}
         </TabPanel>

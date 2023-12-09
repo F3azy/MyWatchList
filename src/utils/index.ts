@@ -10,3 +10,7 @@ export function minutesToHours(minutes: number): string {
 export function getYear(date: string): string {
   return new Date(date).getFullYear().toString();
 }
+
+export function isFutureDate(date: string) {
+  return new Date(date) > new Date();
+}
