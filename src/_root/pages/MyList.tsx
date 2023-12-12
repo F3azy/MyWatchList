@@ -45,6 +45,24 @@ const firebaseImpostor: MediaDocument[] = [
   },
 ];
 
+const Columns: {
+  title: string;
+  id: MediaStatus;
+}[] = [
+  {
+    title: "To Watch",
+    id: "toWatch",
+  },
+  {
+    title: "Watching",
+    id: "watching",
+  },
+  {
+    title: "Watched",
+    id: "watched",
+  },
+];
+
 const MyList = () => {
   const [lists, setLists] = useState<MediaList[]>([]);
   const [draggedID, setDraggedID] = useState<number | null>(null);
@@ -95,33 +113,21 @@ const MyList = () => {
   return (
     <VStack w="full">
       <Grid w="full" h="full" templateColumns="repeat(3, 1fr)" gap={20}>
-        <GridItem>
-          <WatchList
-            title={"To Watch"}
-            list="toWatch"
-            mediaList={lists.filter((list) => list.media_status === "toWatch")}
-            onDragStart={handleOnDragStart}
-            onDragEnd={handleOnDragEnd}
-          />
-        </GridItem>
-        <GridItem>
-          <WatchList
-            title={"Watching"}
-            list="watching"
-            mediaList={lists.filter((list) => list.media_status === "watching")}
-            onDragStart={handleOnDragStart}
-            onDragEnd={handleOnDragEnd}
-          />
-        </GridItem>
-        <GridItem>
-          <WatchList
-            title={"Watched"}
-            list="watched"
-            mediaList={lists.filter((list) => list.media_status === "watched")}
-            onDragStart={handleOnDragStart}
-            onDragEnd={handleOnDragEnd}
-          />
-        </GridItem>
+        {Columns.map((column) => {
+          return (
+            <GridItem key={column.id}>
+              <WatchList
+                title={column.title}
+                list={column.id}
+                mediaList={lists.filter(
+                  (list) => list.media_status === column.id
+                )}
+                onDragStart={handleOnDragStart}
+                onDragEnd={handleOnDragEnd}
+              />
+            </GridItem>
+          );
+        })}
       </Grid>
     </VStack>
   );
