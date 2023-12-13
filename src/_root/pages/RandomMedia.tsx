@@ -127,7 +127,7 @@ const RandomMedia = () => {
           Search
         </Button>
       </HStack>
-      <Flex w="60%" justify="center" align="center">
+      <Flex w="60%" minH="100px" justify="center" align="center">
         {mediaWatchCard && (
           <WatchCard
             watchCard={mediaWatchCard}
