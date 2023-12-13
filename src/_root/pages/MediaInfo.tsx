@@ -4,7 +4,6 @@ import {
   Box,
   Flex,
   Image,
-  Select,
   Tab,
   TabList,
   TabPanel,
