@@ -168,7 +168,7 @@ const MyList = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <VStack w="full" gap={5}>
+      <VStack w="full" gap={{base: 3, md: 5}}>
         {Columns.map((column) => {
           return (
             <WatchList
