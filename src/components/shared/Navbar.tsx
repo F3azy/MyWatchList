@@ -21,8 +21,8 @@ import { Fragment } from "react";
 
 const Navbar = () => {
   return (
-    <Flex w="100%" position="sticky" top="0" zIndex={1000}>
-      <Container minW="100%" maxW="100%" variant="bottomGradient" p={0}>
+    <Flex w="full" position="sticky" top="0" zIndex={1000}>
+      <Container minW="full" maxW="full" variant="bottomGradient" p={0}>
         <Flex px="80px" py="20px" justify="space-between">
           <Flex columnGap="36px" justify="flex-start" align="center">
             {NavLinks.map((link) => (

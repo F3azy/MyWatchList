@@ -52,7 +52,7 @@ const WatchCard = ({
 
   return (
     <Skeleton
-      h="100%"
+      h="full"
       borderRadius="4px"
       isLoaded={!isloading || loaded}
       startColor="brand.primary"
@@ -78,7 +78,7 @@ const WatchCard = ({
         }
       >
         <ChakraIMG
-          h="100%"
+          h="full"
           borderRadius="8px"
           border="4px solid"
           borderColor="brand.dark.600"

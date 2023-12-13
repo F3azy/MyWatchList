@@ -13,7 +13,7 @@ const ScrollButton = ({as, direction, showButton, onClick}: ScrollButtonProps) =
     <Box
       visibility={showButton ? "visible" : "hidden"}
       w="80px" 
-      h="100%"
+      h="full"
       zIndex={9}
       position="absolute"
       top={0}
@@ -22,7 +22,7 @@ const ScrollButton = ({as, direction, showButton, onClick}: ScrollButtonProps) =
     >
       <Box 
         w="60px" 
-        h="100%"
+        h="full"
         display='flex'
         justifyContent="center"
         alignItems="center" 

@@ -26,7 +26,7 @@ const Browse = () => {
   );
 
   return (
-    <Flex w="100%" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
+    <Flex w="full" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
       <HStack columnGap="16px">
         <Heading as="h1" fontSize="32px" fontWeight="bold">
           {media_type === "tv" ? "Series" : "Movies"}
@@ -42,7 +42,7 @@ const Browse = () => {
         gap={{base: 3, md: 6}}
       >
         {watchCards?.results.map((watchcard) => (
-          <GridItem w="100%" key={watchcard.id}>
+          <GridItem w="full" key={watchcard.id}>
             <WatchCard watchCard={watchcard} media_type={media_type} />
           </GridItem>
         ))}

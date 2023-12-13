@@ -35,10 +35,10 @@ const GuestStarMemberCard = ({ star }: { star: MediaProductionMember }) => {
       endColor="brand.tertiary"
       fadeDuration={4}
     >
-      <VStack w="100%" h="full" align="flex-start">
-        <Box w="100%" overflow="hidden">
+      <VStack w="full" h="full" align="flex-start">
+        <Box w="full" overflow="hidden">
           <ChakraIMG
-            w="100%"
+            w="full"
             src={imageURL + star.profile_path}
             alt={star.name}
             fallbackSrc="https://via.placeholder.com/150x200"

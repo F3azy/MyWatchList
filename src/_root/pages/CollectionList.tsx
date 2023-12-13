@@ -14,13 +14,13 @@ const CollectionList = () => {
   );
 
   return (
-    <Flex w="100%" direction="column" rowGap="28px">
+    <Flex w="full" direction="column" rowGap="28px">
       <Text fontSize="32px" fontWeight="bold">
         {CollectionsArrays[name as keyof CollectionsList].name}
       </Text>
-      <Grid w="100%" templateColumns="repeat(6, 1fr)" gap={6}>
+      <Grid w="full" templateColumns="repeat(6, 1fr)" gap={6}>
         {watchCards?.map((watchcard, idx) => (
-          <GridItem w="100%" key={watchcard.id}>
+          <GridItem w="full" key={watchcard.id}>
             <WatchCard
               watchCard={watchcard}
               media_type={

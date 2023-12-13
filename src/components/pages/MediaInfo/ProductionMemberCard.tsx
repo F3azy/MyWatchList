@@ -48,8 +48,8 @@ const ProductionMemberCard = ({
       cursor="pointer"
     >
       <ChakraIMG
-        w="100%"
-        h="100%"
+        w="full"
+        h="full"
         transform="scale(1) translate(0, 0)"
         transition="transform 500ms ease 0s"
         _groupHover={{ transform: "scale(2) translate(20%, 10%)" }}
