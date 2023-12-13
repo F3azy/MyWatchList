@@ -40,10 +40,10 @@ const WatchList = ({
       </Text>
       <Container
         maxW="full"
-        p={4}
+        p={0}
         variant="gradientBox"
         borderRadius="xl"
-        overflowX="scroll"
+        overflowX="auto"
         css={{
           "&::-webkit-scrollbar": {
             width: "13px",
@@ -59,6 +59,7 @@ const WatchList = ({
         <HStack
           minW="full"
           minH="100px"
+          p={4}
           w={`calc(${watchCardWidth * (mediaList?.length as number)}px + ${
             20 * ((mediaList?.length as number) - 1)
           }px)`}
