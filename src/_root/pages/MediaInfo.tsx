@@ -160,7 +160,7 @@ const MediaInfo = () => {
           </Carousel>
         </Box>
       </Flex>
-      <Tabs isFitted  variant="brandColor">
+      <Tabs isFitted={!isLargerThan1280}  variant="brandColor">
         <TabList>
           {media_type === "tv" && <Tab>Seasons</Tab>}
           {!!recommended?.results.length && <Tab>Recommended</Tab>}
