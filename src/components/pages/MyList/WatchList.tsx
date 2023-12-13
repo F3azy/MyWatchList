@@ -69,6 +69,7 @@ const WatchList = ({
           {mediaList?.map((media) => (
             <Box
               w={`${watchCardWidth}px`}
+              h="150px"
               key={media.watchcard.id}
               draggable
               onDragStart={(e) => handleDragStart(e, media.watchcard.id)}
