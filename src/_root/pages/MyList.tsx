@@ -43,6 +43,12 @@ const firebaseImpostor: MediaDocument[] = [
     mediaID: 4194,
     mediaStatus: "watching",
   },
+  {
+    uid: "lele",
+    mediaType: "movie",
+    mediaID: 151250,
+    mediaStatus: "watched",
+  },
 ];
 
 const Columns: {
