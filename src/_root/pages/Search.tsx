@@ -45,7 +45,7 @@ const Search = () => {
   }
 
   return (
-    <Flex direction="column" rowGap={{ base: "16px", xl: "28px" }}>
+    <Flex w="100%" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
       <InputGroup size={{base: "md", md: "lg"}}>
         <InputLeftElement
           pointerEvents="none"

@@ -26,7 +26,7 @@ const Browse = () => {
   );
 
   return (
-    <Flex direction="column" rowGap={{ base: "16px", xl: "28px" }}>
+    <Flex w="100%" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
       <HStack columnGap="16px">
         <Heading as="h1" fontSize="32px" fontWeight="bold">
           {media_type === "tv" ? "Series" : "Movies"}
