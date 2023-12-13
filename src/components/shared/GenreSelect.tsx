@@ -8,7 +8,7 @@ type Genres = {
 
 const url = "https://api.themoviedb.org/3/genre/";
 
-const MovieSelect = ({
+const GenreSelect = ({
   media_type,
   setStateFun,
   changeFun,
@@ -70,4 +70,4 @@ const MovieSelect = ({
   );
 };
 
-export default MovieSelect;
+export default GenreSelect;
