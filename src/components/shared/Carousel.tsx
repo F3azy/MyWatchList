@@ -12,6 +12,7 @@ type CarouselProps = {
   gap?: number;
   showButtons?: boolean;
   isScrollable?: boolean;
+  showScroll?: boolean;
   animate?: boolean;
   children: React.ReactNode;
 };
@@ -28,6 +29,7 @@ const Carousel = ({
   visibleElements,
   showButtons = true,
   isScrollable,
+  showScroll = true,
   gap = 20,
   children,
   animate,
@@ -82,25 +84,35 @@ const Carousel = ({
           endColor="brand.tertiary"
           fadeDuration={3}
         >
-          <Text fontSize="24px" fontWeight="bold">
+          <Text fontSize={{ base: "20px", md: "24px" }} fontWeight="bold">
             {carouselTitle}
           </Text>
         </SkeletonText>
       )}
       <Box
         position="relative"
+        mx={{ base: "-16px", xl: 0 }}
+        px={{ base: "16px", xl: 0 }}
         overflowX={isScrollable && pages > 1 ? "scroll" : "visible"}
-        css={{
-          "&::-webkit-scrollbar": {
-            width: "14px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "#56B4DC",
-            border: "4px solid rgba(0, 0, 0, 0)",
-            backgroundClip: "padding-box",
-            borderRadius: "24px",
-          },
-        }}
+        css={
+          showScroll
+            ? {
+                "&::-webkit-scrollbar": {
+                  width: "14px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#56B4DC",
+                  border: "4px solid rgba(0, 0, 0, 0)",
+                  backgroundClip: "padding-box",
+                  borderRadius: "24px",
+                },
+              }
+            : {
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }
+        }
       >
         <ScrollButton
           as={ChevronLeftIcon}
