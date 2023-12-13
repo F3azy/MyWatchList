@@ -15,7 +15,7 @@ const WatchProviders = ({
       <Text fontWeight="semibold" fontSize="20px" color="brand.secondary">
         {label}:
       </Text>
-      <HStack>
+      <HStack flexWrap="wrap" gap="16px">
         {providers.map((provider, idx) => (
           <Box boxSize={"70px"} key={idx} overflow="hidden" rounded="lg">
             <Image

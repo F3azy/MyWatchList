@@ -9,6 +9,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { MediaImages, MediaImageProp } from "@/types/common";
 import {
@@ -77,7 +78,7 @@ const MediaInfo = () => {
   const { data: certification } =
     useFetch<MultiCertification>(urlCertification);
 
-  const [seasonNumber, setSeasonNumber] = useState("1");
+  const [seasonNumber, setSeasonNumber] = useState(1);
 
   const urlCredits =
     media_type === "movie"
@@ -100,9 +101,17 @@ const MediaInfo = () => {
   const media_logo =
     images?.logos[Math.round(Math.random() * (images?.logos.length - 1))];
 
+  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
+
   return (
     <Flex direction="column" rowGap="28px">
-      <Flex overflow="hidden" position="relative">
+      <Flex
+        direction={{ base: "column-reverse", "2xl": "row" }}
+        overflow="hidden"
+        position="relative"
+        rowGap="28px"
+      >
         <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
           <MainMediaInfo
             details={details as MultiDetails}
@@ -112,6 +121,7 @@ const MediaInfo = () => {
           />
         </Box>
         <Box
+          display={{ base: "none", "2xl": "block" }}
           position="absolute"
           top={0}
           bottom={0}
@@ -120,7 +130,17 @@ const MediaInfo = () => {
           zIndex={10}
           bg="linear-gradient(to right, #141414, transparent)"
         />
-        <Box flex={0.6}>
+        <Box flex={0.6} position="relative">
+          <Box
+            display={{ base: "block", "2xl": "none" }}
+            position="absolute"
+            top="30%"
+            bottom={-1}
+            right={0}
+            left={0}
+            zIndex={10}
+            bg="linear-gradient(to top, #141414, transparent)"
+          />
           <Carousel
             elementsTotal={images?.backdrops.length as number}
             showButtons={false}
@@ -140,7 +160,7 @@ const MediaInfo = () => {
           </Carousel>
         </Box>
       </Flex>
-      <Tabs variant="brandColor">
+      <Tabs isFitted  variant="brandColor">
         <TabList>
           {media_type === "tv" && <Tab>Seasons</Tab>}
           {!!recommended?.results.length && <Tab>Recommended</Tab>}
@@ -163,7 +183,12 @@ const MediaInfo = () => {
                   recommended?.results.filter((m) => m.poster_path != null)
                     .length as number
                 }
-                visibleElements={8}
+                visibleElements={
+                  isLargerThan1280 ? 8 : isSmallerThan768 ? 2.5 : 4.5
+                }
+                isScrollable={!isLargerThan1280}
+                showScroll={false}
+                gap={isSmallerThan768 ? 10 : 20}
               >
                 {recommended?.results
                   .filter((m) => m.poster_path != null)
@@ -186,7 +211,12 @@ const MediaInfo = () => {
                   similar?.results.filter((m) => m.poster_path != null)
                     .length as number
                 }
-                visibleElements={8}
+                visibleElements={
+                  isLargerThan1280 ? 8 : isSmallerThan768 ? 2.5 : 4.5
+                }
+                isScrollable={!isLargerThan1280}
+                showScroll={false}
+                gap={isSmallerThan768 ? 10 : 20}
               >
                 {similar?.results
                   .filter((m) => m.poster_path != null)

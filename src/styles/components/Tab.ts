@@ -39,6 +39,8 @@ const darkVariant = definePartsStyle({
 
 const mediaInfoVariant = definePartsStyle({
   tab: {
+    px: {base: "8px", xl: "16px"},
+    py: {base: "4px", xl: "8px"},
     fontWeight: "semibold",
     letterSpacing: "1px",
     _selected: {

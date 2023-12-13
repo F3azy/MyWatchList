@@ -20,6 +20,7 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { Episode, MultiDetails, Season } from "@/types/mediaInfo";
 import Carousel from "@/components/shared/Carousel";
@@ -30,6 +31,7 @@ import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
 import MediaDetail from "./MediaDetail";
 import GuestStarMemberCard from "./GuestStarMemberCard";
 import { isFutureDate } from "@/utils";
+import SeasonSelect from "./SeasonSelect";
 
 const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -74,10 +76,14 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
     setEpisodeData(undefined);
   }
 
+  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
+
   return (
     <>
       <Tabs variant="seasons">
-        <TabList>
+        <SeasonSelect details={details} setSeason={setCurrentSeason} />
+        <TabList display={{base: "none", xl: "flex"}}>
           {details?.seasons
             .filter(
               (season) =>
@@ -109,7 +115,14 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         </TabList>
         <TabPanel px={0}>
           {seasonInfo && (
-            <Grid templateColumns="repeat(5, 1fr)" gap="20px">
+            <Grid
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                xl: "repeat(5, 1fr)",
+              }}
+              gap="20px"
+            >
               {seasonInfo?.episodes?.map((episode) => {
                 if (!isFutureDate(episode.air_date))
                   return (
@@ -130,7 +143,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         onClose={closeModal}
         blockScrollOnMount={false}
         isCentered
-        size="3xl"
+        size={{base: "md", md: "2xl", '2xl': "3xl"}}
         autoFocus={false}
         returnFocusOnClose={false}
       >
@@ -167,7 +180,13 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   </Text>
                   <Carousel
                     elementsTotal={episodeData?.guest_stars.length as number}
-                    visibleElements={4}
+                    visibleElements={
+                      isLargerThan1280
+                        ? 4
+                        : isSmallerThan768
+                        ? 2.5
+                        : 3.5
+                    }
                     isScrollable
                   >
                     {episodeData?.guest_stars.map((star, idx) => (

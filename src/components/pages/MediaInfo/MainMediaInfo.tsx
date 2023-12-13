@@ -9,7 +9,8 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { MultiDetails, Videos, MediaImageProp } from "@/types/mediaInfo";
+import { MultiDetails, Videos } from "@/types/mediaInfo";
+import { MediaImageProp } from "@/types/common";
 import { FaPlay, FaExternalLinkAlt } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import Ratings from "@/components/pages/MediaInfo/Ratings";
@@ -45,8 +46,9 @@ const MainMediaInfo = ({
 
   return (
     <VStack
-      h="100%"
-      maxH="100%"
+      w="full"
+      h="full"
+      maxH="full"
       justify="center"
       gap="20px"
       fontWeight="bold"
@@ -59,7 +61,7 @@ const MainMediaInfo = ({
           alt={details?.name || details?.title}
         />
       ) : (
-        <Heading as="h1" w="80%" textAlign="center">
+        <Heading as="h1" w={{xl: "80%"}} textAlign="center">
           {details?.name || details?.title}
         </Heading>
       )}
@@ -75,7 +77,7 @@ const MainMediaInfo = ({
       ) ? (
         ""
       ) : (
-        <HStack justify="space-between" gap="60px" m="0 !important">
+        <HStack w={{base: "full", md: "auto"}} justify="space-between" gap="60px" m="0 !important">
           {(details?.runtime || details?.number_of_seasons) && (
             <Text>
               {details?.runtime
@@ -99,14 +101,14 @@ const MainMediaInfo = ({
       )}
 
       {details?.tagline !== "" && (
-        <Text as="em" maxW="50%" textAlign="center" m="0 !important">
+        <Text as="em" maxW={{xl: "50%"}} textAlign="center" m="0 !important">
           <q>{details?.tagline}</q>
         </Text>
       )}
 
       {details?.overview && (
         <Text
-          w="80%"
+          w={{xl: "80%"}}
           m="0 !important"
           pr="4px"
           textAlign="justify"

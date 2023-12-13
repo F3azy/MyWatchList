@@ -38,7 +38,7 @@ const ProductionMemberCard = ({
     startColor="brand.primary"
     endColor="brand.tertiary"
     fadeDuration={4}
-    boxShadow="0px 20px 15px -10px black"
+    boxShadow={{xl: "0px 20px 15px -10px black"}}
   >
     <Box
       h="full"

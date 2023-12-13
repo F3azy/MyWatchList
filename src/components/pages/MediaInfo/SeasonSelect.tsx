@@ -7,15 +7,15 @@ const SeasonSelect = ({
   setSeason,
 }: {
   details: MultiDetails;
-  setSeason: React.Dispatch<React.SetStateAction<string>>;
+  setSeason: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   function seasonChange(event: React.ChangeEvent<HTMLSelectElement>) {
     console.log(event.currentTarget.value);
 
-    setSeason(event.currentTarget.value);
+    setSeason(parseInt(event.currentTarget.value));
   }
   return (
-    <Select w="max-content" variant="base" mb={2} onChange={seasonChange}>
+    <Select w={{md: "max-content"}} variant="base" mb={2} onChange={seasonChange}>
       {details?.seasons
         .filter(
           (season) =>

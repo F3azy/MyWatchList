@@ -6,6 +6,7 @@ import {
   Heading,
   Text,
   VStack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import {
   MediaProductionMember,
@@ -35,20 +36,31 @@ const TabMediaInfo = ({
   cast: MediaProductionMember[];
   crew: MediaProductionMember[];
   media_type: string;
-  setSeason: React.Dispatch<React.SetStateAction<string>>;
+  setSeason: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-
+  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
 
   return (
-    <VStack gap="24px" align="flex-start">
-      <Heading as="h2">{details?.name || details?.title}</Heading>
-      <Flex gap="120px">
+    <VStack gap={{ base: "16px", xl: "24px" }} align="flex-start">
+      <Heading as="h2" fontSize={{ base: "24px", xl: "auto" }}>
+        {details?.name || details?.title}
+      </Heading>
+      <Flex
+        direction={{ base: "column", xl: "row" }}
+        gap={{ base: "20px", xl: "120px" }}
+      >
         {details?.overview && (
-          <Text flex={0.5} textAlign="justify" fontSize="20px">
+          <Text flex={0.6} textAlign="justify" fontSize="20px">
             {details?.overview}
           </Text>
         )}
-        <Grid flex={0.5} templateColumns="repeat(2, 1fr)" gap="16px">
+        <Grid
+          flex={0.4}
+          templateColumns="repeat(2, 1fr)"
+          columnGap={{ base: "60px", xl: "32px" }}
+          rowGap={{ base: "20px", xl: "16px" }}
+        >
           {!!(details?.runtime || details?.episode_run_time?.length) && (
             <GridItem>
               <MediaDetail
@@ -117,7 +129,7 @@ const TabMediaInfo = ({
         </Grid>
       </Flex>
       {providers?.results["US"] && (
-        <Flex gap="40px 60px" wrap="wrap">
+        <Flex gap={{ base: "20px 40px", xl: "40px 60px" }} wrap="wrap">
           {Object.keys(providers?.results["US"]).map((keyName, i) => {
             type ProvidersKey = keyof Providers["results"]["US"];
             if (keyName !== "link")
@@ -140,7 +152,21 @@ const TabMediaInfo = ({
             Cast:
           </Text>
           {!!cast?.length ? (
-            <Carousel elementsTotal={cast?.length} visibleElements={cast?.length < 8 ? 6 : 8}>
+            <Carousel
+              elementsTotal={cast?.length}
+              visibleElements={
+                isLargerThan1280
+                  ? cast?.length < 8
+                    ? 6
+                    : 8
+                  : isSmallerThan768
+                  ? 2.5
+                  : 4.5
+              }
+              isScrollable={!isLargerThan1280}
+              showScroll={false}
+              gap={isSmallerThan768 ? 10 : 20}
+            >
               {cast?.map((member) => (
                 <CarouselItem key={member.id}>
                   <ProductionMemberCard member={member} />
@@ -160,7 +186,18 @@ const TabMediaInfo = ({
           {!!crew?.length ? (
             <Carousel
               elementsTotal={crew?.length as number}
-              visibleElements={crew?.length < 10 ? 6 : 10}
+              visibleElements={
+                isLargerThan1280
+                  ? cast?.length < 10
+                    ? 6
+                    : 10
+                  : isSmallerThan768
+                  ? 3.5
+                  : 5.5
+              }
+              isScrollable={!isLargerThan1280}
+              showScroll={false}
+              gap={isSmallerThan768 ? 10 : 20}
             >
               {crew?.map((member, idx) => (
                 <CarouselItem key={idx}>

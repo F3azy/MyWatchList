@@ -36,22 +36,22 @@ const EpisodeCard = ({
 
   return (
     <Skeleton
-    h="full"
+      h="full"
       borderRadius="4px"
       isLoaded={!isloading}
       startColor="brand.primary"
       endColor="brand.tertiary"
       fadeDuration={4}
       cursor="pointer"
-      boxShadow="0px 20px 15px -10px black"
+      boxShadow={{xl: "0px 20px 15px -10px black"}}
       transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
       _hover={{
-        transform: "translate(0, -10px)",
-        boxShadow: "0px 25px 30px -10px black",
+        transform: {xl: "translate(0, -10px)"},
+        boxShadow: {xl: "0px 25px 30px -10px black"},
       }}
     >
       <Box
-      h="full"
+        h="full"
         onClick={onClick}
         bg="brand.dark.800"
         overflow="hidden"
@@ -70,7 +70,7 @@ const EpisodeCard = ({
             w="full"
             h="full"
             src={imageURL + episode?.still_path}
-            fallbackSrc='https://via.placeholder.com/100x50'
+            fallbackSrc="https://via.placeholder.com/100x50"
             alt={episode?.name}
           />
           <Box
@@ -89,20 +89,7 @@ const EpisodeCard = ({
             bottom={2}
             left={2}
           >
-            <Text
-              // as={motion.p}
-              // animate={{
-              //   x: ["-150%", "100%"],
-              //   transition: {
-              //     duration: 15,
-              //     ease: "linear",
-              //     repeat: Infinity,
-              //     repeatType: "loop",
-              //   },
-              // }}
-              // whiteSpace="nowrap"
-              fontWeight="semibold"
-            >
+            <Text fontWeight="semibold">
               S{episode.season_number} E{episode.episode_number} -{" "}
               {episode.name}
             </Text>
