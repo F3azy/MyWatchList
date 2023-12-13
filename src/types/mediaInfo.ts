@@ -1,15 +1,3 @@
-export type MediaImageProp = {
-  file_path: string;
-  height: number;
-  width: number;
-};
-
-export type MediaImages = {
-  backdrops: MediaImageProp[];
-  logos: MediaImageProp[];
-  posters: MediaImageProp[];
-};
-
 export type Provider = {
   display_priority: number;
   logo_path: string;

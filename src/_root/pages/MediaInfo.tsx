@@ -10,13 +10,12 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { MediaImages, MediaImageProp } from "@/types/common";
 import {
-  MediaImages,
   MultiDetails,
   Providers,
   Videos,
   MultiCertification,
-  MediaImageProp,
   Credits,
   MediaProductionMember,
 } from "@/types/mediaInfo";
@@ -79,7 +78,7 @@ const MediaInfo = () => {
     useFetch<MultiCertification>(urlCertification);
 
   const [seasonNumber, setSeasonNumber] = useState("1");
-  
+
   const urlCredits =
     media_type === "movie"
       ? `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${

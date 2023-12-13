@@ -22,3 +22,15 @@ export type MultiMediaResult = Movie &
 export type MultiMedia = {
   results: MultiMediaResult[];
 };
+
+export type MediaImageProp = {
+  file_path: string;
+  height: number;
+  width: number;
+};
+
+export type MediaImages = {
+  backdrops: MediaImageProp[];
+  logos: MediaImageProp[];
+  posters: MediaImageProp[];
+};
