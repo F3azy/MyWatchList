@@ -49,7 +49,7 @@ const TabMediaInfo = ({
           </Text>
         )}
         <Grid flex={0.5} templateColumns="repeat(2, 1fr)" gap="16px">
-          {!!(details?.runtime || details?.episode_run_time.length) && (
+          {!!(details?.runtime || details?.episode_run_time?.length) && (
             <GridItem>
               <MediaDetail
                 label="Run time:"
@@ -98,7 +98,7 @@ const TabMediaInfo = ({
               />
             </GridItem>
           )}
-          {details?.vote_average && (
+          {details?.vote_average !== 0 && (
             <GridItem>
               <MediaDetail
                 label="Rating:"
