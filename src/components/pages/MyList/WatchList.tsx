@@ -1,6 +1,8 @@
 import WatchCard from "@/components/shared/WatchCard";
 import { MediaList, MediaStatus } from "@/types/myList";
-import { Container, Grid, GridItem, Text, VStack } from "@chakra-ui/react";
+import { Box, Container, HStack, Text, VStack } from "@chakra-ui/react";
+
+const watchCardWidth = 250;
 
 const WatchList = ({
   title,
@@ -32,45 +34,53 @@ const WatchList = ({
   };
 
   return (
-    <VStack h="full">
+    <VStack w="full" alignItems="flex-start">
       <Text as="h2" fontSize="24px" letterSpacing={1}>
         {title}
       </Text>
-      <Container h="full" p={0} variant="gradientBox" borderRadius="xl">
-        <Grid
-          h="calc(75vh)"
-          p={4}
-          templateColumns="repeat(3, 1fr)"
-          gridAutoRows="min-content"
-          gap={5}
-          overflowY="scroll"
-          css={{
-            "&::-webkit-scrollbar": {
-              width: "13px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#56B4DC",
-              border: "4px solid rgba(0, 0, 0, 0)",
-              backgroundClip: "padding-box",
-              borderRadius: "24px",
-            },
-          }}
+      <Container
+        maxW="full"
+        p={4}
+        variant="gradientBox"
+        borderRadius="xl"
+        overflowX="scroll"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "13px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#56B4DC",
+            border: "4px solid rgba(0, 0, 0, 0)",
+            backgroundClip: "padding-box",
+            borderRadius: "24px",
+          },
+        }}
+      >
+        <HStack
+          minW="full"
+          minH="100px"
+          w={`calc(${watchCardWidth * (mediaList?.length as number)}px + ${
+            20 * ((mediaList?.length as number) - 1)
+          }px)`}
+          gap="20px"
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           {mediaList?.map((media) => (
-            <GridItem
+            <Box
+              w={`${watchCardWidth}px`}
               key={media.watchcard.id}
               draggable
-              onDragStart={e => handleDragStart(e, media.watchcard.id)}
+              onDragStart={(e) => handleDragStart(e, media.watchcard.id)}
             >
               <WatchCard
                 watchCard={media.watchcard}
                 media_type={media.media_type}
+                useBackdrop
               />
-            </GridItem>
+            </Box>
           ))}
-        </Grid>
+        </HStack>
       </Container>
     </VStack>
   );

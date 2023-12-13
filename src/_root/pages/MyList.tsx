@@ -1,5 +1,5 @@
 import WatchList from "@/components/pages/MyList/WatchList";
-import { Grid, GridItem, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { MultiMediaResult } from "@/types/common";
 import { MediaDocument, MediaList, MediaStatus } from "@/types/myList";
 import { useEffect, useState } from "react";
@@ -111,24 +111,18 @@ const MyList = () => {
   };
 
   return (
-    <VStack w="full">
-      <Grid w="full" h="full" templateColumns="repeat(3, 1fr)" gap={20}>
-        {Columns.map((column) => {
-          return (
-            <GridItem key={column.id}>
-              <WatchList
-                title={column.title}
-                list={column.id}
-                mediaList={lists.filter(
-                  (list) => list.media_status === column.id
-                )}
-                onDragStart={handleOnDragStart}
-                onDragEnd={handleOnDragEnd}
-              />
-            </GridItem>
-          );
-        })}
-      </Grid>
+    <VStack w="full" gap={5}>
+      {Columns.map((column) => {
+        return (
+          <WatchList
+            title={column.title}
+            list={column.id}
+            mediaList={lists.filter((list) => list.media_status === column.id)}
+            onDragStart={handleOnDragStart}
+            onDragEnd={handleOnDragEnd}
+          />
+        );
+      })}
     </VStack>
   );
 };
