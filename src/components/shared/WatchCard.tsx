@@ -11,10 +11,12 @@ const WatchCard = ({
   watchCard,
   media_type,
   useBackdrop,
+  loaded,
 }: {
   watchCard: MultiMediaResult;
   media_type?: string;
   useBackdrop?: boolean;
+  loaded?: boolean;
 }) => {
   const [isloading, setIsLoading] = useState(true);
 
@@ -35,6 +37,7 @@ const WatchCard = ({
         image.src = imageURL + watchCard.poster_path;
         await image.decode();
 
+        setIsLoading(false);
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
       } catch (error) {
@@ -51,7 +54,7 @@ const WatchCard = ({
     <Skeleton
       h="100%"
       borderRadius="4px"
-      isLoaded={!isloading}
+      isLoaded={!isloading || loaded}
       startColor="brand.primary"
       endColor="brand.tertiary"
       fadeDuration={4}

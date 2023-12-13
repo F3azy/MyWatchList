@@ -1,6 +1,7 @@
 import WatchCard from "@/components/shared/WatchCard";
 import { MediaList, MediaStatus } from "@/types/myList";
 import { Box, Container, HStack, Text, VStack } from "@chakra-ui/react";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 const watchCardWidth = 250;
 
@@ -8,31 +9,11 @@ const WatchList = ({
   title,
   list,
   mediaList,
-  onDragStart,
-  onDragEnd,
 }: {
   title: string;
   list: MediaStatus;
   mediaList?: MediaList[];
-  onDragStart: (id: number) => void;
-  onDragEnd: (id: number, targetList: MediaStatus) => void;
 }) => {
-  const handleDragStart = (e: React.DragEvent, id: number) => {
-    onDragStart(id);
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("watchCardID", id.toString());
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const id = parseInt(e.dataTransfer.getData("watchCardID"), 10);
-    onDragEnd(id, list);
-  };
-
   return (
     <VStack w="full" alignItems="flex-start">
       <Text as="h2" fontSize="24px" letterSpacing={1}>
@@ -56,33 +37,47 @@ const WatchList = ({
           },
         }}
       >
-        <HStack
-          minW="full"
-          minH="100px"
-          p={4}
-          w={`calc(${watchCardWidth * (mediaList?.length as number)}px + ${
-            20 * ((mediaList?.length as number) - 1)
-          }px)`}
-          gap="20px"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          {mediaList?.map((media) => (
-            <Box
-              w={`${watchCardWidth}px`}
-              h="150px"
-              key={media.watchcard.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, media.watchcard.id)}
+        <Droppable droppableId={list} direction="horizontal">
+          {(provided, snapshot) => (
+            <HStack
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              minW="full"
+              minH="100px"
+              p={4}
+              w={`calc(${watchCardWidth * (mediaList?.length as number)}px + ${
+                20 * ((mediaList?.length as number) - 1)
+              }px)`}
+              gap="20px"
             >
-              <WatchCard
-                watchCard={media.watchcard}
-                media_type={media.media_type}
-                useBackdrop
-              />
-            </Box>
-          ))}
-        </HStack>
+              {mediaList?.map((media, index) => (
+                <Draggable
+                  draggableId={media.watchcard.id.toString()}
+                  index={index}
+                  key={media.watchcard.id}
+                >
+                  {(provided, snapshot) => (
+                    <Box
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      w={`${watchCardWidth}px`}
+                      h="150px"
+                    >
+                      <WatchCard
+                        watchCard={media.watchcard}
+                        media_type={media.media_type}
+                        useBackdrop
+                        loaded
+                      />
+                    </Box>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </HStack>
+          )}
+        </Droppable>
       </Container>
     </VStack>
   );
