@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, Select, Button } from "@chakra-ui/react";
+import { Flex, HStack, Text, Select, Button, Box, useMediaQuery } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import MovieSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
@@ -102,37 +102,45 @@ const RandomMedia = () => {
     });
   }
 
+  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+
   return (
-    <Flex flex={1} direction="column" rowGap={20} align="center">
-      <HStack w="100%" columnGap="16px">
+    <Flex w="full" direction="column" rowGap={{base: 5, xl: 20}} align="center">
+      <Flex w="full" direction={{ base: "column", xl: "row" }} gap="16px">
         <Text fontSize="32px" fontWeight="bold">
           Search a random
         </Text>
-        <Select
-          w="200px"
-          variant="base"
-          defaultValue={media_type !== "" ? media_type : "movie"}
-          onChange={(e) => changeType(e)}
-        >
-          <option value="movie">Movie</option>
-          <option value="tv">Serie</option>
-        </Select>
-        <MovieSelect
-          media_type={media_type}
-          setStateFun={(e) => setGenre(e)}
-          changeFun={(e) => changeGenre(e)}
-          defaultValue={defaultGenre}
-        />
-        <Button variant="full" borderRadius="full" onClick={() => searchRand()}>
-          Search
-        </Button>
-      </HStack>
-      <Flex w="60%" minH="100px" justify="center" align="center">
+        <Flex direction={{ base: "column", md: "row" }} gap="16px">
+          <Select
+            w={{base: "full",md: "200px"}}
+            variant="base"
+            defaultValue={media_type !== "" ? media_type : "movie"}
+            onChange={(e) => changeType(e)}
+          >
+            <option value="movie">Movie</option>
+            <option value="tv">Serie</option>
+          </Select>
+          <MovieSelect
+            media_type={media_type}
+            setStateFun={(e) => setGenre(e)}
+            changeFun={(e) => changeGenre(e)}
+            defaultValue={defaultGenre}
+          />
+          <Button
+            variant="full"
+            borderRadius="full"
+            onClick={() => searchRand()}
+          >
+            Search
+          </Button>
+        </Flex>
+      </Flex>
+      <Flex w={{xl: "60%"}} minH="100px" justify="center" align="center">
         {mediaWatchCard && (
           <WatchCard
             watchCard={mediaWatchCard}
             media_type={media_type}
-            useBackdrop
+            {...(isLargerThan1280 ? {useBackdrop: true} : null)}
           />
         )}
       </Flex>
