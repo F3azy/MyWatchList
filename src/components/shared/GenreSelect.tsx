@@ -55,7 +55,7 @@ const GenreSelect = ({
       fadeDuration={3}
     >
       <Select
-        w="200px"
+        w={{base: "full",md: "200px"}}
         variant="base"
         defaultValue={defaultValue}
         onChange={changeFun}
