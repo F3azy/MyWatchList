@@ -58,11 +58,11 @@ const WatchCard = ({
       startColor="brand.primary"
       endColor="brand.tertiary"
       fadeDuration={4}
-      boxShadow="0px 20px 15px -10px black"
+      boxShadow={{xl: "0px 20px 15px -10px black"}}
       transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
       _hover={{
-        transform: "translate(0, -10px)",
-        boxShadow: "0px 30px 30px -10px black",
+        transform: {xl: "translate(0, -10px)"},
+        boxShadow: {xl: "0px 30px 30px -10px black"},
       }}
     >
       <Link
