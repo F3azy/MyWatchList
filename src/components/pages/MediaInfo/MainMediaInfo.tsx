@@ -8,6 +8,7 @@ import {
   Text,
   Tooltip,
   VStack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { MultiDetails, Videos } from "@/types/mediaInfo";
 import { MediaImageProp } from "@/types/common";
@@ -43,6 +44,8 @@ const MainMediaInfo = ({
       video?.type.toLowerCase() === "trailer" &&
       video?.site.toLowerCase() === "youtube"
   );
+
+  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
 
   return (
     <VStack
@@ -174,7 +177,7 @@ const MainMediaInfo = ({
           hasArrow
           fontSize="16px"
           label={"Add to watchlist" || "Remove from watchlist"}
-          placement="right"
+          placement={isLargerThan1280 ? "right" : "top"}
         >
           <IconButton
             isRound={true}
