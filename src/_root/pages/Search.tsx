@@ -13,9 +13,9 @@ import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "@/hooks/useFetch";
 import { useSearchParams } from "react-router-dom";
 
-const Search = () => {
-  const url = "https://api.themoviedb.org/3/search/multi";
+const url = "https://api.themoviedb.org/3/search/multi";
 
+const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams({
     q: "",
   });
