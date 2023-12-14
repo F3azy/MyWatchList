@@ -14,11 +14,14 @@ const CollectionList = () => {
   );
 
   return (
-    <Flex w="full" direction="column" rowGap="28px">
+    <Flex w="full" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
       <Text fontSize="32px" fontWeight="bold">
         {CollectionsArrays[name as keyof CollectionsList].name}
       </Text>
-      <Grid w="full" templateColumns="repeat(6, 1fr)" gap={6}>
+      <Grid
+        templateColumns={{ base: "repeat(3, 1fr)", xl: "repeat(8, 1fr)" }}
+        gap={{ base: 3, md: 6 }}
+      >
         {watchCards?.map((watchcard, idx) => (
           <GridItem w="full" key={watchcard.id}>
             <WatchCard
