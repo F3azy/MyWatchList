@@ -6,7 +6,11 @@ const RootLayout = () => {
   return (
     <>
       <Navbar />
-      <Box px={{ base: "16px", xl: "80px" }} py={{ base: "16px", xl: "28px" }}>
+      <Box
+        px={{ base: "16px", xl: "80px" }}
+        pt={{ base: "96px", md: "112px", xl: "116px" }}
+        pb={{base: "16px", xl: "28px"}}
+      >
         <Outlet />
       </Box>
     </>
