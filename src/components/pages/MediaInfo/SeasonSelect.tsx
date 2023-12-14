@@ -5,17 +5,28 @@ import { isFutureDate } from "@/utils";
 const SeasonSelect = ({
   details,
   setSeason,
+  isMobile,
 }: {
   details: MultiDetails;
   setSeason: React.Dispatch<React.SetStateAction<number>>;
+  isMobile?: boolean;
 }) => {
   function seasonChange(event: React.ChangeEvent<HTMLSelectElement>) {
     console.log(event.currentTarget.value);
 
     setSeason(parseInt(event.currentTarget.value));
   }
+
+  console.log(isMobile);
+  
   return (
-    <Select w={{md: "max-content"}} variant="base" mb={2} onChange={seasonChange}>
+    <Select
+    display={{base: "block", xl: isMobile ? "none" : "block"}}
+      w={{ md: "max-content" }}
+      variant="base"
+      mb={2}
+      onChange={seasonChange}
+    >
       {details?.seasons
         .filter(
           (season) =>

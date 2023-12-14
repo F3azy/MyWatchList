@@ -82,7 +82,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
   return (
     <>
       <Tabs variant="seasons">
-        <SeasonSelect details={details} setSeason={setCurrentSeason} />
+        <SeasonSelect details={details} setSeason={setCurrentSeason} isMobile/>
         <TabList display={{base: "none", xl: "flex"}}>
           {details?.seasons
             .filter(
