@@ -129,7 +129,7 @@ const TabMediaInfo = ({
         </Grid>
       </Flex>
       {providers?.results["US"] && (
-        <Flex gap={{ base: "20px 40px", xl: "40px 60px" }} wrap="wrap">
+        <Flex gap={{ base: "20px 40px", xl: "40px 60px" }} wrap="wrap" mt={5}>
           {Object.keys(providers?.results["US"]).map((keyName, i) => {
             type ProvidersKey = keyof Providers["results"]["US"];
             if (keyName !== "link")
@@ -143,7 +143,7 @@ const TabMediaInfo = ({
           })}
         </Flex>
       )}
-      <Box>
+      <Box mt={5}>
         {media_type === "tv" && (
           <SeasonSelect details={details} setSeason={setSeason} />
         )}
