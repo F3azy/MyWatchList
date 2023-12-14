@@ -21,6 +21,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
+  Divider,
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { NavLinks, MenuLinks } from "@/constans/NavItems";
@@ -119,27 +120,33 @@ const Navbar = () => {
         placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
+        size={{base: "xs", md: "sm"}}
       >
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
-            <Flex mt="60px" direction="column" rowGap="36px" align="center">
+            <Flex mt="44px" direction="column" rowGap="12px" align="center">
               {NavLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  as={RouterLink}
-                  to={link.to}
-                  fontSize="18px"
-                  fontWeight="bold"
-                  color="brand.secondary"
-                  letterSpacing="2px"
-                >
-                  <HStack>
-                    <Icon as={link.icon} boxSize={5} />
-                    <Text>{link.name}</Text>
-                  </HStack>
-                </Link>
+                <>
+                  <Link
+                    key={link.name}
+                    as={RouterLink}
+                    to={link.to}
+                    w="full"
+                    py="12px"
+                    fontSize={{base: "18px", md: "24px"}}
+                    fontWeight="bold"
+                    color="brand.secondary"
+                    letterSpacing="2px"
+                  >
+                    <HStack justifyContent="center">
+                      <Icon as={link.icon} boxSize={6} />
+                      <Text>{link.name}</Text>
+                    </HStack>
+                  </Link>
+                  <Divider borderColor="brand.secondary" />
+                </>
               ))}
             </Flex>
           </DrawerBody>
