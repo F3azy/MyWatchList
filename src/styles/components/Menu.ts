@@ -16,6 +16,8 @@ const baseStyle = definePartsStyle({
     fontWeight: "bold",
     letterSpacing: "2px",
     color: "#56B4DC",
+    py: {base: "8px", md: "12px"},
+    fontSize: {base: "16px", md: "20px", xl: "16px"},
     bg: "#141414",
     _hover: {
       bg: "#252525",
