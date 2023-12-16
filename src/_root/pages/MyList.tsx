@@ -124,6 +124,66 @@ const MyList = () => {
     });
   }, []);
 
+  function getDragElements(
+    startID: MediaStatus,
+    finishID: MediaStatus,
+    draggedID: string
+  ) {
+    const start: Column = Columns.find(
+      (column) => column.id === startID
+    ) as Column;
+    const finish: Column = Columns.find(
+      (column) => column.id === finishID
+    ) as Column;
+
+    const dragged = lists.find(
+      (item) => item.watchcard.id.toString() === draggedID
+    ) as MediaList;
+
+    return { start, finish, dragged };
+  }
+
+  function moveElement(
+    startID: MediaStatus,
+    finishID: MediaStatus,
+    dragged: MediaList,
+    destinationIdx: number
+  ) {
+    let draggedFromList = Array.from(lists)
+      .filter((list) => list.media_status === startID)
+      .sort((a, b) => a.order - b.order);
+
+    let dropList =
+      startID !== finishID
+        ? Array.from(lists)
+            .filter((list) => list.media_status === finishID)
+            .sort((a, b) => a.order - b.order)
+        : [];
+
+    let restOfElem = Array.from(lists)
+      .filter(
+        (list) =>
+          list.media_status !== startID && list.media_status !== finishID
+      )
+      .sort((a, b) => a.order - b.order);
+
+    draggedFromList.splice(dragged.order, 1);
+
+    if (startID === finishID)
+      draggedFromList.splice(destinationIdx, 0, dragged);
+
+    draggedFromList.forEach((el, idx) => (el.order = idx));
+
+    if (startID !== finishID) {
+      dragged.media_status = finishID;
+
+      dropList.splice(destinationIdx, 0, dragged);
+      dropList.forEach((el, idx) => (el.order = idx));
+    }
+
+    return [...draggedFromList, ...dropList, ...restOfElem];
+  }
+
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
@@ -135,64 +195,17 @@ const MyList = () => {
     )
       return;
 
-    const start: Column = Columns.find(
-      (column) => column.id === source.droppableId
-    ) as Column;
-    const finish: Column = Columns.find(
-      (column) => column.id === destination.droppableId
-    ) as Column;
+    const { start, finish, dragged } = getDragElements(
+      source.droppableId as MediaStatus,
+      destination.droppableId as MediaStatus,
+      draggableId
+    );
 
-    const dragged = lists.find(
-      (item) => item.watchcard.id.toString() === draggableId
-    ) as MediaList;
-
-    if (start === finish) {
-      let currentList = Array.from(lists)
-        .filter((list) => list.media_status === start.id)
-        .sort((a, b) => a.order - b.order);
-
-      let restOfElem = Array.from(lists)
-        .filter((list) => list.media_status !== start.id)
-        .sort((a, b) => a.order - b.order);
-
-      currentList.splice(source.index, 1);
-      currentList.splice(destination.index, 0, dragged);
-
-      currentList.forEach((el, idx) => (el.order = idx));
-
-      setLists([...restOfElem, ...currentList]);
-      return;
-    }
-
-    let draggedFromList = Array.from(lists)
-      .filter((list) => list.media_status === start.id)
-      .sort((a, b) => a.order - b.order);
-
-    let dropList = Array.from(lists)
-      .filter((list) => list.media_status === finish.id)
-      .sort((a, b) => a.order - b.order);
-
-    let restOfElem = Array.from(lists)
-      .filter(
-        (list) =>
-          list.media_status !== start.id && list.media_status !== finish.id
-      )
-      .sort((a, b) => a.order - b.order);
-
-    draggedFromList.splice(source.index, 1);
-    draggedFromList.forEach((el, idx) => (el.order = idx));
-
-    dragged.media_status = destination.droppableId as MediaStatus;
-
-    dropList.splice(destination.index, 0, dragged);
-    dropList.forEach((el, idx) => (el.order = idx));
-
-    setLists([...restOfElem, ...draggedFromList, ...dropList]);
+    setLists(moveElement(start.id, finish.id, dragged, destination.index));
   };
 
   function openModal(media: MediaList) {
     setModalWatchCard(media);
-
     onOpen();
   }
 
@@ -203,47 +216,21 @@ const MyList = () => {
   }
 
   function changeStatusState(event: React.ChangeEvent<HTMLSelectElement>) {
+    console.log(event.currentTarget.value);
+
     setNewStatus(event.currentTarget.value as MediaStatus);
   }
 
   function changeStatus(): void {
-    const start: Column = Columns.find(
-      (column) => column.id === modalWatchCard?.media_status
-    ) as Column;
-    const finish: Column = Columns.find(
-      (column) => column.id === newStatus
-    ) as Column;
-
-    const dragged = lists.find(
-      (item) => item.watchcard.id === modalWatchCard?.watchcard.id
-    ) as MediaList;
+    const { start, finish, dragged } = getDragElements(
+      modalWatchCard?.media_status as MediaStatus,
+      newStatus,
+      modalWatchCard?.watchcard.id.toString() as string
+    );
 
     if (start === finish) return;
 
-    let draggedFromList = Array.from(lists)
-      .filter((list) => list.media_status === start.id)
-      .sort((a, b) => a.order - b.order);
-
-    let dropList = Array.from(lists)
-      .filter((list) => list.media_status === finish.id)
-      .sort((a, b) => a.order - b.order);
-
-    let restOfElem = Array.from(lists)
-      .filter(
-        (list) =>
-          list.media_status !== start.id && list.media_status !== finish.id
-      )
-      .sort((a, b) => a.order - b.order);
-
-    draggedFromList.splice(modalWatchCard?.order as number, 1);
-    draggedFromList.forEach((el, idx) => (el.order = idx));
-
-    dragged.media_status = newStatus;
-
-    dropList.splice(0, 0, dragged);
-    dropList.forEach((el, idx) => (el.order = idx));
-
-    setLists([...restOfElem, ...draggedFromList, ...dropList]);
+    setLists(moveElement(start.id, finish.id, dragged, 0));
     setNewStatus("toWatch");
     onClose();
   }
