@@ -1,5 +1,5 @@
 import WatchList from "@/components/pages/MyList/WatchList";
-import { VStack } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { MultiMediaResult } from "@/types/common";
 import { Column, MediaDocument, MediaList, MediaStatus } from "@/types/myList";
 import { useEffect, useState } from "react";
@@ -168,7 +168,14 @@ const MyList = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <VStack w="full" gap={{base: 3, md: 5}}>
+      <Flex
+        direction={{ base: "row", md: "column" }}
+        w={{ base: "auto", xl: "full" }}
+        maxW="full"
+        h={{ base: "calc(100vh - 112px)", md: "auto" }}
+        gap={{ base: 5, md: 5 }}
+        overflowX={{ base: "scroll", md: "visible" }}
+      >
         {Columns.map((column) => {
           return (
             <WatchList
@@ -181,7 +188,7 @@ const MyList = () => {
             />
           );
         })}
-      </VStack>
+      </Flex>
     </DragDropContext>
   );
 };

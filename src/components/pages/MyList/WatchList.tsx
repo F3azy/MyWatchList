@@ -1,6 +1,13 @@
 import WatchCard from "@/components/shared/WatchCard";
 import { MediaList, MediaStatus } from "@/types/myList";
-import { Box, Container, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  Text,
+  VStack,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 const watchCardWidth = 250;
@@ -14,6 +21,8 @@ const WatchList = ({
   list: MediaStatus;
   mediaList?: MediaList[];
 }) => {
+  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
+
   return (
     <VStack w="full" alignItems="flex-start">
       <Text as="h2" fontSize="24px" letterSpacing={1}>
@@ -21,10 +30,13 @@ const WatchList = ({
       </Text>
       <Container
         maxW="full"
+        h="full"
+        minH="100px"
         p={0}
         variant="gradientBox"
         borderRadius="xl"
-        overflowX="auto"
+        overflowY={{ base: "auto", md: "visible" }}
+        overflowX={{ md: "auto" }}
         css={{
           "&::-webkit-scrollbar": {
             width: "13px",
@@ -37,17 +49,23 @@ const WatchList = ({
           },
         }}
       >
-        <Droppable droppableId={list} direction="horizontal">
+        <Droppable
+          droppableId={list}
+          direction={isSmallerThan768 ? "vertical" : "horizontal"}
+        >
           {(provided, snapshot) => (
-            <HStack
+            <Flex
               ref={provided.innerRef}
               {...provided.droppableProps}
-              minW="full"
-              minH="100px"
+              direction={{ base: "column", md: "row" }}
+              minW={{ base: "250px", md: "full" }}
+              minH="full"
               p={4}
-              w={`calc(${watchCardWidth * (mediaList?.length as number)}px + ${
-                20 * ((mediaList?.length as number) - 1)
-              }px)`}
+              w={{
+                md: `calc(${
+                  watchCardWidth * (mediaList?.length as number)
+                }px + ${20 * ((mediaList?.length as number) - 1)}px)`,
+              }}
               gap="20px"
             >
               {mediaList?.map((media, index) => (
@@ -75,7 +93,7 @@ const WatchList = ({
                 </Draggable>
               ))}
               {provided.placeholder}
-            </HStack>
+            </Flex>
           )}
         </Droppable>
       </Container>
