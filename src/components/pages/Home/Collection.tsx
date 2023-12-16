@@ -50,7 +50,7 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
         </video>
       </Box>
 
-      <AbsoluteCenter w="90%">
+      <AbsoluteCenter w={{base: "100%", xl: "90%"}}>
         <Image src={logoSrc} />
       </AbsoluteCenter>
     </Box>
