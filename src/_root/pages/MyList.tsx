@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   Flex,
   Modal,
   ModalBody,
@@ -266,7 +267,7 @@ const MyList = () => {
         onClose={onClose}
         blockScrollOnMount={false}
         isCentered
-        size={{ base: "xs", md: "2xl", "2xl": "3xl" }}
+        size="md"
         autoFocus={false}
         returnFocusOnClose={false}
       >
@@ -276,8 +277,8 @@ const MyList = () => {
             {modalWatchCard?.watchcard.name || modalWatchCard?.watchcard.title}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody mb="16px">
-            <VStack w="full" gap="20px">
+          <ModalBody>
+            <VStack w="full" gap="24px">
               <VStack w="full" align="flex-start" gap="8px">
                 <Text color="brand.secondary">Change Status</Text>
                 <Select variant="base" onChange={changeStatusState}>
@@ -312,11 +313,14 @@ const MyList = () => {
               >
                 Media Info
               </Button>
-              <Button w="full" variant="outline" onClick={closeModal}>
-                Close
-              </Button>
+              <Divider borderColor="brand.secondary" />
             </VStack>
           </ModalBody>
+          <ModalFooter>
+            <Button w="full" variant="outline" onClick={closeModal}>
+              Close
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
