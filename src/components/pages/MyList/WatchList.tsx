@@ -16,10 +16,12 @@ const WatchList = ({
   title,
   list,
   mediaList,
+  onClick
 }: {
   title: string;
   list: MediaStatus;
   mediaList?: MediaList[];
+  onClick: (media: MediaList) => void;
 }) => {
   const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
 
@@ -52,6 +54,7 @@ const WatchList = ({
         <Droppable
           droppableId={list}
           direction={isSmallerThan768 ? "vertical" : "horizontal"}
+          isDropDisabled={isSmallerThan768}
         >
           {(provided, snapshot) => (
             <Flex
@@ -73,6 +76,7 @@ const WatchList = ({
                   draggableId={media.watchcard.id.toString()}
                   index={index}
                   key={media.watchcard.id}
+                  isDragDisabled={isSmallerThan768}
                 >
                   {(provided, snapshot) => (
                     <Box
@@ -81,12 +85,14 @@ const WatchList = ({
                       {...provided.dragHandleProps}
                       w={`${watchCardWidth}px`}
                       h="150px"
+                      onClick={isSmallerThan768 ? () => onClick(media) : () => {}}
                     >
                       <WatchCard
                         watchCard={media.watchcard}
                         media_type={media.media_type}
                         useBackdrop
                         loaded
+                        isLink={!isSmallerThan768}
                       />
                     </Box>
                   )}

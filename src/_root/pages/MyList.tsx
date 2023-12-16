@@ -1,9 +1,26 @@
 import WatchList from "@/components/pages/MyList/WatchList";
-import { Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Text,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { MultiMediaResult } from "@/types/common";
 import { Column, MediaDocument, MediaList, MediaStatus } from "@/types/myList";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import { useNavigate } from "react-router-dom";
 
 const mediaURL = "https://api.themoviedb.org/3/";
 
@@ -11,16 +28,16 @@ const firebaseImpostor: MediaDocument[] = [
   {
     uid: "lele",
     mediaType: "movie",
-    mediaID: 259316,
+    mediaID: 338952,
     mediaStatus: "toWatch",
-    order: 0,
+    order: 1,
   },
   {
     uid: "lele",
     mediaType: "movie",
-    mediaID: 338952,
+    mediaID: 259316,
     mediaStatus: "toWatch",
-    order: 1,
+    order: 0,
   },
   {
     uid: "lele",
@@ -78,6 +95,12 @@ const MyList = () => {
   const [lists, setLists] = useState<MediaList[]>([]);
   const [draggedID, setDraggedID] = useState<number | null>(null);
 
+  const [modalWatchCard, setModalWatchCard] = useState<MediaList | null>(null);
+  const [newStatus, setNewStatus] = useState<MediaStatus>("toWatch");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setLists([]);
     const fetchPromises = firebaseImpostor.map((impostor) =>
@@ -125,13 +148,13 @@ const MyList = () => {
     ) as MediaList;
 
     if (start === finish) {
-      let currentList = Array.from(lists).filter(
-        (list) => list.media_status === start.id
-      );
+      let currentList = Array.from(lists)
+        .filter((list) => list.media_status === start.id)
+        .sort((a, b) => a.order - b.order);
 
-      let restOfElem = Array.from(lists).filter(
-        (list) => list.media_status !== start.id
-      );
+      let restOfElem = Array.from(lists)
+        .filter((list) => list.media_status !== start.id)
+        .sort((a, b) => a.order - b.order);
 
       currentList.splice(source.index, 1);
       currentList.splice(destination.index, 0, dragged);
@@ -142,18 +165,20 @@ const MyList = () => {
       return;
     }
 
-    let draggedFromList = Array.from(lists).filter(
-      (list) => list.media_status === start.id
-    );
+    let draggedFromList = Array.from(lists)
+      .filter((list) => list.media_status === start.id)
+      .sort((a, b) => a.order - b.order);
 
-    let dropList = Array.from(lists).filter(
-      (list) => list.media_status === finish.id
-    );
+    let dropList = Array.from(lists)
+      .filter((list) => list.media_status === finish.id)
+      .sort((a, b) => a.order - b.order);
 
-    let restOfElem = Array.from(lists).filter(
-      (list) =>
-        list.media_status !== start.id && list.media_status !== finish.id
-    );
+    let restOfElem = Array.from(lists)
+      .filter(
+        (list) =>
+          list.media_status !== start.id && list.media_status !== finish.id
+      )
+      .sort((a, b) => a.order - b.order);
 
     draggedFromList.splice(source.index, 1);
     draggedFromList.forEach((el, idx) => (el.order = idx));
@@ -166,30 +191,149 @@ const MyList = () => {
     setLists([...restOfElem, ...draggedFromList, ...dropList]);
   };
 
+  function openModal(media: MediaList) {
+    setModalWatchCard(media);
+
+    onOpen();
+  }
+
+  function closeModal() {
+    onClose();
+    setModalWatchCard(null);
+    setNewStatus("toWatch");
+  }
+
+  function changeStatusState(event: React.ChangeEvent<HTMLSelectElement>) {
+    setNewStatus(event.currentTarget.value as MediaStatus);
+  }
+
+  function changeStatus(): void {
+    const start: Column = Columns.find(
+      (column) => column.id === modalWatchCard?.media_status
+    ) as Column;
+    const finish: Column = Columns.find(
+      (column) => column.id === newStatus
+    ) as Column;
+
+    const dragged = lists.find(
+      (item) => item.watchcard.id === modalWatchCard?.watchcard.id
+    ) as MediaList;
+
+    if (start === finish) return;
+
+    let draggedFromList = Array.from(lists)
+      .filter((list) => list.media_status === start.id)
+      .sort((a, b) => a.order - b.order);
+
+    let dropList = Array.from(lists)
+      .filter((list) => list.media_status === finish.id)
+      .sort((a, b) => a.order - b.order);
+
+    let restOfElem = Array.from(lists)
+      .filter(
+        (list) =>
+          list.media_status !== start.id && list.media_status !== finish.id
+      )
+      .sort((a, b) => a.order - b.order);
+
+    draggedFromList.splice(modalWatchCard?.order as number, 1);
+    draggedFromList.forEach((el, idx) => (el.order = idx));
+
+    dragged.media_status = newStatus;
+
+    dropList.splice(0, 0, dragged);
+    dropList.forEach((el, idx) => (el.order = idx));
+
+    setLists([...restOfElem, ...draggedFromList, ...dropList]);
+    setNewStatus("toWatch");
+    onClose();
+  }
+
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Flex
-        direction={{ base: "row", md: "column" }}
-        w={{ base: "auto", xl: "full" }}
-        maxW="full"
-        h={{ base: "calc(100vh - 112px)", md: "auto" }}
-        gap={{ base: 5, md: 5 }}
-        overflowX={{ base: "scroll", md: "visible" }}
+    <>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Flex
+          direction={{ base: "row", md: "column" }}
+          w={{ base: "auto", xl: "full" }}
+          maxW="full"
+          h={{ base: "calc(100vh - 112px)", md: "auto" }}
+          gap={{ base: 5, md: 5 }}
+          overflowX={{ base: "scroll", md: "visible" }}
+        >
+          {Columns.map((column) => {
+            return (
+              <WatchList
+                onClick={openModal}
+                key={column.id}
+                title={column.title}
+                list={column.id}
+                mediaList={lists
+                  .filter((list) => list.media_status === column.id)
+                  .sort((a, b) => a.order - b.order)}
+              />
+            );
+          })}
+        </Flex>
+      </DragDropContext>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        blockScrollOnMount={false}
+        isCentered
+        size={{ base: "xs", md: "2xl", "2xl": "3xl" }}
+        autoFocus={false}
+        returnFocusOnClose={false}
       >
-        {Columns.map((column) => {
-          return (
-            <WatchList
-              key={column.id}
-              title={column.title}
-              list={column.id}
-              mediaList={lists
-                .filter((list) => list.media_status === column.id)
-                .sort((a, b) => a.order - b.order)}
-            />
-          );
-        })}
-      </Flex>
-    </DragDropContext>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {modalWatchCard?.watchcard.name || modalWatchCard?.watchcard.title}
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody mb="16px">
+            <VStack w="full" gap="20px">
+              <VStack w="full" align="flex-start" gap="8px">
+                <Text color="brand.secondary">Change Status</Text>
+                <Select variant="base" onChange={changeStatusState}>
+                  <option value="toWatch">To Watch</option>
+                  <option value="watching">Watching</option>
+                  <option value="watched">Watched</option>
+                </Select>
+                <Button
+                  w="full"
+                  variant="full"
+                  onClick={() => {
+                    changeStatus();
+                  }}
+                >
+                  Change
+                </Button>
+              </VStack>
+              <Button
+                w="full"
+                variant="full"
+                onClick={() => {
+                  navigate(
+                    "/info/" +
+                      modalWatchCard?.media_type +
+                      "/" +
+                      modalWatchCard?.watchcard.id +
+                      "/" +
+                      (modalWatchCard?.watchcard.title?.replaceAll(" ", "-") ||
+                        modalWatchCard?.watchcard.name?.replaceAll(" ", "-"))
+                  );
+                }}
+              >
+                Media Info
+              </Button>
+              <Button w="full" variant="outline" onClick={closeModal}>
+                Close
+              </Button>
+            </VStack>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
