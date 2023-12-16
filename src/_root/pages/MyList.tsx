@@ -93,7 +93,6 @@ const Columns: Column[] = [
 
 const MyList = () => {
   const [lists, setLists] = useState<MediaList[]>([]);
-  const [draggedID, setDraggedID] = useState<number | null>(null);
 
   const [modalWatchCard, setModalWatchCard] = useState<MediaList | null>(null);
   const [newStatus, setNewStatus] = useState<MediaStatus>("toWatch");

@@ -62,7 +62,6 @@ const WatchList = ({
               {...provided.droppableProps}
               direction={{ base: "column", md: "row" }}
               minW={{ base: "250px", md: "full" }}
-              minH="full"
               p={4}
               w={{
                 md: `calc(${

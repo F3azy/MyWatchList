@@ -51,7 +51,6 @@ const MainMediaInfo = ({
     <VStack
       w="full"
       h="full"
-      maxH="full"
       justify="center"
       gap="20px"
       fontWeight="bold"
