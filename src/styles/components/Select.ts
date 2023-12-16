@@ -9,7 +9,7 @@ const base = definePartsStyle({
     background: "#141414",
     border: "1px solid",
     borderColor: "#56B4DC",
-    borderRadius: "full",
+    borderRadius: "md",
     color: "#F0F0F0",
   },
   icon: {
