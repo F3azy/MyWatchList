@@ -49,7 +49,7 @@ const GenreSelect = ({
   return (
     <Skeleton
       w={{ base: "full", md: "200px" }}
-      borderRadius="full"
+      borderRadius="md"
       isLoaded={!isloading}
       startColor="brand.primary"
       endColor="brand.tertiary"
