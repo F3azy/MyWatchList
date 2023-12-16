@@ -120,6 +120,7 @@ const Navbar = () => {
         onClose={onClose}
         returnFocusOnClose={false}
         size={{base: "xs", md: "sm"}}
+        blockScrollOnMount={false}
       >
         <DrawerOverlay />
         <DrawerContent>
