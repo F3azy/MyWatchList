@@ -48,6 +48,7 @@ const GenreSelect = ({
 
   return (
     <Skeleton
+      w={{ base: "full", md: "200px" }}
       borderRadius="full"
       isLoaded={!isloading}
       startColor="brand.primary"
@@ -55,7 +56,6 @@ const GenreSelect = ({
       fadeDuration={3}
     >
       <Select
-        w={{base: "full",md: "200px"}}
         variant="base"
         defaultValue={defaultValue}
         onChange={changeFun}
