@@ -20,13 +20,12 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  DrawerHeader,
   Divider,
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { NavLinks, MenuLinks } from "@/constans/NavItems";
 import { Link as RouterLink } from "react-router-dom";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
@@ -128,9 +127,8 @@ const Navbar = () => {
           <DrawerBody>
             <Flex mt="44px" direction="column" rowGap="12px" align="center">
               {NavLinks.map((link) => (
-                <>
+                <React.Fragment key={link.name}>
                   <Link
-                    key={link.name}
                     as={RouterLink}
                     to={link.to}
                     w="full"
@@ -146,7 +144,7 @@ const Navbar = () => {
                     </HStack>
                   </Link>
                   <Divider borderColor="brand.secondary" />
-                </>
+                </React.Fragment>
               ))}
             </Flex>
           </DrawerBody>
