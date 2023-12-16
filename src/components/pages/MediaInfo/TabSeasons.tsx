@@ -82,8 +82,8 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
   return (
     <>
       <Tabs variant="seasons">
-        <SeasonSelect details={details} setSeason={setCurrentSeason} isMobile/>
-        <TabList display={{base: "none", xl: "flex"}}>
+        <SeasonSelect details={details} setSeason={setCurrentSeason} isMobile />
+        <TabList display={{ base: "none", xl: "flex" }}>
           {details?.seasons
             .filter(
               (season) =>
@@ -143,7 +143,11 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         onClose={closeModal}
         blockScrollOnMount={false}
         isCentered
-        size={{base: "md", md: "2xl", '2xl': "3xl"}}
+        size={{
+          base: "md",
+          md: episodeData?.guest_stars.length ? "2xl" : "lg",
+          "2xl": episodeData?.guest_stars.length ? "3xl" : "xl",
+        }}
         autoFocus={false}
         returnFocusOnClose={false}
       >
@@ -181,11 +185,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
                   <Carousel
                     elementsTotal={episodeData?.guest_stars.length as number}
                     visibleElements={
-                      isLargerThan1280
-                        ? 4
-                        : isSmallerThan768
-                        ? 2.5
-                        : 3.5
+                      isLargerThan1280 ? 4 : isSmallerThan768 ? 2.5 : 3.5
                     }
                     isScrollable
                   >
