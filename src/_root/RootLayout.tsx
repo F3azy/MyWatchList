@@ -10,6 +10,7 @@ const RootLayout = () => {
         px={{ base: "16px", xl: "80px" }}
         pt={{ base: "96px", md: "112px", xl: "116px" }}
         pb={{base: "16px", xl: "28px"}}
+        minH="calc(100vh)"
       >
         <Outlet />
       </Box>
