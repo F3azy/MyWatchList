@@ -12,11 +12,13 @@ const WatchCard = ({
   media_type,
   useBackdrop,
   loaded,
+  isLink = true,
 }: {
   watchCard: MultiMediaResult;
   media_type?: string;
   useBackdrop?: boolean;
   loaded?: boolean;
+  isLink?: boolean;
 }) => {
   const [isloading, setIsLoading] = useState(true);
 
@@ -50,6 +52,44 @@ const WatchCard = ({
     decode();
   }, [watchCard]);
 
+  if (!isLink)
+    return (
+      <Skeleton
+        h="full"
+        borderRadius="4px"
+        isLoaded={!isloading || loaded}
+        startColor="brand.primary"
+        endColor="brand.tertiary"
+        fadeDuration={4}
+        boxShadow={{ xl: "0px 20px 15px -10px black" }}
+        transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
+        _hover={{
+          transform: { xl: "translate(0, -10px)" },
+          boxShadow: { xl: "0px 30px 30px -10px black" },
+        }}
+      >
+        <ChakraIMG
+          h="full"
+          borderRadius="8px"
+          border="4px solid"
+          borderColor="brand.dark.600"
+          background="linear-gradient(#141414 97%, #030303) border-box"
+          _hover={{
+            borderColor: "transparent",
+            background:
+              "linear-gradient(#141414, #141414) padding-box, linear-gradient(to right, #0B92F0, #0FF4C6) border-box",
+          }}
+          src={
+            imageURL +
+            (useBackdrop
+              ? images?.backdrops.at(0)?.file_path
+              : watchCard.poster_path)
+          }
+          alt={watchCard.title || watchCard.name}
+        />
+      </Skeleton>
+    );
+
   return (
     <Skeleton
       h="full"
@@ -58,11 +98,11 @@ const WatchCard = ({
       startColor="brand.primary"
       endColor="brand.tertiary"
       fadeDuration={4}
-      boxShadow={{xl: "0px 20px 15px -10px black"}}
+      boxShadow={{ xl: "0px 20px 15px -10px black" }}
       transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
       _hover={{
-        transform: {xl: "translate(0, -10px)"},
-        boxShadow: {xl: "0px 30px 30px -10px black"},
+        transform: { xl: "translate(0, -10px)" },
+        boxShadow: { xl: "0px 30px 30px -10px black" },
       }}
     >
       <Link
