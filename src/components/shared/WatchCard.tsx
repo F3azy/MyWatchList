@@ -39,7 +39,6 @@ const WatchCard = ({
         image.src = imageURL + watchCard.poster_path;
         await image.decode();
 
-        setIsLoading(false);
         const timer = setTimeout(() => setIsLoading(false), 1000);
         return () => clearTimeout(timer);
       } catch (error) {
