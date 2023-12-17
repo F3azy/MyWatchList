@@ -6,8 +6,8 @@ import SignUpForm from "./forms/SignUpForm";
 const AuthLayout = () => {
   return (
     <>
-      <Flex minH="100vh" align="center">
-        <Container w="25%" p="16px" variant="gradient-with-shadow">
+      <Flex h="100vh" align="center">
+        <Container w={{base: "100%", xl: "25%"}} p="16px" variant="gradient-with-shadow">
           <Tabs isFitted variant="dark">
             <TabList>
               <Tab>Sign in</Tab>
