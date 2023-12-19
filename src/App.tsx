@@ -18,6 +18,7 @@ import AuthProvider from "./contexts/AuthContext";
 import SignInForm from "./_auth/forms/SignInForm";
 import SignUpForm from "./_auth/forms/SignUpForm";
 import ResetPassword from "./_auth/forms/ResetPassword";
+import PrivateRoutes from "./components/auth/PrivateRoutes";
 
 function App() {
   return (
@@ -33,14 +34,21 @@ function App() {
             </Route>
 
             {/* private routes */}
-            <Route path="/" element={<RootLayout />}>
+            <Route
+              path="/"
+              element={
+                <PrivateRoutes>
+                  <RootLayout />
+                </PrivateRoutes>
+              }
+            >
               <Route index element={<Home />} />
               <Route path="/collection/:name" element={<CollectionList />} />
               <Route path="/search" element={<Search />} />
               <Route path="/browse/:media_type" element={<Browse />} />
               <Route path="/myList" element={<MyList />} />
               <Route path="/random" element={<RandomMedia />} />
-              {/* <Route path="/friends" element={<Friends />} /> */}
+              <Route path="/friends" element={<Friends />} />
               <Route
                 path="/info/:media_type/:id/:name"
                 element={<MediaInfo />}
