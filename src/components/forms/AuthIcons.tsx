@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Icon, Text, VisuallyHidden } from "@chakra-ui/react";
+import { Button, ButtonGroup, Icon, Text } from "@chakra-ui/react";
 import { Icons } from "@/constans/AuthIcons";
 
 const AuthIcons = () => {

@@ -3,7 +3,6 @@ import {
   Text,
   Select,
   Button,
-  Box,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";

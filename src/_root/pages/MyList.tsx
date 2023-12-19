@@ -1,8 +1,6 @@
 import WatchList from "@/components/pages/MyList/WatchList";
 import {
-  Box,
   Button,
-  ButtonGroup,
   Divider,
   Flex,
   Modal,
