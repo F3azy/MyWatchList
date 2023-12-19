@@ -14,27 +14,40 @@ import {
   Friends,
 } from "@/_root/pages";
 import AuthLayout from "@/_auth/AuthLayout";
+import AuthProvider from "./contexts/AuthContext";
+import SignInForm from "./_auth/forms/SignInForm";
+import SignUpForm from "./_auth/forms/SignUpForm";
+import ResetPassword from "./_auth/forms/ResetPassword";
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <Routes>
-          {/* public routes */}
-          <Route index element={<AuthLayout />} />
+        <AuthProvider>
+          <Routes>
+            {/* public routes */}
+            <Route element={<AuthLayout />}>
+              <Route index path="/signin" element={<SignInForm />} />
+              <Route path="/signup" element={<SignUpForm />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+            </Route>
 
-          {/* private routes */}
-          <Route path="/" element={<RootLayout />}>
-            <Route index element={<Home />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/browse/:media_type" element={<Browse />} />
-            <Route path="/info/:media_type/:id/:name" element={<MediaInfo />} />
-            <Route path="/myList" element={<MyList />} />
-            <Route path="/random" element={<RandomMedia />} />
-            <Route path="/collection/:name" element={<CollectionList />} />
-            <Route path="/friends" element={<Friends />} />
-          </Route>
-        </Routes>
+            {/* private routes */}
+            <Route path="/" element={<RootLayout />}>
+              <Route index element={<Home />} />
+              <Route path="/collection/:name" element={<CollectionList />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/browse/:media_type" element={<Browse />} />
+              <Route path="/myList" element={<MyList />} />
+              <Route path="/random" element={<RandomMedia />} />
+              {/* <Route path="/friends" element={<Friends />} /> */}
+              <Route
+                path="/info/:media_type/:id/:name"
+                element={<MediaInfo />}
+              />
+            </Route>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </ChakraProvider>
   );
