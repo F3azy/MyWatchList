@@ -1,22 +1,21 @@
-import { FormControl, FormLabel, Heading } from "@chakra-ui/react";
 import {
-  Input,
-  Divider,
   Button,
-  Text,
-  Stack,
+  FormControl,
+  FormLabel,
   HStack,
+  Heading,
+  Input,
+  Stack,
+  Text,
   VStack,
 } from "@chakra-ui/react";
-import PasswordField from "@/components/forms/PasswordField";
-import AuthIcons from "@/components/auth/AuthIcons";
 import { Link } from "react-router-dom";
 
-const SignInForm = () => {
+const ResetPassword = () => {
   return (
     <Stack w="full" spacing={5}>
       <Heading textAlign="center" color="brand.secondary">
-        Sign In
+        Reset Password
       </Heading>
       <VStack as="form" w="full" spacing={5}>
         <FormControl>
@@ -30,9 +29,8 @@ const SignInForm = () => {
             _hover={{ borderColor: "brand.primary" }}
           />
         </FormControl>
-        <PasswordField />
         <Button w="full" variant="full">
-          Sign in
+          Reset password
         </Button>
       </VStack>
       <HStack justify="space-between">
@@ -47,24 +45,16 @@ const SignInForm = () => {
         </Text>
         <Text
           as={Link}
-          to="/reset-password"
+          to="/signin"
           textAlign="center"
           color="brand.secondary"
           textDecoration="underline"
         >
-          Forgot Password?
+          Sing In
         </Text>
       </HStack>
-      <HStack>
-        <Divider />
-        <Text fontSize="sm" whiteSpace="nowrap">
-          OR
-        </Text>
-        <Divider />
-      </HStack>
-      <AuthIcons />
     </Stack>
   );
 };
 
-export default SignInForm;
+export default ResetPassword;

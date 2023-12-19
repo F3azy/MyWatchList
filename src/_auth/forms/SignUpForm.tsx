@@ -1,11 +1,15 @@
-import { FormControl, FormLabel, VStack } from "@chakra-ui/react";
+import { FormControl, FormLabel, Heading, VStack } from "@chakra-ui/react";
 import { Input, Divider, Button, Text, Stack, HStack } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
-import AuthIcons from "@/components/forms/AuthIcons";
+import AuthIcons from "@/components/auth/AuthIcons";
+import { Link } from "react-router-dom";
 
 const SignUpForm = () => {
   return (
-    <Stack spacing={5}>
+    <Stack w="full" spacing={5}>
+      <Heading textAlign="center" color="brand.secondary">
+        Sign Up
+      </Heading>
       <VStack as="form" w="full" spacing={5}>
         <FormControl>
           <FormLabel color={"brand.secondary"}>Email</FormLabel>
@@ -21,8 +25,20 @@ const SignUpForm = () => {
         </FormControl>
         <PasswordField />
         <PasswordField repeat />
-        <Button w="full" variant="full">Sign up</Button>
+        <Button w="full" variant="full">
+          Sign up
+        </Button>
       </VStack>
+      <Text
+        as={Link}
+        to="/signin"
+        textAlign="center"
+        color="brand.secondary"
+        textDecoration="underline"
+        mx="auto"
+      >
+        Already have an account?
+      </Text>
       <HStack>
         <Divider />
         <Text fontSize="sm" whiteSpace="nowrap">

@@ -1,30 +1,21 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Flex, Container } from "@chakra-ui/react";
-import SignInForm from "./forms/SignInForm";
-import SignUpForm from "./forms/SignUpForm";
+import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   return (
-    <>
-      <Flex h="100vh" align="center">
-        <Container w={{base: "100%", xl: "25%"}} p="16px" variant="gradient-with-shadow">
-          <Tabs isFitted variant="dark">
-            <TabList>
-              <Tab>Sign in</Tab>
-              <Tab>Sign up</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <SignInForm />
-              </TabPanel>
-              <TabPanel>
-                <SignUpForm />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Container>
-      </Flex>
-    </>
+    <Flex h="100vh" align="center">
+      <Container
+        display={{ base: "flex", md: "block" }}
+        alignItems="center"
+        w={{ base: "100%", xl: "25%" }}
+        h={{ base: "full", md: "auto" }}
+        borderRadius={{ base: "none", md: "16px" }}
+        p="16px"
+        variant="gradient-with-shadow"
+      >
+        <Outlet />
+      </Container>
+    </Flex>
   );
 };
 
