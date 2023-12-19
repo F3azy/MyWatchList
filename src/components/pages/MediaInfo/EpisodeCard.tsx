@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Image as ChakraIMG, Skeleton, Text } from "@chakra-ui/react";
 import { Episode } from "@/types/mediaInfo";
-import { motion } from "framer-motion";
 
 const imageURL = "https://image.tmdb.org/t/p/original/";
 
