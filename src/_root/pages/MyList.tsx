@@ -2,6 +2,13 @@ import WatchList from "@/components/pages/MyList/WatchList";
 import {
   Button,
   Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   Modal,
   ModalBody,
@@ -14,6 +21,7 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { MultiMediaResult } from "@/types/common";
 import { Column, MediaDocument, MediaList, MediaStatus } from "@/types/myList";
@@ -98,6 +106,8 @@ const MyList = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+
+  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     setLists([]);
@@ -260,22 +270,20 @@ const MyList = () => {
           })}
         </Flex>
       </DragDropContext>
-      <Modal
+      <Drawer
         isOpen={isOpen}
+        variant="brand"
+        placement="bottom"
         onClose={onClose}
-        blockScrollOnMount={false}
-        isCentered
-        size="md"
-        autoFocus={false}
         returnFocusOnClose={false}
+        blockScrollOnMount={false}
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            {modalWatchCard?.watchcard.name || modalWatchCard?.watchcard.title}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+        <DrawerOverlay />
+        <DrawerContent borderTopRadius="24px">
+          <DrawerHeader>
+            <DrawerCloseButton />
+          </DrawerHeader>
+          <DrawerBody>
             <VStack w="full" gap="24px">
               <VStack w="full" align="flex-start" gap="8px">
                 <Text color="brand.secondary">Change Status</Text>
@@ -313,14 +321,14 @@ const MyList = () => {
               </Button>
               <Divider borderColor="brand.secondary" />
             </VStack>
-          </ModalBody>
-          <ModalFooter>
+          </DrawerBody>
+          <DrawerFooter>
             <Button w="full" variant="outline" onClick={closeModal}>
               Close
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };

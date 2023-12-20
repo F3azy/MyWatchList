@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import {
-  Box,
-  Button,
-  ButtonGroup,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Grid,
   GridItem,
-  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,21 +20,15 @@ import {
   TabList,
   TabPanel,
   Tabs,
-  Text,
-  VStack,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { Episode, MultiDetails, Season } from "@/types/mediaInfo";
-import Carousel from "@/components/shared/Carousel";
-import CarouselItem from "@/components/shared/CarouselItem";
 import EpisodeCard from "@/components/pages/MediaInfo/EpisodeCard";
 import useFetch from "@/hooks/useFetch";
-import { BsBookmarkPlus, BsBookmarkDash } from "react-icons/bs";
-import MediaDetail from "./MediaDetail";
-import GuestStarMemberCard from "./GuestStarMemberCard";
 import { isFutureDate } from "@/utils";
 import SeasonSelect from "./SeasonSelect";
+import { OverLayContent, OverLayFooter, OverLayHeader } from "./OverLayContent";
 
 const TabSeasons = ({ details }: { details: MultiDetails }) => {
   const [currentSeason, setCurrentSeason] = useState(1);
@@ -76,7 +73,6 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
     setEpisodeData(undefined);
   }
 
-  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
 
   return (
@@ -139,7 +135,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         </TabPanel>
       </Tabs>
       <Modal
-        isOpen={isOpen}
+        isOpen={isSmallerThan768 ? false : isOpen}
         onClose={closeModal}
         blockScrollOnMount={false}
         isCentered
@@ -154,71 +150,48 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Text fontWeight="semibold">
-              S{episodeData?.season_number} E{episodeData?.episode_number} -{" "}
-              {episodeData?.name}
-            </Text>
+            <OverLayHeader episodeData={episodeData as Episode} />
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody overflowX="clip">
-            <VStack w="full" align="flex-start" gap="12px">
-              <Text textAlign="justify">{episodeData?.overview}</Text>
-              <HStack w="full" justify="space-between">
-                <MediaDetail
-                  label="Runtime"
-                  value={episodeData?.runtime + " min"}
-                />
-                <MediaDetail
-                  label="Rating"
-                  value={episodeData?.vote_average + "/10"}
-                />
-                <MediaDetail
-                  label="Air date"
-                  value={episodeData?.air_date as string}
-                />
-              </HStack>
-              {episodeData?.guest_stars.length && (
-                <Box w="full">
-                  <Text color="brand.secondary" mb="8px">
-                    Episode guest cast:
-                  </Text>
-                  <Carousel
-                    elementsTotal={episodeData?.guest_stars.length as number}
-                    visibleElements={
-                      isLargerThan1280 ? 4 : isSmallerThan768 ? 2.5 : 3.5
-                    }
-                    isScrollable
-                  >
-                    {episodeData?.guest_stars.map((star, idx) => (
-                      <CarouselItem key={idx}>
-                        <GuestStarMemberCard star={star} />
-                      </CarouselItem>
-                    ))}
-                  </Carousel>
-                </Box>
-              )}
-            </VStack>
+            <OverLayContent episodeData={episodeData as Episode} visible={4} />
           </ModalBody>
           <ModalFooter>
-            <ButtonGroup
-              mt={episodeData?.guest_stars.length ? "12px" : 0}
-              gap="8px"
-            >
-              <Button
-                variant="full"
-                leftIcon={
-                  <BsBookmarkPlus size={20} /> || <BsBookmarkDash size={20} />
-                }
-              >
-                {"Mark as watched" || "Unmark as watched"}
-              </Button>
-              <Button variant="outline" onClick={closeModal}>
-                Close
-              </Button>
-            </ButtonGroup>
+            <OverLayFooter
+              episodeData={episodeData as Episode}
+              closeOverlay={() => closeModal()}
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Drawer
+        isOpen={isSmallerThan768 ? isOpen : false}
+        variant="brand"
+        placement="bottom"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        blockScrollOnMount={false}
+      >
+        <DrawerOverlay />
+        <DrawerContent borderTopRadius="24px">
+          <DrawerHeader>
+            <OverLayHeader episodeData={episodeData as Episode} />
+            <DrawerCloseButton />
+          </DrawerHeader>
+          <DrawerBody>
+            <OverLayContent
+              episodeData={episodeData as Episode}
+              visible={2.5}
+            />
+          </DrawerBody>
+          <DrawerFooter>
+            <OverLayFooter
+              episodeData={episodeData as Episode}
+              closeOverlay={() => closeModal()}
+            />
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };
