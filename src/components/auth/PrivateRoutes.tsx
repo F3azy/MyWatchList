@@ -11,8 +11,21 @@ const PrivateRoutes = ({ children }: { children: React.ReactNode }) => {
 
   const { user } = context;
 
-  if(!user) {
-    return <Navigate to="/signin" />
+  if (!user) {
+    return (
+      <Navigate
+        to="/signin"
+      />
+    );
+  }
+
+  if (!user?.emailVerified) {
+    return (
+      <Navigate
+        to="/signin"
+        state={{ errorMessage: "Verify your email adress." }}
+      />
+    );
   }
 
   return children;
