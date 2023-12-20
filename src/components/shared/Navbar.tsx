@@ -24,12 +24,30 @@ import {
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { NavLinks, MenuLinks } from "@/constans/NavItems";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import React, { Fragment } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const navigate = useNavigate();
+
+  const context = useAuth();
+
+  if (!context) return null;
+
+  const { logOut } = context;
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      navigate("/signin");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -101,7 +119,11 @@ const Navbar = () => {
                 {MenuLinks.map((menuLink) => (
                   <Fragment key={menuLink.name}>
                     {menuLink.name === "Log Out" && <MenuDivider />}
-                    <MenuItem>
+                    <MenuItem
+                      onClick={
+                        menuLink.name === "Log Out" ? handleLogOut : () => {}
+                      }
+                    >
                       <HStack>
                         <Icon as={menuLink.icon} />
                         <Text>{menuLink.name}</Text>
@@ -119,7 +141,7 @@ const Navbar = () => {
         placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
-        size={{base: "xs", md: "sm"}}
+        size={{ base: "xs", md: "sm" }}
         blockScrollOnMount={false}
       >
         <DrawerOverlay />
@@ -134,7 +156,7 @@ const Navbar = () => {
                     to={link.to}
                     w="full"
                     py="12px"
-                    fontSize={{base: "18px", md: "24px"}}
+                    fontSize={{ base: "18px", md: "24px" }}
                     fontWeight="bold"
                     color="brand.secondary"
                     letterSpacing="2px"
