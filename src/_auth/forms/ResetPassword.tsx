@@ -9,51 +9,107 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthLayout from "../AuthLayout";
+import { useAuth } from "@/contexts/AuthContext";
+import { FormEvent, useRef, useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 const ResetPassword = () => {
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  const toast = useToast();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const context = useAuth();
+
+  if (!context) return null;
+
+  const { resetEmail } = context;
+
+  async function handleSubmit(event: FormEvent<HTMLDivElement>) {
+    event.preventDefault();
+
+    if (emailRef.current?.value === "") {
+      setError("Email is required.");
+      return;
+    }
+
+    try {
+      setError("");
+      setLoading(true);
+      await resetEmail(emailRef.current?.value as string);
+      toast({
+        title: "Email sent.",
+        description: "Check your email box.",
+        position: "top",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong.",
+        description: "Try again.",
+        position: "top",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    setLoading(false);
+  }
   return (
-    <Stack w="full" spacing={5}>
-      <Heading textAlign="center" color="brand.secondary">
-        Reset Password
-      </Heading>
-      <VStack as="form" w="full" spacing={5}>
-        <FormControl>
-          <FormLabel color={"brand.secondary"}>Email</FormLabel>
-          <Input
-            id="email"
-            type="email"
-            placeholder="example@domain.com"
+    <AuthLayout>
+      <Stack w="full" spacing={5}>
+        <Heading textAlign="center" color="brand.secondary">
+          Reset Password
+        </Heading>
+        <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
+          {error !== "" && <Text color="red.500">{error}</Text>}
+          <FormControl isRequired>
+            <FormLabel color={"brand.secondary"}>Email</FormLabel>
+            <Input
+              ref={emailRef}
+              id="email"
+              type="email"
+              placeholder="example@domain.com"
+              color="brand.secondary"
+              borderColor="brand.secondary"
+              _hover={{ borderColor: "brand.primary" }}
+            />
+          </FormControl>
+          <Button w="full" variant="full" type="submit" isLoading={loading}>
+            Reset password
+          </Button>
+        </VStack>
+        <HStack justify="space-between">
+          <Text
+            as={Link}
+            to="/signup"
+            textAlign="center"
             color="brand.secondary"
-            borderColor="brand.secondary"
-            _hover={{ borderColor: "brand.primary" }}
-          />
-        </FormControl>
-        <Button w="full" variant="full">
-          Reset password
-        </Button>
-      </VStack>
-      <HStack justify="space-between">
-        <Text
-          as={Link}
-          to="/signup"
-          textAlign="center"
-          color="brand.secondary"
-          textDecoration="underline"
-        >
-          Don't have an account?
-        </Text>
-        <Text
-          as={Link}
-          to="/signin"
-          textAlign="center"
-          color="brand.secondary"
-          textDecoration="underline"
-        >
-          Sing In
-        </Text>
-      </HStack>
-    </Stack>
+            textDecoration="underline"
+          >
+            Don't have an account?
+          </Text>
+          <Text
+            as={Link}
+            to="/signin"
+            textAlign="center"
+            color="brand.secondary"
+            textDecoration="underline"
+          >
+            Sing In
+          </Text>
+        </HStack>
+      </Stack>
+    </AuthLayout>
   );
 };
 
