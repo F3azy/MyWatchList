@@ -276,7 +276,7 @@ const MyList = () => {
         placement="bottom"
         onClose={onClose}
         returnFocusOnClose={false}
-        blockScrollOnMount={false}
+        blockScrollOnMount={true}
       >
         <DrawerOverlay />
         <DrawerContent borderTopRadius="24px">

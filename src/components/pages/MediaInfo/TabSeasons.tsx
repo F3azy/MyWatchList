@@ -137,7 +137,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
       <Modal
         isOpen={isSmallerThan768 ? false : isOpen}
         onClose={closeModal}
-        blockScrollOnMount={false}
+        blockScrollOnMount={true}
         isCentered
         size={{
           base: "md",
@@ -170,7 +170,7 @@ const TabSeasons = ({ details }: { details: MultiDetails }) => {
         placement="bottom"
         onClose={onClose}
         returnFocusOnClose={false}
-        blockScrollOnMount={false}
+        blockScrollOnMount={true}
       >
         <DrawerOverlay />
         <DrawerContent borderTopRadius="24px">
