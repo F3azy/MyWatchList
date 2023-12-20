@@ -1,8 +1,10 @@
 import { useAuth } from "@/contexts/AuthContext";
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
-const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+
   const context = useAuth();
 
   if (!context) {
@@ -11,11 +13,15 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
   const { user } = context;
 
-  if (user != null && user.emailVerified) {
+  if (user && !user.emailVerified && location.pathname!=="/verify") {
+    return <Navigate to="/verify" />;
+  }
+
+  if (user && user.emailVerified) {
     return <Navigate to="/" />;
   }
 
   return children;
 };
 
-export default PrivateRoute;
+export default PublicRoute;
