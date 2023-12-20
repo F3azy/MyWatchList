@@ -9,6 +9,14 @@ import {
   FormLabel,
   Heading,
   VStack,
+  useSteps,
+  Stepper,
+  StepIndicator,
+  Step,
+  StepSeparator,
+  StepStatus,
+  StepIcon,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
 import AuthIcons from "@/components/auth/AuthIcons";
@@ -17,7 +25,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
 import AuthLayout from "../AuthLayout";
 
+const steps = [
+  { title: "First", description: "Account Details" },
+  { title: "Second", description: "Full Name" },
+  { title: "Third", description: "Favorite genres" },
+];
+
 const SignUpForm = () => {
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const repPassRef = useRef<HTMLInputElement>(null);
@@ -33,9 +49,7 @@ const SignUpForm = () => {
 
   const { signUp } = context;
 
-  async function handleSubmit(event: FormEvent<HTMLDivElement>) {
-    event.preventDefault();
-
+  const handleAccountDetails = () => {
     if (emailRef.current?.value === "") {
       setError("Email is required.");
       return;
@@ -56,20 +70,47 @@ const SignUpForm = () => {
       return;
     }
 
+    setActiveStep((prev) => (prev = prev + 1));
+  };
+
+  const handleFullName = () => {
+    if (firstNameRef.current?.value === "") {
+      setError("First name is required.");
+      return;
+    }
+
+    if (firstNameRef.current?.value === "") {
+      setError("Last name is required.");
+      return;
+    }
+
+    setActiveStep((prev) => (prev = prev + 1));
+  };
+
+  async function handleSubmit(event: FormEvent<HTMLDivElement>) {
+    event.preventDefault();
+
     try {
       setError("");
       setLoading(true);
       await signUp(
         emailRef.current?.value as string,
-        passRef.current?.value as string
+        passRef.current?.value as string,
+        firstNameRef.current?.value as string,
+        lastNameRef.current?.value as string
       );
-      navigate("/");
+      navigate("/verify");
     } catch {
       setError("Failed to create an account");
     }
 
     setLoading(false);
   }
+
+  const { activeStep, setActiveStep } = useSteps({
+    index: 0,
+    count: steps.length,
+  });
 
   return (
     <AuthLayout>
@@ -79,23 +120,112 @@ const SignUpForm = () => {
         </Heading>
         <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
           {error !== "" && <Text color="red.500">{error}</Text>}
-          <FormControl isRequired>
-            <FormLabel color={"brand.secondary"}>Email</FormLabel>
-            <Input
-              ref={emailRef}
-              id="email"
-              type="email"
-              placeholder="example@domain.com"
-              color="brand.secondary"
-              borderColor="brand.secondary"
-              _hover={{ borderColor: "brand.primary" }}
-            />
-          </FormControl>
-          <PasswordField passRef={passRef} />
-          <PasswordField repeat passRef={repPassRef} />
-          <Button w="full" variant="full" type="submit" isLoading={loading}>
-            Sign up
-          </Button>
+          <Stepper w="full" size="sm" index={activeStep} gap={0}>
+            {steps.map((step, index) => (
+              <Step key={index} style={{ gap: 0 }}>
+                <StepIndicator>
+                  <StepStatus complete={<StepIcon />} />
+                </StepIndicator>
+                <StepSeparator style={{ marginLeft: 0 }} />
+              </Step>
+            ))}
+          </Stepper>
+          <VStack
+            w="full"
+            display={activeStep === 0 ? "flex" : "none"}
+            spacing={5}
+          >
+            <FormControl isRequired>
+              <FormLabel color={"brand.secondary"}>Email</FormLabel>
+              <Input
+                ref={emailRef}
+                id="email"
+                type="email"
+                placeholder="example@domain.com"
+                color="brand.secondary"
+                borderColor="brand.secondary"
+                _hover={{ borderColor: "brand.primary" }}
+              />
+            </FormControl>
+            <PasswordField passRef={passRef} />
+            <PasswordField repeat passRef={repPassRef} />
+          </VStack>
+          <VStack
+            w="full"
+            display={activeStep === 1 ? "flex" : "none"}
+            spacing={5}
+          >
+            <FormControl isRequired>
+              <FormLabel color={"brand.secondary"}>First Name</FormLabel>
+              <Input
+                ref={firstNameRef}
+                id="firstName"
+                type="text"
+                placeholder="Jerry"
+                color="brand.secondary"
+                borderColor="brand.secondary"
+                _hover={{ borderColor: "brand.primary" }}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel color={"brand.secondary"}>Last Name</FormLabel>
+              <Input
+                ref={lastNameRef}
+                id="lastName"
+                type="text"
+                placeholder="Smith"
+                color="brand.secondary"
+                borderColor="brand.secondary"
+                _hover={{ borderColor: "brand.primary" }}
+              />
+            </FormControl>
+          </VStack>
+          <ButtonGroup
+            display={activeStep === 2 ? "inline-flex" : "none"}
+            w="full"
+            spacing="24px"
+          >
+            <Button
+              w="full"
+              variant="full"
+              onClick={() => setActiveStep((prev) => (prev = prev - 1))}
+            >
+              Prev
+            </Button>
+            <Button w="full" variant="full" type="submit" isLoading={loading}>
+              Sign up
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup
+            display={activeStep !== 2 ? "inline-flex" : "none"}
+            w="full"
+            spacing="24px"
+          >
+            <Button
+              w="full"
+              variant="full"
+              onClick={
+                activeStep === 0
+                  ? () => {}
+                  : () => setActiveStep((prev) => (prev = prev - 1))
+              }
+            >
+              Prev
+            </Button>
+            <Button
+              w="full"
+              variant="full"
+              onClick={
+                activeStep === 0
+                  ? handleAccountDetails
+                  : activeStep === 1
+                  ? handleFullName
+                  : () => {}
+              }
+            >
+              Next
+            </Button>
+          </ButtonGroup>
         </VStack>
         <Text
           as={Link}
