@@ -11,6 +11,8 @@ import {
   TwitterAuthProvider,
   signOut,
   sendPasswordResetEmail,
+  updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
 
@@ -24,8 +26,26 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) => {
+    const userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await updateProfile(userCredentials.user, {
+      displayName: firstName + " " + lastName,
+    });
+
+    await sendEmailVerification(userCredentials.user);
+  };
+
+  const resendEmailVerification = () => {
+    if (user) return sendEmailVerification(user);
   };
 
   const signIn = (email: string, password: string) => {
@@ -48,9 +68,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const providersSignIn: FirebaseProvidersSignIn = {
-    "Google": googleSignIn,
-    "Facebook": facebookSignIn,
-    "Twitter": twitterSignIn,
+    Google: googleSignIn,
+    Facebook: facebookSignIn,
+    Twitter: twitterSignIn,
   };
 
   const logOut = () => {
@@ -76,6 +96,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     logOut,
     providersSignIn,
     resetEmail,
+    resendEmailVerification,
   };
 
   return (
