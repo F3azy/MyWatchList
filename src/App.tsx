@@ -13,7 +13,6 @@ import {
   RandomMedia,
   Friends,
 } from "@/_root/pages";
-import AuthLayout from "@/_auth/AuthLayout";
 import AuthProvider from "./contexts/AuthContext";
 import SignInForm from "./_auth/forms/SignInForm";
 import SignUpForm from "./_auth/forms/SignUpForm";
@@ -27,11 +26,9 @@ function App() {
         <AuthProvider>
           <Routes>
             {/* public routes */}
-            <Route element={<AuthLayout />}>
-              <Route index path="/signin" element={<SignInForm />} />
-              <Route path="/signup" element={<SignUpForm />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-            </Route>
+            <Route path="/signin" element={<SignInForm />} />
+            <Route path="signup" element={<SignUpForm />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* private routes */}
             <Route

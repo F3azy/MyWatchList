@@ -1,7 +1,6 @@
 import { Flex, Container } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
 
-const AuthLayout = () => {
+const AuthLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <Flex h="100vh" align="center">
       <Container
@@ -13,7 +12,7 @@ const AuthLayout = () => {
         p="16px"
         variant="gradient-with-shadow"
       >
-        <Outlet />
+        {children}
       </Container>
     </Flex>
   );
