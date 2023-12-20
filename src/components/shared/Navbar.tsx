@@ -28,6 +28,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import React, { Fragment } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "@/contexts/AuthContext";
+import { getNameAndLastName } from "@/utils";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,9 +39,9 @@ const Navbar = () => {
 
   if (!context) return null;
 
-  const { logOut } = context;
+  const { logOut, user } = context;
 
-  const handleLogOut = async () => {
+  async function handleLogOut() {
     try {
       await logOut();
       navigate("/signin");
@@ -96,7 +97,7 @@ const Navbar = () => {
                 <HStack>
                   <Avatar
                     size={{ base: "md", md: "lg", xl: "md" }}
-                    src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=620&quality=85&dpr=1&s=none"
+                    src={user?.photoURL as string}
                   />
                   <VStack
                     display={{ base: "none", xl: "flex" }}
@@ -104,10 +105,10 @@ const Navbar = () => {
                     spacing={0}
                   >
                     <Text fontSize="lg" color="brand.secondary">
-                      Francesco
+                      {getNameAndLastName(user?.displayName)[0]}
                     </Text>
                     <Text fontSize="sm" color="brand.secondary">
-                      Carvelli
+                      {getNameAndLastName(user?.displayName)[1]}
                     </Text>
                   </VStack>
                   <Box display={{ base: "none", xl: "flex" }}>
@@ -121,7 +122,7 @@ const Navbar = () => {
                     {menuLink.name === "Log Out" && <MenuDivider />}
                     <MenuItem
                       onClick={
-                        menuLink.name === "Log Out" ? handleLogOut : () => {}
+                        menuLink.name === "Log Out" ? () => handleLogOut() : () => {}
                       }
                     >
                       <HStack>
