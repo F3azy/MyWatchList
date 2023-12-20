@@ -2,21 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { auth } from "@/firebase";
 import {
   User,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
   GoogleAuthProvider,
-  onAuthStateChanged,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-
-type AuthProviderValue = {
-  user: User | null;
-  signUp: (email: string, password: string) => void;
-  signIn: (email: string, password: string) => void;
-  logOut: () => void;
-  googleSignIn: () => void;
-};
+import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
 
 const AuthContext = React.createContext<AuthProviderValue | null>(null);
 
@@ -29,20 +25,40 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const signUp = (email: string, password: string) => {
-    createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    return signInWithPopup(auth, provider);
+  };
+
+  const facebookSignIn = () => {
+    const provider = new FacebookAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
+
+  const twitterSignIn = () => {
+    const provider = new TwitterAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
+
+  const providersSignIn: FirebaseProvidersSignIn = {
+    "Google": googleSignIn,
+    "Facebook": facebookSignIn,
+    "Twitter": twitterSignIn,
   };
 
   const logOut = () => {
-    signOut(auth);
+    return signOut(auth);
+  };
+
+  const resetEmail = (email: string) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   useEffect(() => {
@@ -58,7 +74,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp,
     signIn,
     logOut,
-    googleSignIn,
+    providersSignIn,
+    resetEmail,
   };
 
   return (
