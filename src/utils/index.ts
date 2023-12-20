@@ -14,3 +14,8 @@ export function getYear(date: string): string {
 export function isFutureDate(date: string) {
   return new Date(date) > new Date();
 }
+
+export function getNameAndLastName(displayName: string | null | undefined): string[] {
+  if (displayName) return displayName.split(' ') 
+  else return ["", ""];
+}
