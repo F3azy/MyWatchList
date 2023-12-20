@@ -2,22 +2,31 @@ import { useState } from "react";
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
 
-const PasswordField = ({repeat}:{repeat?: boolean}) => {
+const PasswordField = ({
+  repeat,
+  passRef,
+}: {
+  repeat?: boolean;
+  passRef?: React.Ref<HTMLInputElement>;
+}) => {
   const [show, setShow] = useState<boolean>(false);
 
   const PassVisibility = () => setShow(!show);
 
   return (
-    <FormControl>
-      <FormLabel color="brand.secondary">{repeat && "Repeat "}Password</FormLabel>
+    <FormControl isRequired>
+      <FormLabel color="brand.secondary">
+        {repeat && "Repeat "}Password
+      </FormLabel>
       <InputGroup size="md">
         <Input
+          {...(passRef && { ref: passRef })}
           pr="4.5rem"
           borderColor="brand.secondary"
           color="brand.secondary"
           _hover={{ borderColor: "brand.primary" }}
           type={show ? "text" : "password"}
-          placeholder="Must have at least 8 characters"
+          placeholder="Must have at least 6 characters"
         />
         <InputRightElement width="4.5rem">
           <Button
