@@ -46,6 +46,7 @@ const MainMediaInfo = ({
   );
 
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+  const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)");
 
   return (
     <VStack
@@ -63,7 +64,7 @@ const MainMediaInfo = ({
           alt={details?.name || details?.title}
         />
       ) : (
-        <Heading as="h1" w={{xl: "80%"}} textAlign="center">
+        <Heading as="h1" w={{ xl: "80%" }} textAlign="center">
           {details?.name || details?.title}
         </Heading>
       )}
@@ -79,7 +80,12 @@ const MainMediaInfo = ({
       ) ? (
         ""
       ) : (
-        <HStack w={{base: "full", md: "auto"}} justify="space-between" gap="60px" m="0 !important">
+        <HStack
+          w={{ base: "full", md: "auto" }}
+          justify="space-between"
+          gap="60px"
+          m="0 !important"
+        >
           {(details?.runtime || details?.number_of_seasons) && (
             <Text>
               {details?.runtime
@@ -103,22 +109,22 @@ const MainMediaInfo = ({
       )}
 
       {details?.tagline !== "" && (
-        <Text as="em" maxW={{xl: "50%"}} textAlign="center" m="0 !important">
+        <Text as="em" maxW={{ xl: "50%" }} textAlign="center" m="0 !important">
           <q>{details?.tagline}</q>
         </Text>
       )}
 
       {details?.overview && (
         <Text
-          w={{xl: "80%"}}
+          w={{ xl: "80%" }}
           m="0 !important"
           pr="4px"
           textAlign="justify"
           overflowY="scroll"
-          maxH="120px"
+          maxH={{ '2xl': "120px" }}
           css={{
             "&::-webkit-scrollbar": {
-              width: "13px",
+              width: isLargerThan1536 ? "13px" : 0,
             },
             "&::-webkit-scrollbar-thumb": {
               background: "#56B4DC",
@@ -133,7 +139,7 @@ const MainMediaInfo = ({
       )}
 
       {details?.genres && (
-        <Text m="0 !important">
+        <Text m="0 !important" textAlign="center">
           {details?.genres.map(
             (genre, idx) =>
               genre.name + (idx != details?.genres.length - 1 ? " | " : "")
