@@ -144,6 +144,7 @@ const Navbar = () => {
         returnFocusOnClose={false}
         size={{ base: "xs", md: "sm" }}
         blockScrollOnMount={false}
+        variant="menu"
       >
         <DrawerOverlay />
         <DrawerContent>
