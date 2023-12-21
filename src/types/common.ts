@@ -34,3 +34,10 @@ export type MediaImages = {
   logos: MediaImageProp[];
   posters: MediaImageProp[];
 };
+
+export type Genres = {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+};
