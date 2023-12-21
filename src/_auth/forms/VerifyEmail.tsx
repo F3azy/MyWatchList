@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import AuthLayout from "../AuthLayout";
 import { Button, Heading, Stack, Text } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { FirebaseError } from "firebase/app";
+import { handleErrors } from "@/utils/firebase";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -23,8 +25,8 @@ const VerifyEmail = () => {
       setError("");
       setLoading(true);
       await resendEmailVerification();
-    } catch {
-      setError("Failed to resend the email");
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) setError(handleErrors(error));
     }
 
     setLoading(false);
