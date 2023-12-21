@@ -14,6 +14,7 @@ const Browse = () => {
   const [genre, setGenre] = useState("");
 
   function changeGenre(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
     setGenre(event.currentTarget.value);
   }
 
