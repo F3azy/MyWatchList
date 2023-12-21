@@ -24,12 +24,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
 import AuthLayout from "../AuthLayout";
+import useFetch from "@/hooks/useFetch";
+import { Genres } from "@/types/common";
 
 const steps = [
   { title: "First", description: "Account Details" },
   { title: "Second", description: "Full Name" },
   { title: "Third", description: "Favorite genres" },
 ];
+
+const url = "https://api.themoviedb.org/3/genre/";
 
 const SignUpForm = () => {
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -39,9 +43,13 @@ const SignUpForm = () => {
   const repPassRef = useRef<HTMLInputElement>(null);
 
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isFormLoading, setIsFormLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const { data: movieGenre, loading } = useFetch<Genres>(
+    url + `movie/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
+  );
 
   const context = useAuth();
 
@@ -92,7 +100,7 @@ const SignUpForm = () => {
 
     try {
       setError("");
-      setLoading(true);
+      setIsFormLoading(true);
       await signUp(
         emailRef.current?.value as string,
         passRef.current?.value as string,
@@ -104,7 +112,7 @@ const SignUpForm = () => {
       setError("Failed to create an account");
     }
 
-    setLoading(false);
+    setIsFormLoading(false);
   }
 
   const { activeStep, setActiveStep } = useSteps({
@@ -192,7 +200,7 @@ const SignUpForm = () => {
             >
               Prev
             </Button>
-            <Button w="full" variant="full" type="submit" isLoading={loading}>
+            <Button w="full" variant="full" type="submit" isLoading={isFormLoading}>
               Sign up
             </Button>
           </ButtonGroup>

@@ -1,13 +1,7 @@
 import React, { useEffect } from "react";
 import { Select, Skeleton } from "@chakra-ui/react";
 import useFetch from "@/hooks/useFetch";
-
-type Genres = {
-  genres: {
-    id: number;
-    name: string;
-  }[];
-};
+import { Genres } from "@/types/common";
 
 const url = "https://api.themoviedb.org/3/genre/";
 
