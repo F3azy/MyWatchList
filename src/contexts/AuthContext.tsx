@@ -41,7 +41,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       displayName: firstName + " " + lastName,
     });
 
-    await sendEmailVerification(userCredentials.user);
+    return await sendEmailVerification(userCredentials.user);
   };
 
   const resendEmailVerification = () => {
