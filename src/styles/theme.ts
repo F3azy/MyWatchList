@@ -1,5 +1,14 @@
 import { extendTheme } from "@chakra-ui/react";
-import { Container, Tabs, Button, Menu, Select, Modal, Drawer } from "./components";
+import {
+  Container,
+  Tabs,
+  Button,
+  Menu,
+  Select,
+  Modal,
+  Drawer,
+  Tag,
+} from "./components";
 
 const Styles = {
   global: {
@@ -38,6 +47,7 @@ const Components = {
   Select: Select,
   Modal: Modal,
   Drawer: Drawer,
+  Tag: Tag,
 };
 
 export const theme = extendTheme({

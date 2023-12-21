@@ -5,3 +5,4 @@ export { default as Select } from "./Select";
 export { default as Tabs } from "./Tab";
 export { default as Modal } from "./Modal";
 export { default as Drawer } from "./Drawer";
+export { default as Tag } from "./Tag";
