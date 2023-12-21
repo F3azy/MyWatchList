@@ -15,8 +15,6 @@ const outline = definePartsStyle({
     boxShadow: "none",
     _hover: {
       cursor: "pointer",
-      bg: "#56B4DC",
-      color: "#141414",
     },
   },
 });
