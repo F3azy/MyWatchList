@@ -17,6 +17,9 @@ import {
   StepStatus,
   StepIcon,
   ButtonGroup,
+  Tag,
+  TagLabel,
+  Flex,
 } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
 import AuthIcons from "@/components/auth/AuthIcons";
@@ -26,6 +29,8 @@ import { FormEvent, useRef, useState } from "react";
 import AuthLayout from "../AuthLayout";
 import useFetch from "@/hooks/useFetch";
 import { Genres } from "@/types/common";
+import { FirebaseError } from "firebase/app";
+import { handleErrors } from "@/utils/firebase";
 
 const steps = [
   { title: "First", description: "Account Details" },
@@ -43,12 +48,19 @@ const SignUpForm = () => {
   const repPassRef = useRef<HTMLInputElement>(null);
 
   const [error, setError] = useState("");
-  const [isFormLoading, setIsFormLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const [movieFavGenres, setMovieFavGenres] = useState<string[]>([]);
+  const [tvFavGenres, setTvFavGenres] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
-  const { data: movieGenre, loading } = useFetch<Genres>(
+  const { data: movieGenre} = useFetch<Genres>(
     url + `movie/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
+  );
+
+  const { data: tvGenre } = useFetch<Genres>(
+    url + `tv/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
   );
 
   const context = useAuth();
@@ -57,7 +69,7 @@ const SignUpForm = () => {
 
   const { signUp } = context;
 
-  const handleAccountDetails = () => {
+  function handleAccountDetails() {
     if (emailRef.current?.value === "") {
       setError("Email is required.");
       return;
@@ -79,9 +91,9 @@ const SignUpForm = () => {
     }
 
     setActiveStep((prev) => (prev = prev + 1));
-  };
+  }
 
-  const handleFullName = () => {
+  function handleFullName() {
     if (firstNameRef.current?.value === "") {
       setError("First name is required.");
       return;
@@ -93,14 +105,35 @@ const SignUpForm = () => {
     }
 
     setActiveStep((prev) => (prev = prev + 1));
-  };
+  }
+
+  function chooseFavGenre(
+    favGenres: string[],
+    setFavGenre: React.Dispatch<React.SetStateAction<string[]>>,
+    genre: string
+  ): void {
+    if (favGenres.includes(genre)) {
+      setFavGenre(favGenres.filter((favGenre) => favGenre !== genre));
+    } else {
+      if (favGenres.length === 3) {
+        setError("You can select max 3 genres for movie and tv.");
+        return;
+      }
+      setFavGenre([...favGenres, genre]);
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLDivElement>) {
     event.preventDefault();
 
+    if (movieFavGenres.length < 1 || tvFavGenres.length < 1) {
+      setError("Select at least 1 favorite genre for each media.");
+      return;
+    }
+
     try {
       setError("");
-      setIsFormLoading(true);
+      setLoading(true);
       await signUp(
         emailRef.current?.value as string,
         passRef.current?.value as string,
@@ -108,11 +141,11 @@ const SignUpForm = () => {
         lastNameRef.current?.value as string
       );
       navigate("/verify");
-    } catch {
-      setError("Failed to create an account");
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) setError(handleErrors(error));
     }
 
-    setIsFormLoading(false);
+    setLoading(false);
   }
 
   const { activeStep, setActiveStep } = useSteps({
@@ -188,6 +221,58 @@ const SignUpForm = () => {
               />
             </FormControl>
           </VStack>
+          <VStack
+            w="full"
+            display={activeStep === 2 ? "flex" : "none"}
+            spacing={5}
+          >
+            <FormControl isRequired>
+              <FormLabel color={"brand.secondary"}>
+                Favorite movie genres
+              </FormLabel>
+              <Flex flexWrap="wrap" gap={2}>
+                {movieGenre?.genres.map((genre) => (
+                  <Tag
+                    variant={
+                      movieFavGenres.includes(genre.name)
+                        ? "selected"
+                        : "outline"
+                    }
+                    key={genre.name}
+                    onClick={() =>
+                      chooseFavGenre(
+                        movieFavGenres,
+                        setMovieFavGenres,
+                        genre.name
+                      )
+                    }
+                  >
+                    <TagLabel>{genre.name}</TagLabel>
+                  </Tag>
+                ))}
+              </Flex>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel color={"brand.secondary"}>
+                Favorite series genres
+              </FormLabel>
+              <Flex flexWrap="wrap" gap={2}>
+                {tvGenre?.genres.map((genre) => (
+                  <Tag
+                    variant={
+                      tvFavGenres.includes(genre.name) ? "selected" : "outline"
+                    }
+                    key={genre.name}
+                    onClick={() =>
+                      chooseFavGenre(tvFavGenres, setTvFavGenres, genre.name)
+                    }
+                  >
+                    <TagLabel>{genre.name}</TagLabel>
+                  </Tag>
+                ))}
+              </Flex>
+            </FormControl>
+          </VStack>
           <ButtonGroup
             display={activeStep === 2 ? "inline-flex" : "none"}
             w="full"
@@ -200,7 +285,12 @@ const SignUpForm = () => {
             >
               Prev
             </Button>
-            <Button w="full" variant="full" type="submit" isLoading={isFormLoading}>
+            <Button
+              w="full"
+              variant="full"
+              type="submit"
+              isLoading={isLoading}
+            >
               Sign up
             </Button>
           </ButtonGroup>
@@ -225,9 +315,9 @@ const SignUpForm = () => {
               variant="full"
               onClick={
                 activeStep === 0
-                  ? handleAccountDetails
+                  ? () => handleAccountDetails()
                   : activeStep === 1
-                  ? handleFullName
+                  ? () => handleFullName()
                   : () => {}
               }
             >
