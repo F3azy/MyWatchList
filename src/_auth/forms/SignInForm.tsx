@@ -16,6 +16,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthLayout from "../AuthLayout";
+import { FirebaseError } from "firebase/app";
+import { handleErrors } from "@/utils/firebase";
 
 const SignInForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -59,7 +61,7 @@ const SignInForm = () => {
       );
       navigate("/");
     } catch (error) {
-      setError("Failed to sign in to account");
+      if (error instanceof FirebaseError) setError(handleErrors(error));
     }
 
     setLoading(false);
