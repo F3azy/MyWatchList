@@ -14,6 +14,8 @@ import AuthLayout from "../AuthLayout";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { FirebaseError } from "firebase/app";
+import { handleErrors } from "@/utils/firebase";
 
 const ResetPassword = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -52,14 +54,7 @@ const ResetPassword = () => {
         isClosable: true,
       });
     } catch (error) {
-      toast({
-        title: "Something went wrong.",
-        description: "Try again.",
-        position: "top",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
+      if (error instanceof FirebaseError) setError(handleErrors(error));
     }
 
     setLoading(false);
