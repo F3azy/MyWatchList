@@ -12,7 +12,9 @@ export type AuthProviderValue = {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    favMovieGenres: string,
+    favTvGenres: string
   ) => Promise<void>;
   signIn: (email: string, password: string) => Promise<UserCredential>;
   resetEmail: (email: string) => Promise<void>;

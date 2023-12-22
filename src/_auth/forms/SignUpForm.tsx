@@ -138,7 +138,9 @@ const SignUpForm = () => {
         emailRef.current?.value as string,
         passRef.current?.value as string,
         firstNameRef.current?.value as string,
-        lastNameRef.current?.value as string
+        lastNameRef.current?.value as string,
+        movieFavGenres.join(","),
+        tvFavGenres.join(",")
       );
       navigate("/verify");
     } catch (error: unknown) {

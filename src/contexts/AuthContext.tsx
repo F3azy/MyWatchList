@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "@/firebase";
+import { auth } from "@/firebaseConfig";
 import {
   User,
   onAuthStateChanged,
@@ -30,7 +30,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    favMovieGenres: string,
+    favTvGenres: string,
   ) => {
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
@@ -40,6 +42,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await updateProfile(userCredentials.user, {
       displayName: firstName + " " + lastName,
     });
+
+    console.log(favMovieGenres);
+    console.log(favTvGenres);
+    
 
     return await sendEmailVerification(userCredentials.user);
   };
