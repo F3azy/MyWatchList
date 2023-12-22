@@ -20,6 +20,7 @@ import ResetPassword from "./_auth/forms/ResetPassword";
 import PrivateRoutes from "./components/auth/PrivateRoutes";
 import PublicRoute from "./components/auth/PublicRoute";
 import VerifyEmail from "./_auth/forms/VerifyEmail";
+import PageNotFound from "./_error/PageNotFound";
 
 function App() {
   return (
@@ -83,6 +84,9 @@ function App() {
                 element={<MediaInfo />}
               />
             </Route>
+
+            {/*404 error page*/}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
