@@ -3,9 +3,9 @@ import { FirebaseError } from "firebase/app";
 export function handleErrors(error: FirebaseError): string {
   switch (error.code) {
     case "auth/email-already-in-use":
-      return "Provided email address already in use.";
+      return "The provided email address already in use.";
     case "auth/invalid-email":
-      return "Provided email address is invalid.";
+      return "The provided email address is invalid.";
     case "auth/invalid-credential":
       return "Email or password are incorrect.";
     case "auth/weak-password":
@@ -14,6 +14,8 @@ export function handleErrors(error: FirebaseError): string {
       return "Error during email resend.";
     case "auth/too-many-requests":
       return "Too many request, please wait a few seconds and try again.";
+    case "auth/user-token-expired":
+      return "Your user token has expired. This mean your account has been disabled or deleted.";
     default:
       return error.message;
   }
