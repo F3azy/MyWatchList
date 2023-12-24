@@ -16,8 +16,6 @@ const SeasonSelect = ({
 
     setSeason(parseInt(event.currentTarget.value));
   }
-
-  console.log(isMobile);
   
   return (
     <Select
