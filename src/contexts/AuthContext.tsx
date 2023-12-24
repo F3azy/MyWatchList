@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "@/firebaseConfig";
+import { auth, db } from "@/firebaseConfig";
 import {
   User,
   onAuthStateChanged,
@@ -14,6 +14,7 @@ import {
   updateProfile,
   sendEmailVerification,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
 
 const AuthContext = React.createContext<AuthProviderValue | null>(null);
@@ -32,7 +33,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     firstName: string,
     lastName: string,
     favMovieGenres: string,
-    favTvGenres: string,
+    favTvGenres: string
   ) => {
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
@@ -43,9 +44,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       displayName: firstName + " " + lastName,
     });
 
-    console.log(favMovieGenres);
-    console.log(favTvGenres);
-    
+    await setDoc(doc(db, "favGenres", userCredentials.user.uid), {
+      movie: favMovieGenres,
+      tv: favTvGenres,
+    });
 
     return await sendEmailVerification(userCredentials.user);
   };
