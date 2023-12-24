@@ -33,11 +33,7 @@ const SignInForm = () => {
     if (state?.errorMessage) setError(state?.errorMessage);
   }, []);
 
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { signIn } = context;
+  const { signIn } = useAuth();
 
   async function handleSubmit(event: FormEvent<HTMLDivElement>) {
     event.preventDefault();

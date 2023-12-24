@@ -7,11 +7,7 @@ import { FirebaseProviders } from "@/types/Auth";
 const AuthIcons = () => {
   const navigate = useNavigate();
 
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { providersSignIn, isNewUser } = context;
+  const { providersSignIn, isNewUser } = useAuth();
 
   const handleProviderSignIn = async (provider: FirebaseProviders) => {
     try {

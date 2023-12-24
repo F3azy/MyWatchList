@@ -63,11 +63,7 @@ const SignUpForm = () => {
     url + `tv/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
   );
 
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { signUp } = context;
+  const { signUp } = useAuth();
 
   function handleAccountDetails() {
     if (emailRef.current?.value === "") {

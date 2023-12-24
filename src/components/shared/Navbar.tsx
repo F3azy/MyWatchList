@@ -35,11 +35,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { logOut, user } = context;
+  const { logOut, user } = useAuth();
 
   async function handleLogOut() {
     try {
@@ -48,7 +44,7 @@ const Navbar = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   return (
     <>
@@ -122,7 +118,9 @@ const Navbar = () => {
                     {menuLink.name === "Log Out" && <MenuDivider />}
                     <MenuItem
                       onClick={
-                        menuLink.name === "Log Out" ? () => handleLogOut() : () => {}
+                        menuLink.name === "Log Out"
+                          ? () => handleLogOut()
+                          : () => {}
                       }
                     >
                       <HStack>

@@ -3,11 +3,7 @@ import { Flex, Heading, VStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const PageNotFound = () => {
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { user } = context;
+  const { user } = useAuth();
 
   return (
     <Flex direction="column" h="100vh" justify="center" align="center" p="16px">

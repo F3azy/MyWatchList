@@ -16,11 +16,7 @@ const VerifyEmail = () => {
 
   const [seconds, setSeconds] = useState(59);
 
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { resendEmailVerification, user } = context;
+  const { resendEmailVerification, user } = useAuth();
 
   async function handleResend() {
     try {

@@ -5,15 +5,9 @@ import { Navigate, useLocation } from "react-router-dom";
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
-  const context = useAuth();
+  const { user } = useAuth();
 
-  if (!context) {
-    return null;
-  }
-
-  const { user } = context;
-
-  if (user && !user.emailVerified && location.pathname!=="/verify") {
+  if (user && !user.emailVerified && location.pathname !== "/verify") {
     return <Navigate to="/verify" />;
   }
 

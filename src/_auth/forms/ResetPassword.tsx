@@ -25,13 +25,7 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  const context = useAuth();
-
-  if (!context) return null;
-
-  const { resetPassWord } = context;
+  const { resetPassWord }  = useAuth();
 
   async function handleSubmit(event: FormEvent<HTMLDivElement>) {
     event.preventDefault();
