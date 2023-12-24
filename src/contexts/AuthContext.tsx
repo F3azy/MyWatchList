@@ -91,7 +91,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return signOut(auth);
   };
 
-  const resetEmail = (email: string) => {
+  const resetPassWord = (email: string) => {
     return sendPasswordResetEmail(auth, email);
   };
 
@@ -109,7 +109,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signIn,
     logOut,
     providersSignIn,
-    resetEmail,
+    resetPassWord,
     resendEmailVerification,
     isNewUser,
   };

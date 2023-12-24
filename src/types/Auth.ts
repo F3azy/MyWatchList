@@ -17,7 +17,7 @@ export type AuthProviderValue = {
     favTvGenres: string
   ) => Promise<void>;
   signIn: (email: string, password: string) => Promise<UserCredential>;
-  resetEmail: (email: string) => Promise<void>;
+  resetPassWord: (email: string) => Promise<void>;
   resendEmailVerification: () => Promise<void> | undefined;
   logOut: () => Promise<void>;
   providersSignIn: FirebaseProvidersSignIn;

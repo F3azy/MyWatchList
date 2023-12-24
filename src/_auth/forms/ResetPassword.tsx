@@ -31,7 +31,7 @@ const ResetPassword = () => {
 
   if (!context) return null;
 
-  const { resetEmail } = context;
+  const { resetPassWord } = context;
 
   async function handleSubmit(event: FormEvent<HTMLDivElement>) {
     event.preventDefault();
@@ -44,7 +44,7 @@ const ResetPassword = () => {
     try {
       setError("");
       setLoading(true);
-      await resetEmail(emailRef.current?.value as string);
+      await resetPassWord(emailRef.current?.value as string);
       toast({
         title: "Email sent.",
         description: "Check your email box.",
