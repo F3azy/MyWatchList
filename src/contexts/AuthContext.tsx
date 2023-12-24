@@ -13,6 +13,8 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   sendEmailVerification,
+  getAdditionalUserInfo,
+  UserCredential,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
@@ -75,6 +77,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return signInWithPopup(auth, provider);
   };
 
+  const isNewUser = (userCred: UserCredential) => {
+    return getAdditionalUserInfo(userCred)?.isNewUser;
+  };
+
   const providersSignIn: FirebaseProvidersSignIn = {
     Google: googleSignIn,
     Facebook: facebookSignIn,
@@ -105,6 +111,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     providersSignIn,
     resetEmail,
     resendEmailVerification,
+    isNewUser,
   };
 
   return (

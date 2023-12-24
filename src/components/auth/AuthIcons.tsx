@@ -11,12 +11,14 @@ const AuthIcons = () => {
 
   if (!context) return null;
 
-  const { providersSignIn } = context;
+  const { providersSignIn, isNewUser } = context;
 
   const handleProviderSignIn = async (provider: FirebaseProviders) => {
     try {
-      await providersSignIn[provider]();
-      navigate("/");
+      const userCred = await providersSignIn[provider]();
+
+      if (isNewUser(userCred)) navigate("/");
+      else navigate("/");
     } catch (error) {
       console.log(error);
     }

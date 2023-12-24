@@ -21,4 +21,5 @@ export type AuthProviderValue = {
   resendEmailVerification: () => Promise<void> | undefined;
   logOut: () => Promise<void>;
   providersSignIn: FirebaseProvidersSignIn;
+  isNewUser: (userCred: UserCredential) => boolean | undefined;
 };
