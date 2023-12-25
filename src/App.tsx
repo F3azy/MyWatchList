@@ -22,6 +22,7 @@ import PublicRoute from "./components/auth/PublicRoute";
 import VerifyEmail from "./_auth/forms/VerifyEmail";
 import PageNotFound from "./_error/PageNotFound";
 import AuthLayout from "./_auth/AuthLayout";
+import ChooseFavGenre from "./_auth/forms/ChooseFavGenre";
 
 function App() {
   return (
@@ -40,7 +41,6 @@ function App() {
               <Route path="/signin" element={<SignInForm />} />
               <Route path="signup" element={<SignUpForm />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/verify" element={<VerifyEmail />} />
             </Route>
 
             {/* private routes */}
@@ -63,6 +63,18 @@ function App() {
                 path="/info/:media_type/:id/:name"
                 element={<MediaInfo />}
               />
+            </Route>
+
+            {/* private forms routes */}
+            <Route
+              element={
+                <PrivateRoutes>
+                  <AuthLayout />
+                </PrivateRoutes>
+              }
+            >
+              <Route path="/verify" element={<VerifyEmail />} />
+              <Route path="/favorite-genre" element={<ChooseFavGenre />} />
             </Route>
 
             {/*404 error page*/}
