@@ -13,7 +13,7 @@ const AuthIcons = () => {
     try {
       const userCred = await providersSignIn[provider]();
 
-      if (isNewUser(userCred)) navigate("/");
+      if (isNewUser(userCred)) navigate("/favorite-genre");
       else navigate("/");
     } catch (error) {
       console.log(error);
