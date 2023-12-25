@@ -9,7 +9,7 @@ const PrivateRoutes = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/signin" />;
   }
 
-  if (!user?.emailVerified) {
+  if (!user.emailVerified && location.pathname !== "/verify") {
     return <Navigate to="/verify" />;
   }
 
