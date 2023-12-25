@@ -17,20 +17,18 @@ import {
   StepStatus,
   StepIcon,
   ButtonGroup,
-  Tag,
-  TagLabel,
-  Flex,
+  Box,
 } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
 import AuthIcons from "@/components/auth/AuthIcons";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
-import useFetch from "@/hooks/useFetch";
-import { Genres } from "@/types/common";
 import { FirebaseError } from "firebase/app";
 import { handleErrors } from "@/utils/firebase";
-import GenreTag from "@/components/forms/GenreTag";
+import FavGenreInput from "@/components/forms/FavGenreInput";
+import useFetch from "@/hooks/useFetch";
+import { Genres } from "@/types/common";
 
 const steps = [
   { title: "First", description: "Account Details" },
@@ -53,15 +51,15 @@ const SignUpForm = () => {
   const [movieFavGenres, setMovieFavGenres] = useState<string[]>([]);
   const [tvFavGenres, setTvFavGenres] = useState<string[]>([]);
 
-  const navigate = useNavigate();
-
-  const { data: movieGenre} = useFetch<Genres>(
+  const { data: movieGenre } = useFetch<Genres>(
     url + `movie/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
   );
 
   const { data: tvGenre } = useFetch<Genres>(
     url + `tv/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
   );
+
+  const navigate = useNavigate();
 
   const { signUp } = useAuth();
 
@@ -103,22 +101,6 @@ const SignUpForm = () => {
     setActiveStep((prev) => (prev = prev + 1));
   }
 
-  function chooseFavGenre(
-    favGenres: string[],
-    setFavGenre: React.Dispatch<React.SetStateAction<string[]>>,
-    genre: string
-  ): void {
-    if (favGenres.includes(genre)) {
-      setFavGenre(favGenres.filter((favGenre) => favGenre !== genre));
-    } else {
-      if (favGenres.length === 3) {
-        setError("You can select max 3 genres for movie and tv.");
-        return;
-      }
-      setFavGenre([...favGenres, genre]);
-    }
-  }
-
   async function handleSubmit(event: FormEvent<HTMLDivElement>) {
     event.preventDefault();
 
@@ -152,179 +134,164 @@ const SignUpForm = () => {
   });
 
   return (
-      <Stack w="full" spacing={5}>
-        <Heading textAlign="center" color="brand.secondary">
-          Sign Up
-        </Heading>
-        <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
-          {error !== "" && <Text color="red.500">{error}</Text>}
-          <Stepper w="full" size="sm" index={activeStep} gap={0}>
-            {steps.map((step, index) => (
-              <Step key={index} style={{ gap: 0 }}>
-                <StepIndicator>
-                  <StepStatus complete={<StepIcon />} />
-                </StepIndicator>
-                <StepSeparator style={{ marginLeft: 0 }} />
-              </Step>
-            ))}
-          </Stepper>
-          <VStack
-            w="full"
-            display={activeStep === 0 ? "flex" : "none"}
-            spacing={5}
-          >
-            <FormControl isRequired>
-              <FormLabel color={"brand.secondary"}>Email</FormLabel>
-              <Input
-                ref={emailRef}
-                id="email"
-                type="email"
-                placeholder="example@domain.com"
-                color="brand.secondary"
-                borderColor="brand.secondary"
-                _hover={{ borderColor: "brand.primary" }}
-              />
-            </FormControl>
-            <PasswordField passRef={passRef} />
-            <PasswordField repeat passRef={repPassRef} />
-          </VStack>
-          <VStack
-            w="full"
-            display={activeStep === 1 ? "flex" : "none"}
-            spacing={5}
-          >
-            <FormControl isRequired>
-              <FormLabel color={"brand.secondary"}>First Name</FormLabel>
-              <Input
-                ref={firstNameRef}
-                id="firstName"
-                type="text"
-                placeholder="Jerry"
-                color="brand.secondary"
-                borderColor="brand.secondary"
-                _hover={{ borderColor: "brand.primary" }}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel color={"brand.secondary"}>Last Name</FormLabel>
-              <Input
-                ref={lastNameRef}
-                id="lastName"
-                type="text"
-                placeholder="Smith"
-                color="brand.secondary"
-                borderColor="brand.secondary"
-                _hover={{ borderColor: "brand.primary" }}
-              />
-            </FormControl>
-          </VStack>
-          <VStack
-            w="full"
-            display={activeStep === 2 ? "flex" : "none"}
-            spacing={5}
-          >
+    <Stack w="full" spacing={5}>
+      <Heading textAlign="center" color="brand.secondary">
+        Sign Up
+      </Heading>
+      <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
+        {error !== "" && <Text color="red.500">{error}</Text>}
+        <Stepper w="full" size="sm" index={activeStep} gap={0}>
+          {steps.map((step, index) => (
+            <Step key={index} style={{ gap: 0 }}>
+              <StepIndicator>
+                <StepStatus complete={<StepIcon />} />
+              </StepIndicator>
+              <StepSeparator style={{ marginLeft: 0 }} />
+            </Step>
+          ))}
+        </Stepper>
+        <VStack
+          w="full"
+          display={activeStep === 0 ? "flex" : "none"}
+          spacing={5}
+        >
+          <FormControl isRequired>
+            <FormLabel color={"brand.secondary"}>Email</FormLabel>
+            <Input
+              ref={emailRef}
+              id="email"
+              type="email"
+              placeholder="example@domain.com"
+              color="brand.secondary"
+              borderColor="brand.secondary"
+              _hover={{ borderColor: "brand.primary" }}
+            />
+          </FormControl>
+          <PasswordField passRef={passRef} />
+          <PasswordField repeat passRef={repPassRef} />
+        </VStack>
+        <VStack
+          w="full"
+          display={activeStep === 1 ? "flex" : "none"}
+          spacing={5}
+        >
+          <FormControl isRequired>
+            <FormLabel color={"brand.secondary"}>First Name</FormLabel>
+            <Input
+              ref={firstNameRef}
+              id="firstName"
+              type="text"
+              placeholder="Jerry"
+              color="brand.secondary"
+              borderColor="brand.secondary"
+              _hover={{ borderColor: "brand.primary" }}
+            />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel color={"brand.secondary"}>Last Name</FormLabel>
+            <Input
+              ref={lastNameRef}
+              id="lastName"
+              type="text"
+              placeholder="Smith"
+              color="brand.secondary"
+              borderColor="brand.secondary"
+              _hover={{ borderColor: "brand.primary" }}
+            />
+          </FormControl>
+        </VStack>
+        <Box display={activeStep === 2 ? "flex" : "none"}>
+          <VStack w="full" spacing={5}>
             <FormControl isRequired>
               <FormLabel color={"brand.secondary"}>
                 Favorite movie genres
               </FormLabel>
-              <Flex flexWrap="wrap" gap={2}>
-                {movieGenre?.genres.map((genre) => (
-                  <GenreTag key={genre.name}     
-                  _variant={movieFavGenres.includes(genre.name) ? "selected" : "outline"}
-                  _onClick={() => chooseFavGenre(movieFavGenres, setMovieFavGenres, genre.name)}
-                >
-                  {genre.name}
-                </GenreTag>
-                ))}
-              </Flex>
+              <FavGenreInput
+                genres={movieGenre?.genres}
+                favGenres={movieFavGenres}
+                setFavGenres={setMovieFavGenres}
+                setError={setError}
+              />
             </FormControl>
             <FormControl isRequired>
               <FormLabel color={"brand.secondary"}>
                 Favorite series genres
               </FormLabel>
-              <Flex flexWrap="wrap" gap={2}>
-                {tvGenre?.genres.map((genre) => (
-                  <GenreTag key={genre.name}     
-                    _variant={tvFavGenres.includes(genre.name) ? "selected" : "outline"}
-                    _onClick={() => chooseFavGenre(tvFavGenres, setTvFavGenres, genre.name)}
-                  >
-                    {genre.name}
-                  </GenreTag>
-                ))}
-              </Flex>
+              <FavGenreInput
+                genres={tvGenre?.genres}
+                favGenres={tvFavGenres}
+                setFavGenres={setTvFavGenres}
+                setError={setError}
+              />
             </FormControl>
           </VStack>
-          <ButtonGroup
-            display={activeStep === 2 ? "inline-flex" : "none"}
-            w="full"
-            spacing="24px"
-          >
-            <Button
-              w="full"
-              variant="full"
-              onClick={() => setActiveStep((prev) => (prev = prev - 1))}
-            >
-              Prev
-            </Button>
-            <Button
-              w="full"
-              variant="full"
-              type="submit"
-              isLoading={isLoading}
-            >
-              Sign up
-            </Button>
-          </ButtonGroup>
-          <ButtonGroup
-            display={activeStep !== 2 ? "inline-flex" : "none"}
-            w="full"
-            spacing="24px"
-          >
-            <Button
-              w="full"
-              variant="full"
-              onClick={
-                activeStep === 0
-                  ? () => {}
-                  : () => setActiveStep((prev) => (prev = prev - 1))
-              }
-            >
-              Prev
-            </Button>
-            <Button
-              w="full"
-              variant="full"
-              onClick={
-                activeStep === 0
-                  ? () => handleAccountDetails()
-                  : activeStep === 1
-                  ? () => handleFullName()
-                  : () => {}
-              }
-            >
-              Next
-            </Button>
-          </ButtonGroup>
-        </VStack>
-        <Text
-          as={Link}
-          to="/signin"
-          textAlign="center"
-          color="brand.secondary"
-          textDecoration="underline"
-          mx="auto"
+        </Box>
+        <ButtonGroup
+          display={activeStep === 2 ? "inline-flex" : "none"}
+          w="full"
+          spacing="24px"
         >
-          Already have an account?
+          <Button
+            w="full"
+            variant="full"
+            onClick={() => setActiveStep((prev) => (prev = prev - 1))}
+          >
+            Prev
+          </Button>
+          <Button w="full" variant="full" type="submit" isLoading={isLoading}>
+            Sign up
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup
+          display={activeStep !== 2 ? "inline-flex" : "none"}
+          w="full"
+          spacing="24px"
+        >
+          <Button
+            w="full"
+            variant="full"
+            onClick={
+              activeStep === 0
+                ? () => {}
+                : () => setActiveStep((prev) => (prev = prev - 1))
+            }
+          >
+            Prev
+          </Button>
+          <Button
+            w="full"
+            variant="full"
+            onClick={
+              activeStep === 0
+                ? () => handleAccountDetails()
+                : activeStep === 1
+                ? () => handleFullName()
+                : () => {}
+            }
+          >
+            Next
+          </Button>
+        </ButtonGroup>
+      </VStack>
+      <Text
+        as={Link}
+        to="/signin"
+        textAlign="center"
+        color="brand.secondary"
+        textDecoration="underline"
+        mx="auto"
+      >
+        Already have an account?
+      </Text>
+      <HStack>
+        <Divider />
+        <Text fontSize="sm" whiteSpace="nowrap">
+          OR
         </Text>
-        <HStack>
-          <Divider />
-          <Text fontSize="sm" whiteSpace="nowrap">
-            OR
-          </Text>
-          <Divider />
-        </HStack>
-        <AuthIcons />
-      </Stack>
+        <Divider />
+      </HStack>
+      <AuthIcons />
+    </Stack>
   );
 };
 
