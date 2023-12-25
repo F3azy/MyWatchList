@@ -21,6 +21,7 @@ import PrivateRoutes from "./components/auth/PrivateRoutes";
 import PublicRoute from "./components/auth/PublicRoute";
 import VerifyEmail from "./_auth/forms/VerifyEmail";
 import PageNotFound from "./_error/PageNotFound";
+import AuthLayout from "./_auth/AuthLayout";
 
 function App() {
   return (
@@ -30,38 +31,17 @@ function App() {
           <Routes>
             {/* public routes */}
             <Route
-              path="/signin"
               element={
                 <PublicRoute>
-                  <SignInForm />
+                  <AuthLayout />
                 </PublicRoute>
               }
-            />
-            <Route
-              path="signup"
-              element={
-                <PublicRoute>
-                  <SignUpForm />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/reset-password"
-              element={
-                <PublicRoute>
-                  <ResetPassword />
-                </PublicRoute>
-              }
-            />
-
-            <Route
-              path="/verify"
-              element={
-                <PublicRoute>
-                  <VerifyEmail />
-                </PublicRoute>
-              }
-            />
+            >
+              <Route path="/signin" element={<SignInForm />} />
+              <Route path="signup" element={<SignUpForm />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/verify" element={<VerifyEmail />} />
+            </Route>
 
             {/* private routes */}
             <Route

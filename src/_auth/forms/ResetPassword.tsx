@@ -9,8 +9,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
-import AuthLayout from "../AuthLayout";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -54,7 +53,6 @@ const ResetPassword = () => {
     setLoading(false);
   }
   return (
-    <AuthLayout>
       <Stack w="full" spacing={5}>
         <Heading textAlign="center" color="brand.secondary">
           Reset Password
@@ -98,7 +96,6 @@ const ResetPassword = () => {
           </Text>
         </HStack>
       </Stack>
-    </AuthLayout>
   );
 };
 

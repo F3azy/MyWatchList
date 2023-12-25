@@ -15,7 +15,6 @@ import AuthIcons from "@/components/auth/AuthIcons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import AuthLayout from "../AuthLayout";
 import { FirebaseError } from "firebase/app";
 import { handleErrors } from "@/utils/firebase";
 
@@ -64,7 +63,6 @@ const SignInForm = () => {
   }
 
   return (
-    <AuthLayout>
       <Stack w="full" spacing={5}>
         <Heading textAlign="center" color="brand.secondary">
           Sign In
@@ -117,7 +115,6 @@ const SignInForm = () => {
         </HStack>
         <AuthIcons />
       </Stack>
-    </AuthLayout>
   );
 };
 

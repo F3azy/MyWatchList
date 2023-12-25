@@ -26,7 +26,6 @@ import AuthIcons from "@/components/auth/AuthIcons";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormEvent, useRef, useState } from "react";
-import AuthLayout from "../AuthLayout";
 import useFetch from "@/hooks/useFetch";
 import { Genres } from "@/types/common";
 import { FirebaseError } from "firebase/app";
@@ -152,7 +151,6 @@ const SignUpForm = () => {
   });
 
   return (
-    <AuthLayout>
       <Stack w="full" spacing={5}>
         <Heading textAlign="center" color="brand.secondary">
           Sign Up
@@ -342,7 +340,6 @@ const SignUpForm = () => {
         </HStack>
         <AuthIcons />
       </Stack>
-    </AuthLayout>
   );
 };
 
