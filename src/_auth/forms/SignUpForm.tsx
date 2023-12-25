@@ -204,7 +204,7 @@ const SignUpForm = () => {
           <VStack w="full" spacing={5}>
             <FormControl isRequired>
               <FormLabel color={"brand.secondary"}>
-                Favorite movie genres
+                Favorite movie genres:
               </FormLabel>
               <FavGenreInput
                 genres={movieGenre?.genres}
@@ -215,7 +215,7 @@ const SignUpForm = () => {
             </FormControl>
             <FormControl isRequired>
               <FormLabel color={"brand.secondary"}>
-                Favorite series genres
+                Favorite series genres:
               </FormLabel>
               <FavGenreInput
                 genres={tvGenre?.genres}
