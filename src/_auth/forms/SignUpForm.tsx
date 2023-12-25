@@ -229,23 +229,12 @@ const SignUpForm = () => {
               </FormLabel>
               <Flex flexWrap="wrap" gap={2}>
                 {movieGenre?.genres.map((genre) => (
-                  <Tag
-                    variant={
-                      movieFavGenres.includes(genre.name)
-                        ? "selected"
-                        : "outline"
-                    }
-                    key={genre.name}
-                    onClick={() =>
-                      chooseFavGenre(
-                        movieFavGenres,
-                        setMovieFavGenres,
-                        genre.name
-                      )
-                    }
-                  >
-                    <TagLabel>{genre.name}</TagLabel>
-                  </Tag>
+                  <GenreTag key={genre.name}     
+                  _variant={movieFavGenres.includes(genre.name) ? "selected" : "outline"}
+                  _onClick={() => chooseFavGenre(movieFavGenres, setMovieFavGenres, genre.name)}
+                >
+                  {genre.name}
+                </GenreTag>
                 ))}
               </Flex>
             </FormControl>
