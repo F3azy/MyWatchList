@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import PasswordField from "@/components/forms/PasswordField";
 import AuthIcons from "@/components/auth/AuthIcons";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { FirebaseError } from "firebase/app";
@@ -26,11 +26,6 @@ const SignInForm = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { state } = useLocation();
-
-  useEffect(() => {
-    if (state?.errorMessage) setError(state?.errorMessage);
-  }, []);
 
   const { signIn } = useAuth();
 
