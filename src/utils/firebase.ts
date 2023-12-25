@@ -1,4 +1,6 @@
+import { db } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
+import { doc, setDoc } from "firebase/firestore";
 
 export function handleErrors(error: FirebaseError): string {
   switch (error.code) {
@@ -19,4 +21,12 @@ export function handleErrors(error: FirebaseError): string {
     default:
       return error.message;
   }
+}
+
+export async function addToCollection(
+  collectionName: string,
+  data: any,
+  ...pathSeg: string[]
+) {
+  await setDoc(doc(db, collectionName, ...pathSeg), data);
 }
