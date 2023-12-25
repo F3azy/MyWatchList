@@ -30,6 +30,7 @@ import useFetch from "@/hooks/useFetch";
 import { Genres } from "@/types/common";
 import { FirebaseError } from "firebase/app";
 import { handleErrors } from "@/utils/firebase";
+import GenreTag from "@/components/forms/GenreTag";
 
 const steps = [
   { title: "First", description: "Account Details" },
@@ -254,17 +255,12 @@ const SignUpForm = () => {
               </FormLabel>
               <Flex flexWrap="wrap" gap={2}>
                 {tvGenre?.genres.map((genre) => (
-                  <Tag
-                    variant={
-                      tvFavGenres.includes(genre.name) ? "selected" : "outline"
-                    }
-                    key={genre.name}
-                    onClick={() =>
-                      chooseFavGenre(tvFavGenres, setTvFavGenres, genre.name)
-                    }
+                  <GenreTag key={genre.name}     
+                    _variant={tvFavGenres.includes(genre.name) ? "selected" : "outline"}
+                    _onClick={() => chooseFavGenre(tvFavGenres, setTvFavGenres, genre.name)}
                   >
-                    <TagLabel>{genre.name}</TagLabel>
-                  </Tag>
+                    {genre.name}
+                  </GenreTag>
                 ))}
               </Flex>
             </FormControl>
