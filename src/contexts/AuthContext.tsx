@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
+import { addToCollection } from "@/utils/firebase";
 
 const AuthContext = React.createContext<AuthProviderValue | null>(null);
 
@@ -50,10 +51,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       displayName: firstName + " " + lastName,
     });
 
-    await setDoc(doc(db, "favGenres", userCredentials.user.uid), {
-      movie: favMovieGenres,
-      tv: favTvGenres,
-    });
+    await addToCollection(
+      "favGenres",
+      {
+        movie: favMovieGenres,
+        tv: favTvGenres,
+      },
+      userCredentials.user.uid
+    );
 
     return await sendEmailVerification(userCredentials.user);
   };
