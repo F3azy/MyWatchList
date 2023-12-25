@@ -8,7 +8,7 @@ const GenreTag = ({
 }: {
   children: React.ReactNode;
   _variant: string;
-  _onClick: () => void;
+  _onClick?: () => void;
 }) => {
   return (
     <Tag
