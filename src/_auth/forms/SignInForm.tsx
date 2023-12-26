@@ -68,7 +68,6 @@ const SignInForm = () => {
             <FormLabel color={"brand.secondary"}>Email</FormLabel>
             <Input
               ref={emailRef}
-              id="email"
               type="email"
               placeholder="example@domain.com"
               color="brand.secondary"

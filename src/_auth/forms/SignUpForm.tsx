@@ -159,7 +159,6 @@ const SignUpForm = () => {
             <FormLabel color={"brand.secondary"}>Email</FormLabel>
             <Input
               ref={emailRef}
-              id="email"
               type="email"
               placeholder="example@domain.com"
               color="brand.secondary"
@@ -179,7 +178,6 @@ const SignUpForm = () => {
             <FormLabel color={"brand.secondary"}>First Name</FormLabel>
             <Input
               ref={firstNameRef}
-              id="firstName"
               type="text"
               placeholder="Jerry"
               color="brand.secondary"
@@ -191,7 +189,6 @@ const SignUpForm = () => {
             <FormLabel color={"brand.secondary"}>Last Name</FormLabel>
             <Input
               ref={lastNameRef}
-              id="lastName"
               type="text"
               placeholder="Smith"
               color="brand.secondary"
