@@ -4,17 +4,17 @@ type BaseMediaData = {
   backdrop_path: string;
 };
 
-type Movie = BaseMediaData & {
+type Movie = {
   title: string;
 };
 
-type TV = BaseMediaData & {
+type TV = {
   name: string;
 };
 
 export type MediaType = "movie" | "tv";
 
-export type MultiMediaResult = Movie &
+export type MultiMediaResult = BaseMediaData & Movie &
   TV & {
     media_type?: MediaType;
   };

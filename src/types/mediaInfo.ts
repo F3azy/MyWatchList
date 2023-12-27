@@ -38,13 +38,13 @@ type BaseDetails = {
   tagline: string;
 };
 
-type MovieDetails = BaseDetails & {
+type MovieDetails = {
   title: string;
   runtime: number;
   release_date: string;
 };
 
-type TVDetails = BaseDetails & {
+type TVDetails = {
   name: string;
   first_air_date: string;
   last_air_date: string;
@@ -65,7 +65,7 @@ type TVDetails = BaseDetails & {
   }[];
 };
 
-export type MultiDetails = MovieDetails & TVDetails;
+export type MultiDetails = BaseDetails & MovieDetails & TVDetails;
 
 export type MultiCertification = {
   results: {
