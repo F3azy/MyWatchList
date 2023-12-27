@@ -12,8 +12,7 @@ import { MultiMedia } from "@/types/common";
 import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "@/hooks/useFetch";
 import { useSearchParams } from "react-router-dom";
-
-const url = "https://api.themoviedb.org/3/search/multi";
+import { createApiUrl } from "@/utils";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -23,10 +22,7 @@ const Search = () => {
   const [title, setTitle] = useState(searchParams.get("q") as string);
 
   const { data: watchCards } = useFetch<MultiMedia>(
-    url +
-      `?api_key=${
-        import.meta.env.VITE_MOVIE_API_KEY
-      }&query=${encodeURIComponent(title)}&language=en-US`
+    createApiUrl(`search/multi`, `&query=${encodeURIComponent(title)}`)
   );
 
   function getTitle(event: FormEvent<HTMLInputElement>): void {

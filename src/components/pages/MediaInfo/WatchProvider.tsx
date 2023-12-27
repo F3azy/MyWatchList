@@ -1,7 +1,6 @@
+import { imageURL } from "@/constans/APILinks";
 import { Provider } from "@/types/mediaInfo";
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
-
-const imageURL = "https://image.tmdb.org/t/p/original/";
 
 const WatchProviders = ({
   label,

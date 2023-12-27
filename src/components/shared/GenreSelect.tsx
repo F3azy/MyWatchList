@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Select, Skeleton } from "@chakra-ui/react";
 import useFetch from "@/hooks/useFetch";
-import { Genres } from "@/types/common";
-
-const url = "https://api.themoviedb.org/3/genre/";
+import { Genres, MediaType } from "@/types/common";
+import { createApiUrl } from "@/utils";
 
 const GenreSelect = ({
   media_type,
@@ -11,19 +10,19 @@ const GenreSelect = ({
   changeFun,
   defaultValue,
 }: {
-  media_type: string;
+  media_type: MediaType;
   setStateFun: React.Dispatch<React.SetStateAction<string>>;
   changeFun?: React.ChangeEventHandler<HTMLSelectElement>;
   defaultValue?: string;
 }) => {
   const { data: genre, loading } = useFetch<Genres>(
-    url + media_type + `/list?api_key=${import.meta.env.VITE_MOVIE_API_KEY}`
+    createApiUrl(`genre/${media_type}` + "/list")
   );
 
   useEffect(() => {
-    if (defaultValue !== "") setStateFun(defaultValue as string);
+    if (defaultValue) setStateFun(defaultValue as string);
     else setStateFun(genre?.genres?.at(0)?.id.toString() as string);
-  }, [media_type]);
+  }, [media_type, genre]);
 
   return (
     <Skeleton

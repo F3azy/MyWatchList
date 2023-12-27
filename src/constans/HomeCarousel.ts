@@ -1,4 +1,10 @@
-export const HomeCarousels = {
+import { MediaType } from "@/types/common";
+
+export const HomeCarousels: {
+  titles: string[];
+  media_type: (MediaType | undefined)[];
+  urls: string[];
+} = {
   titles: [
     "Trending Today",
     "Trending This Week",
@@ -12,8 +18,8 @@ export const HomeCarousels = {
     "Top Rated Series",
   ],
   media_type: [
-    "",
-    "",
+    undefined,
+    undefined,
     "movie",
     "movie",
     "movie",

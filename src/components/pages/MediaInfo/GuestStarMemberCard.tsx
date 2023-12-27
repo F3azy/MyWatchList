@@ -1,8 +1,7 @@
+import { imageURL } from "@/constans/APILinks";
 import { MediaProductionMember } from "@/types/mediaInfo";
 import { Box, Image as ChakraIMG, Skeleton, Text, VStack } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-
-const imageURL = "https://image.tmdb.org/t/p/original/";
 
 const GuestStarMemberCard = ({ star }: { star: MediaProductionMember }) => {
   const [isloading, setIsLoading] = useState(true);

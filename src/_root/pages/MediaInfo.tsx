@@ -11,7 +11,12 @@ import {
   Tabs,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { MediaImages, MediaImageProp } from "@/types/common";
+import {
+  MediaImages,
+  MediaImageProp,
+  MediaType,
+  MultiMedia,
+} from "@/types/common";
 import {
   MultiDetails,
   Providers,
@@ -28,68 +33,58 @@ import useFetchRandomPage from "@/hooks/useFetchRandomPage";
 import MainMediaInfo from "@/components/pages/MediaInfo/MainMediaInfo";
 import TabMediaInfo from "@/components/pages/MediaInfo/TabMediaInfo";
 import TabSeasons from "@/components/pages/MediaInfo/TabSeasons";
-import { MultiMedia } from "@/types/common";
+import { imageURL } from "@/constans/APILinks";
+import { createApiUrl } from "@/utils";
 
-const imageURL = "https://image.tmdb.org/t/p/original/";
+type MediaInfoParams = {
+  media_type: MediaType;
+  name: string;
+  id: string;
+};
 
 const MediaInfo = () => {
-  const { media_type, name, id } = useParams();
+  const { media_type, name, id } = useParams<MediaInfoParams>();
 
-  const urlDetails = `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US`;
-  const urlWatchProviders = `https://api.themoviedb.org/3/${media_type}/${id}/watch/providers?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }`;
-  const urlSimilar = `https://api.themoviedb.org/3/${media_type}/${id}/similar?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US`;
-  const urlImages = `https://api.themoviedb.org/3/${media_type}/${id}/images?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&include_image_language=en,null`;
-  const urlVideos = `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US`;
-  const urlRecommended = `https://api.themoviedb.org/3/${media_type}/${id}/recommendations?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&language=en-US`;
-  const urlCertification =
+  const { data: images, loading: loadingImages } = useFetch<MediaImages>(
+    createApiUrl(
+      `${media_type}/${id}/images`,
+      "&include_image_language=en,null"
+    )
+  );
+
+  const { data: details } = useFetch<MultiDetails>(
+    createApiUrl(`${media_type}/${id}`)
+  );
+
+  const { data: providers } = useFetch<Providers>(
+    createApiUrl(`${media_type}/${id}/watch/providers`)
+  );
+
+  const { data: videos } = useFetch<Videos>(
+    createApiUrl(`${media_type}/${id}/videos`)
+  );
+
+  const { data: recommended } = useFetchRandomPage<MultiMedia>(
+    createApiUrl(`${media_type}/${id}/recommendations`)
+  );
+
+  const { data: similar } = useFetchRandomPage<MultiMedia>(
+    createApiUrl(`${media_type}/${id}/similar`)
+  );
+
+  const { data: certification } = useFetch<MultiCertification>(
     media_type === "movie"
-      ? `https://api.themoviedb.org/3/${media_type}/${id}/release_dates?api_key=${
-          import.meta.env.VITE_MOVIE_API_KEY
-        }&language=en-US`
-      : `https://api.themoviedb.org/3/${media_type}/${id}/content_ratings?api_key=${
-          import.meta.env.VITE_MOVIE_API_KEY
-        }&language=en-US`;
-
-  const { data: images, loading: loadingImages } =
-    useFetch<MediaImages>(urlImages);
-
-  const { data: details } = useFetch<MultiDetails>(urlDetails);
-
-  const { data: providers } = useFetch<Providers>(urlWatchProviders);
-
-  const { data: videos } = useFetch<Videos>(urlVideos);
-
-  const { data: recommended } = useFetchRandomPage<MultiMedia>(urlRecommended);
-
-  const { data: similar } = useFetchRandomPage<MultiMedia>(urlSimilar);
-
-  const { data: certification } =
-    useFetch<MultiCertification>(urlCertification);
+      ? createApiUrl(`${media_type}/${id}/release_dates`)
+      : createApiUrl(`${media_type}/${id}/content_ratings`)
+  );
 
   const [seasonNumber, setSeasonNumber] = useState(1);
 
-  const urlCredits =
+  const { data: credits } = useFetch<Credits>(
     media_type === "movie"
-      ? `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${
-          import.meta.env.VITE_MOVIE_API_KEY
-        }&language=en-US`
-      : `https://api.themoviedb.org/3/${media_type}/${id}/season/${seasonNumber}/credits?api_key=${
-          import.meta.env.VITE_MOVIE_API_KEY
-        }&language=en-US`;
-
-  const { data: credits } = useFetch<Credits>(urlCredits);
+      ? createApiUrl(`${media_type}/${id}/credits`)
+      : createApiUrl(`${media_type}/${id}/season/${seasonNumber}/credits`)
+  );
 
   const media_certification =
     media_type === "movie"
@@ -160,7 +155,7 @@ const MediaInfo = () => {
           </Carousel>
         </Box>
       </Flex>
-      <Tabs isFitted={!isLargerThan1280}  variant="brandColor">
+      <Tabs isFitted={!isLargerThan1280} variant="brandColor">
         <TabList>
           {media_type === "tv" && <Tab>Seasons</Tab>}
           {!!recommended?.results.length && <Tab>Recommended</Tab>}

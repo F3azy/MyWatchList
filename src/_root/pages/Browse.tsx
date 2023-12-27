@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import WatchCard from "@/components/shared/WatchCard";
 import GenreSelect from "@/components/shared/GenreSelect";
-import { MultiMedia } from "@/types/common";
+import { MediaType, MultiMedia } from "@/types/common";
 import useFetch from "@/hooks/useFetch";
+import { createApiUrl } from "@/utils";
 
 const url = "https://api.themoviedb.org/3/discover/";
 
 const Browse = () => {
-  const { media_type } = useParams();
+  const { media_type } = useParams<{ media_type: MediaType }>();
 
   const [genre, setGenre] = useState("");
 
@@ -19,12 +20,9 @@ const Browse = () => {
   }
 
   const { data: watchCards } = useFetch<MultiMedia>(
-    url +
-      media_type +
-      `?api_key=${
-        import.meta.env.VITE_MOVIE_API_KEY
-      }&language=en-US&with_genres=${genre}`
+    createApiUrl( `discover/${media_type}`, `with_genres=${genre}`)
   );
+  
 
   return (
     <Flex w="full" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
@@ -33,14 +31,14 @@ const Browse = () => {
           {media_type === "tv" ? "Series" : "Movies"}
         </Heading>
         <GenreSelect
-          media_type={media_type as string}
+          media_type={media_type as MediaType}
           setStateFun={setGenre}
           changeFun={changeGenre}
         />
       </HStack>
       <Grid
         templateColumns={{ base: "repeat(3, 1fr)", xl: "repeat(8, 1fr)" }}
-        gap={{base: 3, md: 6}}
+        gap={{ base: 3, md: 6 }}
       >
         {watchCards?.results.map((watchcard) => (
           <GridItem w="full" key={watchcard.id}>

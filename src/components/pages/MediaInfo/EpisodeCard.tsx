@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Box, Image as ChakraIMG, Skeleton, Text } from "@chakra-ui/react";
 import { Episode } from "@/types/mediaInfo";
-
-const imageURL = "https://image.tmdb.org/t/p/original/";
+import { imageURL } from "@/constans/APILinks";
 
 const EpisodeCard = ({
   episode,

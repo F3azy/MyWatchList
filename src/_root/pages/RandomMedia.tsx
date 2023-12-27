@@ -1,19 +1,11 @@
-import {
-  Flex,
-  Text,
-  Select,
-  Button,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Flex, Text, Select, Button, useMediaQuery } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import GenreSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
-import { MultiMediaResult } from "@/types/common";
+import { MediaType, MultiMediaResult } from "@/types/common";
 import { useSearchParams } from "react-router-dom";
 import useFetch from "@/hooks/useFetch";
-
-const discoverURL = "https://api.themoviedb.org/3/discover/";
-const mediaURL = "https://api.themoviedb.org/3/";
+import { createApiUrl } from "@/utils";
 
 const fetchData = async (url: string) => {
   try {
@@ -32,8 +24,11 @@ const RandomMedia = () => {
     id: "",
   });
 
-  const [media_type, setMedia_type] = useState(
-    searchParams.get("media_type") as string
+  const [media_type, setMedia_type] = useState<MediaType>(
+    searchParams.get("media_type") as MediaType
+  );
+  const [old_media_type, setOld_Media_type] = useState<MediaType>(
+    searchParams.get("media_type") as MediaType
   );
   const [defaultGenre, setdefaultGenre] = useState(
     searchParams.get("genre") as string
@@ -48,11 +43,9 @@ const RandomMedia = () => {
     setMedia("");
     if (searchParams.get("id") !== "") {
       setMedia(
-        mediaURL +
-          searchParams.get("media_type") +
-          "/" +
-          searchParams.get("id") +
-          `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
+        createApiUrl(
+          `${searchParams.get("media_type")}/${searchParams.get("id")}`
+        )
       );
     }
   }, [searchParams]);
@@ -70,7 +63,7 @@ const RandomMedia = () => {
 
   function changeType(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
-    setMedia_type(event.currentTarget.value);
+    setMedia_type(event.currentTarget.value as MediaType);
     setdefaultGenre("");
   }
 
@@ -80,26 +73,20 @@ const RandomMedia = () => {
   }
 
   function searchRand() {
+    setOld_Media_type(media_type);
     Promise.resolve(
-      fetchData(
-        discoverURL +
-          media_type +
-          `?api_key=${
-            import.meta.env.VITE_MOVIE_API_KEY
-          }&language=en-US&with_genres=${genre}`
-      )
+      fetchData(createApiUrl(`discover/${media_type}`, `with_genres=${genre}`))
     ).then((pages) => {
       const randomPage = Math.floor(
         Math.random() * (Math.min(pages.total_pages, 500) - 1 + 1) + 1
       );
       Promise.resolve(
         fetchData(
-          discoverURL +
-            media_type +
-            `?api_key=${
-              import.meta.env.VITE_MOVIE_API_KEY
-            }&language=en-US&with_genres=${genre}` +
+          createApiUrl(
+            `discover/${media_type}`,
+            `with_genres=${genre}`,
             `&page=${randomPage}`
+          )
         )
       ).then((value) => {
         const randomIdx = Math.floor(Math.random() * 20);
@@ -129,7 +116,7 @@ const RandomMedia = () => {
           <Select
             w={{ base: "full", md: "200px" }}
             variant="base"
-            defaultValue={media_type !== "" ? media_type : "movie"}
+            defaultValue={media_type}
             onChange={(e) => changeType(e)}
           >
             <option value="movie">Movie</option>
@@ -150,7 +137,7 @@ const RandomMedia = () => {
         {mediaWatchCard && (
           <WatchCard
             watchCard={mediaWatchCard}
-            media_type={media_type}
+            media_type={old_media_type}
             {...(isLargerThan1280 ? { useBackdrop: true } : null)}
           />
         )}

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Image as ChakraIMG, Link, Skeleton } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { MultiMediaResult } from "@/types/common";
+import { MediaType, MultiMediaResult } from "@/types/common";
 import { MediaImages } from "@/types/common";
 import useFetch from "@/hooks/useFetch";
-
-const imageURL = "https://image.tmdb.org/t/p/original/";
+import { imageURL } from "@/constans/APILinks";
+import { createApiUrl } from "@/utils";
 
 const WatchCard = ({
   watchCard,
@@ -15,21 +15,19 @@ const WatchCard = ({
   isLink = true,
 }: {
   watchCard: MultiMediaResult;
-  media_type?: string;
+  media_type?: MediaType;
   useBackdrop?: boolean;
   loaded?: boolean;
   isLink?: boolean;
 }) => {
   const [isloading, setIsLoading] = useState(true);
 
-  const urlImages = `https://api.themoviedb.org/3/${
-    media_type || watchCard.media_type
-  }/${watchCard.id}/images?api_key=${
-    import.meta.env.VITE_MOVIE_API_KEY
-  }&include_image_language=en`;
-
-  const { data: images, loading: loadingImages } =
-    useFetch<MediaImages>(urlImages);
+  const { data: images, loading: loadingImages } = useFetch<MediaImages>(
+    createApiUrl(
+      `${media_type || watchCard.media_type}/${watchCard.id}/images`,
+      "&include_image_language=en"
+    )
+  );
 
   useEffect(() => {
     setIsLoading(true);

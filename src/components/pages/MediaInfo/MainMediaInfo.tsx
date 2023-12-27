@@ -16,8 +16,7 @@ import { FaPlay, FaExternalLinkAlt } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import Ratings from "@/components/pages/MediaInfo/Ratings";
 import { getYear, minutesToHours } from "@/utils";
-
-const imageURL = "https://image.tmdb.org/t/p/original/";
+import { imageURL } from "@/constans/APILinks";
 
 function switchWidthForLogoImage(height: number, width: number): string {
   if (width / height < 1.5) return "15%";
