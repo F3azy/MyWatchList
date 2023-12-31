@@ -13,16 +13,18 @@ import {
   RandomMedia,
   Friends,
 } from "@/_root/pages";
+import AuthLayout from "./_auth/AuthLayout";
+import {
+  SignInForm,
+  SignUpForm,
+  ResetPassword,
+  VerifyEmail,
+  ChooseFavGenre,
+} from "./_auth/forms";
+import PageNotFound from "./_error/PageNotFound";
 import AuthProvider from "./contexts/AuthContext";
-import SignInForm from "./_auth/forms/SignInForm";
-import SignUpForm from "./_auth/forms/SignUpForm";
-import ResetPassword from "./_auth/forms/ResetPassword";
 import PrivateRoutes from "./components/auth/PrivateRoutes";
 import PublicRoute from "./components/auth/PublicRoute";
-import VerifyEmail from "./_auth/forms/VerifyEmail";
-import PageNotFound from "./_error/PageNotFound";
-import AuthLayout from "./_auth/AuthLayout";
-import ChooseFavGenre from "./_auth/forms/ChooseFavGenre";
 
 function App() {
   return (
