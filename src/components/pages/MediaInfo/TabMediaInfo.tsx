@@ -61,88 +61,99 @@ const TabMediaInfo = ({
           columnGap={{ base: "60px", xl: "32px" }}
           rowGap={{ base: "20px", xl: "16px" }}
         >
-          {!!(details?.runtime || details?.episode_run_time?.length) && (
-            <GridItem>
-              <MediaDetail
-                label="Run time:"
-                value={
-                  details?.runtime
-                    ? minutesToHours(details?.runtime as number)
-                    : details?.episode_run_time + " min"
-                }
-              />
-            </GridItem>
-          )}
-          {(details?.release_date || details?.first_air_date) && (
-            <GridItem>
-              <MediaDetail
-                label="Released:"
-                value={
-                  details?.release_date
-                    ? getYear(details?.release_date)
-                    : getYear(details?.first_air_date) +
-                      "-" +
-                      getYear(details?.last_air_date)
-                }
-              />
-            </GridItem>
-          )}
-          {details?.genres && (
-            <GridItem>
-              <MediaDetail
-                label="Genres:"
-                value={details?.genres.map((genre) => genre.name).join(", ")}
-              />
-            </GridItem>
-          )}
-          {media_certification && (
-            <GridItem>
-              <MediaDetail label="Age:" value={media_certification} />
-            </GridItem>
-          )}
-          {!!(details?.created_by && details?.created_by.length) && (
-            <GridItem>
-              <MediaDetail
-                label="Created by:"
-                value={details?.created_by
-                  .map((creator) => creator.name)
-                  .join(", ")}
-              />
-            </GridItem>
-          )}
-          {details?.vote_average !== 0 && (
-            <GridItem>
-              <MediaDetail
-                label="Rating:"
-                value={details?.vote_average + "/10"}
-              />
-            </GridItem>
-          )}
-          {details?.next_episode_to_air && (
-            <GridItem>
-              <MediaDetail
-                label="Next episode:"
-                value={details?.next_episode_to_air.air_date}
-              />
-            </GridItem>
-          )}
+          <GridItem
+            display={
+              details?.runtime || details?.episode_run_time?.length
+                ? ""
+                : "none"
+            }
+          >
+            <MediaDetail
+              label="Run time:"
+              value={
+                details?.runtime
+                  ? minutesToHours(details?.runtime as number)
+                  : details?.episode_run_time + " min"
+              }
+            />
+          </GridItem>
+
+          <GridItem
+            display={
+              details?.release_date || details?.first_air_date ? "" : "none"
+            }
+          >
+            <MediaDetail
+              label="Released:"
+              value={
+                details?.release_date
+                  ? getYear(details?.release_date)
+                  : getYear(details?.first_air_date) +
+                    "-" +
+                    getYear(details?.last_air_date)
+              }
+            />
+          </GridItem>
+
+          <GridItem display={details?.genres ? "" : "none"}>
+            <MediaDetail
+              label="Genres:"
+              value={details?.genres?.map((genre) => genre.name).join(", ")}
+            />
+          </GridItem>
+
+          <GridItem display={media_certification ? "" : "none"}>
+            <MediaDetail label="Age:" value={media_certification} />
+          </GridItem>
+
+          <GridItem
+            display={
+              details?.created_by && details?.created_by.length ? "" : "none"
+            }
+          >
+            <MediaDetail
+              label="Created by:"
+              value={details?.created_by
+                ?.map((creator) => creator.name)
+                .join(", ")}
+            />
+          </GridItem>
+
+          <GridItem display={details?.vote_average !== 0 ? "" : "none"}>
+            <MediaDetail
+              label="Rating:"
+              value={details?.vote_average + "/10"}
+            />
+          </GridItem>
+
+          <GridItem display={details?.next_episode_to_air ? "" : "none"}>
+            <MediaDetail
+              label="Next episode:"
+              value={details?.next_episode_to_air?.air_date}
+            />
+          </GridItem>
         </Grid>
       </Flex>
-      {providers?.results["US"] && (
-        <Flex gap={{ base: "20px 40px", xl: "40px 60px" }} wrap="wrap" mt={5}>
-          {Object.keys(providers?.results["US"]).map((keyName, i) => {
-            type ProvidersKey = keyof Providers["results"]["US"];
-            if (keyName !== "link")
-              return (
-                <WatchProviders
-                  key={i}
-                  label={keyName.toUpperCase()}
-                  providers={providers?.results["US"][keyName as ProvidersKey]}
-                />
-              );
-          })}
-        </Flex>
-      )}
+
+      <Flex
+        display={providers?.results["US"] ? "flex" : "none"}
+        gap={{ base: "20px 40px", xl: "40px 60px" }}
+        wrap="wrap"
+        mt={5}
+      >
+        {Object.keys(providers?.results["US"] || {})?.map((keyName, i) => {
+          type ProvidersKey = keyof Providers["results"]["US"];
+          if (keyName !== "link")
+            return (
+              <WatchProviders
+                key={i}
+                label={keyName.toUpperCase()}
+                providers={providers?.results["US"][keyName as ProvidersKey]}
+              />
+            );
+        })}
+      </Flex>
+
       <Box mt={5}>
         {media_type === "tv" && (
           <SeasonSelect details={details} setSeason={setSeason} />

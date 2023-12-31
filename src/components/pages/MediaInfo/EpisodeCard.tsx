@@ -41,11 +41,11 @@ const EpisodeCard = ({
       endColor="brand.tertiary"
       fadeDuration={4}
       cursor="pointer"
-      boxShadow={{xl: "0px 20px 15px -10px black"}}
+      boxShadow={{ xl: "0px 20px 15px -10px black" }}
       transition="transform 500ms ease 0s, box-shadow 500ms ease 0s"
       _hover={{
-        transform: {xl: "translate(0, -10px)"},
-        boxShadow: {xl: "0px 25px 30px -10px black"},
+        transform: { xl: "translate(0, -10px)" },
+        boxShadow: { xl: "0px 25px 30px -10px black" },
       }}
     >
       <Box
@@ -92,11 +92,14 @@ const EpisodeCard = ({
               {episode.name}
             </Text>
           </Box>
-          {episode.runtime && (
-            <Text position="absolute" bottom={2} right={2}>
-              {episode.runtime} min
-            </Text>
-          )}
+          <Text
+            display={episode.runtime ? "" : "none"}
+            position="absolute"
+            bottom={2}
+            right={2}
+          >
+            {episode.runtime} min
+          </Text>
         </Box>
       </Box>
     </Skeleton>
