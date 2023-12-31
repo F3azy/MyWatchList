@@ -136,7 +136,7 @@ const SignUpForm = () => {
   return (
     <Stack w="full" spacing={5}>
       <Heading textAlign="center" color="brand.secondary">
-        Sign Up
+        Sign up
       </Heading>
       <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
         {error !== "" && <Text color="red.500">{error}</Text>}

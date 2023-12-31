@@ -55,7 +55,7 @@ const ResetPassword = () => {
   return (
       <Stack w="full" spacing={5}>
         <Heading textAlign="center" color="brand.secondary">
-          Reset Password
+          Reset password
         </Heading>
         <VStack as="form" w="full" spacing={5} onSubmit={handleSubmit}>
           {error !== "" && <Text color="red.500">{error}</Text>}

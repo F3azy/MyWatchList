@@ -88,7 +88,7 @@ const VerifyEmail = () => {
     return (
       <Stack w="full" spacing={8} textAlign="center" letterSpacing={1}>
         {error !== "" && <Text color="red.500">{error}</Text>}
-        <Heading color="brand.secondary">Verify Email</Heading>
+        <Heading color="brand.secondary">Verify email</Heading>
         <Text>
           You're almost there! We sent you and email to{" "}
           <Text fontWeight="semibold" as="span">
