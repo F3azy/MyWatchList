@@ -13,14 +13,14 @@ import {
 } from "@chakra-ui/react";
 import {
   MediaImages,
-  MediaImageProp,
   MediaType,
   MultiMedia,
+  APIResults,
 } from "@/types/common";
 import {
   MultiDetails,
   Providers,
-  Videos,
+  Video,
   MultiCertification,
   Credits,
   MediaProductionMember,
@@ -56,23 +56,23 @@ const MediaInfo = () => {
     createApiUrl(`${media_type}/${id}`)
   );
 
-  const { data: providers } = useFetch<Providers>(
+  const { data: providers } = useFetch<APIResults<Providers>>(
     createApiUrl(`${media_type}/${id}/watch/providers`)
   );
 
-  const { data: videos } = useFetch<Videos>(
+  const { data: videos } = useFetch<APIResults<Video[]>>(
     createApiUrl(`${media_type}/${id}/videos`)
   );
 
-  const { data: recommended } = useFetchRandomPage<MultiMedia>(
+  const { data: recommended } = useFetchRandomPage<APIResults<MultiMedia[]>>(
     createApiUrl(`${media_type}/${id}/recommendations`)
   );
 
-  const { data: similar } = useFetchRandomPage<MultiMedia>(
+  const { data: similar } = useFetchRandomPage<APIResults<MultiMedia[]>>(
     createApiUrl(`${media_type}/${id}/similar`)
   );
 
-  const { data: certification } = useFetch<MultiCertification>(
+  const { data: certification } = useFetch<APIResults<MultiCertification[]>>(
     media_type === "movie"
       ? createApiUrl(`${media_type}/${id}/release_dates`)
       : createApiUrl(`${media_type}/${id}/content_ratings`)
@@ -109,10 +109,10 @@ const MediaInfo = () => {
       >
         <Box flex={0.4} position="relative" zIndex={11} bg="brand.dark.base">
           <MainMediaInfo
-            details={details as MultiDetails}
-            media_logo={media_logo as MediaImageProp}
-            media_certification={media_certification as string}
-            videos={videos as Videos}
+            details={details}
+            media_logo={media_logo}
+            media_certification={media_certification}
+            videos={videos?.results}
           />
         </Box>
         <Box
@@ -231,7 +231,7 @@ const MediaInfo = () => {
             <TabMediaInfo
               details={details as MultiDetails}
               media_certification={media_certification as string}
-              providers={providers as Providers}
+              providers={providers?.results as Providers}
               cast={credits?.cast as MediaProductionMember[]}
               crew={credits?.crew as MediaProductionMember[]}
               media_type={media_type as string}

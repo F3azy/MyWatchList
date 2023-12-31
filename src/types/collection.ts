@@ -1,21 +1,21 @@
 import { MediaType } from "./common";
 
 export type CollectionBox = {
-  name: string;
   logoSrc: string;
+  name: string;
   videoSrc: string;
 };
 
 export type WatchCardInfo = {
-  title: string;
   id: number;
   media_type: MediaType;
+  title: string;
 };
 
 type CollectionsInfo = {
   name: string;
-  watchCards: WatchCardInfo[];
   urls: string[];
+  watchCards: WatchCardInfo[];
 };
 
 export type CollectionsList = {

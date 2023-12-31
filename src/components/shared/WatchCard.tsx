@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Image as ChakraIMG, Link, Skeleton } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { MediaType, MultiMediaResult } from "@/types/common";
+import { MediaType, MultiMedia } from "@/types/common";
 import { MediaImages } from "@/types/common";
 import useFetch from "@/hooks/useFetch";
 import { imageURL } from "@/constans/APILinks";
@@ -14,7 +14,7 @@ const WatchCard = ({
   loaded,
   isLink = true,
 }: {
-  watchCard: MultiMediaResult;
+  watchCard: MultiMedia;
   media_type?: MediaType;
   useBackdrop?: boolean;
   loaded?: boolean;

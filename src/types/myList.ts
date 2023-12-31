@@ -1,23 +1,23 @@
-import { MediaType, MultiMediaResult } from "./common";
+import { MediaType, MultiMedia } from "./common";
 
 export type MediaStatus = "toWatch" | "watching" | "watched";
 
 export type MediaDocument = {
-  uid: string;
-  mediaType: MediaType;
   mediaID: number;
   mediaStatus: MediaStatus;
+  mediaType: MediaType;
   order: number;
+  uid: string;
 };
 
 export type MediaList = {
-  watchcard: MultiMediaResult;
-  media_type: MediaType;
   media_status: MediaStatus;
+  media_type: MediaType;
   order: number;
+  watchcard: MultiMedia;
 };
 
 export type Column = {
-  title: string;
   id: MediaStatus;
+  title: string;
 };

@@ -2,14 +2,14 @@ import { Flex, Text, Grid, GridItem } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import WatchCard from "@/components/shared/WatchCard";
 import { CollectionsArrays } from "@/constans/CollectionsArrays";
-import { MultiMediaResult } from "@/types/common";
+import { MultiMedia } from "@/types/common";
 import { CollectionsList } from "@/types/collection";
 import useMultipleFetch from "@/hooks/useMultipleFetch";
 
 const CollectionList = () => {
   const { name } = useParams();
 
-  const { data: watchCards } = useMultipleFetch<MultiMediaResult>(
+  const { data: watchCards } = useMultipleFetch<MultiMedia>(
     CollectionsArrays[name as keyof CollectionsList].urls
   );
 

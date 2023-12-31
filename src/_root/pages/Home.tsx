@@ -5,7 +5,7 @@ import WatchCard from "@/components/shared/WatchCard";
 import Collection from "@/components/pages/Home/Collection";
 import CollectionBoxes from "@/constans/CollectionBoxes";
 import { HomeCarousels } from "@/constans/HomeCarousel";
-import { MultiMedia } from "@/types/common";
+import { APIResults, MultiMedia } from "@/types/common";
 import useMultipleFetch from "@/hooks/useMultipleFetch";
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
     data: carousels,
     loading,
     error,
-  } = useMultipleFetch<MultiMedia>(HomeCarousels.urls);
+  } = useMultipleFetch<APIResults<MultiMedia[]>>(HomeCarousels.urls);
 
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
@@ -51,7 +51,7 @@ const Home = () => {
               <WatchCard
                 watchCard={watchcard}
                 media_type={
-                  watchcard.media_type || HomeCarousels.media_type[idx]
+                  watchcard?.media_type || HomeCarousels.media_type[idx]
                 }
               />
             </CarouselItem>

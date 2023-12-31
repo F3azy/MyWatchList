@@ -14,9 +14,8 @@ import {
   Text,
   VStack,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
-import { MultiMediaResult } from "@/types/common";
+import { MultiMedia } from "@/types/common";
 import { Column, MediaDocument, MediaList, MediaStatus } from "@/types/myList";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
@@ -93,13 +92,11 @@ const Columns: Column[] = [
 const MyList = () => {
   const [lists, setLists] = useState<MediaList[]>([]);
 
-  const [modalWatchCard, setModalWatchCard] = useState<MediaList | null>(null);
+  const [drawerWatchCard, setDrawerWatchCard] = useState<MediaList | null>(null);
   const [newStatus, setNewStatus] = useState<MediaStatus>("toWatch");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-
-  const [isSmallerThan768] = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     setLists([]);
@@ -112,7 +109,7 @@ const MyList = () => {
           `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
       )
         .then((response) => response.json())
-        .then((result: MultiMediaResult) => ({
+        .then((result: MultiMedia) => ({
           watchcard: result,
           media_type: impostor.mediaType,
           media_status: impostor.mediaStatus,
@@ -205,28 +202,26 @@ const MyList = () => {
     setLists(moveElement(start.id, finish.id, dragged, destination.index));
   };
 
-  function openModal(media: MediaList) {
-    setModalWatchCard(media);
+  function openDrawer(media: MediaList) {
+    setDrawerWatchCard(media);
     onOpen();
   }
 
-  function closeModal() {
+  function closeDrawer() {
     onClose();
-    setModalWatchCard(null);
+    setDrawerWatchCard(null);
     setNewStatus("toWatch");
   }
 
   function changeStatusState(event: React.ChangeEvent<HTMLSelectElement>) {
-    console.log(event.currentTarget.value);
-
     setNewStatus(event.currentTarget.value as MediaStatus);
   }
 
   function changeStatus(): void {
     const { start, finish, dragged } = getDragElements(
-      modalWatchCard?.media_status as MediaStatus,
+      drawerWatchCard?.media_status as MediaStatus,
       newStatus,
-      modalWatchCard?.watchcard.id.toString() as string
+      drawerWatchCard?.watchcard.id.toString() as string
     );
 
     if (start === finish) return;
@@ -250,7 +245,7 @@ const MyList = () => {
           {Columns.map((column) => {
             return (
               <WatchList
-                onClick={openModal}
+                onClick={openDrawer}
                 key={column.id}
                 title={column.title}
                 list={column.id}
@@ -300,12 +295,12 @@ const MyList = () => {
                 onClick={() => {
                   navigate(
                     "/info/" +
-                      modalWatchCard?.media_type +
+                    drawerWatchCard?.media_type +
                       "/" +
-                      modalWatchCard?.watchcard.id +
+                      drawerWatchCard?.watchcard.id +
                       "/" +
-                      (modalWatchCard?.watchcard.title?.replaceAll(" ", "-") ||
-                        modalWatchCard?.watchcard.name?.replaceAll(" ", "-"))
+                      (drawerWatchCard?.watchcard.title?.replaceAll(" ", "-") ||
+                      drawerWatchCard?.watchcard.name?.replaceAll(" ", "-"))
                   );
                 }}
               >
@@ -315,7 +310,7 @@ const MyList = () => {
             </VStack>
           </DrawerBody>
           <DrawerFooter>
-            <Button w="full" variant="outline" onClick={closeModal}>
+            <Button w="full" variant="outline" onClick={closeDrawer}>
               Close
             </Button>
           </DrawerFooter>

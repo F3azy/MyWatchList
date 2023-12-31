@@ -12,8 +12,6 @@ const SeasonSelect = ({
   isMobile?: boolean;
 }) => {
   function seasonChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    console.log(event.currentTarget.value);
-
     setSeason(parseInt(event.currentTarget.value));
   }
   

@@ -2,7 +2,7 @@ import { Flex, Text, Select, Button, useMediaQuery } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import GenreSelect from "@/components/shared/GenreSelect";
 import WatchCard from "@/components/shared/WatchCard";
-import { MediaType, MultiMediaResult } from "@/types/common";
+import { MediaType, MultiMedia } from "@/types/common";
 import { useSearchParams } from "react-router-dom";
 import useFetch from "@/hooks/useFetch";
 import { createApiUrl } from "@/utils";
@@ -37,7 +37,7 @@ const RandomMedia = () => {
   const [media, setMedia] = useState<string>("");
 
   const [mediaID, setMediaID] = useState<number>();
-  const { data: mediaWatchCard } = useFetch<MultiMediaResult>(media);
+  const { data: mediaWatchCard } = useFetch<MultiMedia>(media);
 
   useEffect(() => {
     setMedia("");

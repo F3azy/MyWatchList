@@ -10,8 +10,8 @@ import {
   VStack,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { MultiDetails, Videos } from "@/types/mediaInfo";
-import { MediaImageProp } from "@/types/common";
+import { MultiDetails, Video } from "@/types/mediaInfo";
+import { MediaImageAttributes } from "@/types/common";
 import { FaPlay, FaExternalLinkAlt } from "react-icons/fa";
 import { IoAdd, IoCheckmark } from "react-icons/io5";
 import Ratings from "@/components/pages/MediaInfo/Ratings";
@@ -33,12 +33,12 @@ const MainMediaInfo = ({
   media_logo,
   media_certification,
 }: {
-  details: MultiDetails;
-  videos: Videos;
-  media_logo: MediaImageProp;
-  media_certification: string;
+  details?: MultiDetails;
+  videos?: Video[];
+  media_logo?: MediaImageAttributes;
+  media_certification?: string;
 }) => {
-  const trailers = videos?.results.filter(
+  const trailers = videos?.filter(
     (video) =>
       video?.type.toLowerCase() === "trailer" &&
       video?.site.toLowerCase() === "youtube"
@@ -104,9 +104,9 @@ const MainMediaInfo = ({
         >
           {details?.release_date
             ? getYear(details?.release_date)
-            : getYear(details?.first_air_date) +
+            : getYear(details?.first_air_date as string) +
               "-" +
-              getYear(details?.last_air_date)}
+              getYear(details?.last_air_date as string)}
         </Text>
       </HStack>
 

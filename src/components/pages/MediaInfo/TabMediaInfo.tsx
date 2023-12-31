@@ -136,19 +136,19 @@ const TabMediaInfo = ({
       </Flex>
 
       <Flex
-        display={providers?.results["US"] ? "flex" : "none"}
+        display={providers?.["US"] ? "flex" : "none"}
         gap={{ base: "20px 40px", xl: "40px 60px" }}
         wrap="wrap"
         mt={5}
       >
-        {Object.keys(providers?.results["US"] || {})?.map((keyName, i) => {
-          type ProvidersKey = keyof Providers["results"]["US"];
+        {Object.keys(providers?.["US"] || {})?.map((keyName, i) => {
+          type ProvidersKey = keyof Providers["US"];
           if (keyName !== "link")
             return (
               <WatchProviders
                 key={i}
                 label={keyName.toUpperCase()}
-                providers={providers?.results["US"][keyName as ProvidersKey]}
+                providers={providers?.["US"][keyName as ProvidersKey]}
               />
             );
         })}

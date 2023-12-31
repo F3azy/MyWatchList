@@ -1,43 +1,42 @@
-type BaseMediaData = {
-  id: number;
-  poster_path: string;
-  backdrop_path: string;
-};
-
-type Movie = {
-  title: string;
-};
-
-type TV = {
-  name: string;
+export type APIResults<Results> = {
+  id?: number;
+  page?: number;
+  results: Results;
+  total_pages?: number;
+  total_results?: number;
 };
 
 export type MediaType = "movie" | "tv";
 
-export type MultiMediaResult = BaseMediaData & Movie &
-  TV & {
-    media_type?: MediaType;
-  };
-
-export type MultiMedia = {
-  results: MultiMediaResult[];
+export type BaseMediaResult = {
+  backdrop_path: string;
+  id: number;
+  poster_path: string;
 };
 
-export type MediaImageProp = {
+export type MultiMedia = BaseMediaResult & {
+  media_type?: MediaType;
+  name?: string;
+  title?: string;
+};
+
+export type MediaImageAttributes = {
   file_path: string;
   height: number;
   width: number;
 };
 
 export type MediaImages = {
-  backdrops: MediaImageProp[];
-  logos: MediaImageProp[];
-  posters: MediaImageProp[];
+  backdrops: MediaImageAttributes[];
+  logos: MediaImageAttributes[];
+  posters: MediaImageAttributes[];
 };
 
+export type Genre = {
+  id: number;
+  name: string;
+}
+
 export type Genres = {
-  genres: {
-    id: number;
-    name: string;
-  }[];
+  genres: Genre[];
 };
