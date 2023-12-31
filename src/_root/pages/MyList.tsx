@@ -10,13 +10,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Select,
   Text,
   VStack,
@@ -28,8 +21,7 @@ import { Column, MediaDocument, MediaList, MediaStatus } from "@/types/myList";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useNavigate } from "react-router-dom";
-
-const mediaURL = "https://api.themoviedb.org/3/";
+import { baseApiUrl } from "@/constans/APILinks";
 
 const firebaseImpostor: MediaDocument[] = [
   {
@@ -113,7 +105,7 @@ const MyList = () => {
     setLists([]);
     const fetchPromises = firebaseImpostor.map((impostor) =>
       fetch(
-        mediaURL +
+        baseApiUrl +
           impostor.mediaType +
           "/" +
           impostor.mediaID +
