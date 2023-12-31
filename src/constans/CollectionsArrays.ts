@@ -1,20 +1,12 @@
 import { CollectionsList, WatchCardInfo } from "@/types/collection";
-
-const url = "https://api.themoviedb.org/3/";
-
-function getUrls(collectionArray: WatchCardInfo[]): string[] {
-  return collectionArray.map(
-    (coll) =>
-      url +
-      coll.media_type +
-      "/" +
-      coll.id +
-      `?api_key=${import.meta.env.VITE_MOVIE_API_KEY}&language=en-US`
-  );
-}
+import { createApiUrl } from "@/utils";
 
 const MarvelArray: WatchCardInfo[] = [
-  { title: "Captain America: The First Avenger", id: 1771, media_type: "movie" },
+  {
+    title: "Captain America: The First Avenger",
+    id: 1771,
+    media_type: "movie",
+  },
   { title: "Marvel's Agent Carter", id: 61550, media_type: "tv" },
   { title: "Captain Marvel", id: 299537, media_type: "movie" },
   { title: "Iron Man", id: 1726, media_type: "movie" },
@@ -25,7 +17,11 @@ const MarvelArray: WatchCardInfo[] = [
   { title: "Iron Man 3", id: 68721, media_type: "movie" },
   { title: "Marvel's Agents of S.H.I.E.L.D.", id: 1403, media_type: "tv" },
   { title: "Thor: The Dark World", id: 76338, media_type: "movie" },
-  { title: "Captain America: The Winter Soldier", id: 100402, media_type: "movie" },
+  {
+    title: "Captain America: The Winter Soldier",
+    id: 100402,
+    media_type: "movie",
+  },
   { title: "Guardians of the Galaxy", id: 118340, media_type: "movie" },
   { title: "Guardians of the Galaxy Vol. 2", id: 283995, media_type: "movie" },
   { title: "Avengers: Age of Ultron", id: 99861, media_type: "movie" },
@@ -62,7 +58,11 @@ const MarvelArray: WatchCardInfo[] = [
   { title: "Ms. Marvel", id: 92782, media_type: "tv" },
   { title: "Thor: Love and Thunder", id: 616037, media_type: "movie" },
   { title: "Black Panther: Wakanda Forever", id: 505642, media_type: "movie" },
-  { title: "Ant-Man and the Wasp: Quantumania", id: 640146, media_type: "movie" },
+  {
+    title: "Ant-Man and the Wasp: Quantumania",
+    id: 640146,
+    media_type: "movie",
+  },
   { title: "Guardians of the Galaxy Vol. 3", id: 447365, media_type: "movie" },
 ];
 
@@ -82,16 +82,36 @@ const HarryPotterArray: WatchCardInfo[] = [
     id: 338953,
     media_type: "movie",
   },
-  { title: "Harry Potter and the Philosopher's Stone", id: 671, media_type: "movie" },
-  { title: "Harry Potter and the Chamber of Secrets", id: 672, media_type: "movie" },
-  { title: "Harry Potter and the Prisoner of Azkaban", id: 673, media_type: "movie" },
-  { title: "Harry Potter and the Goblet of Fire", id: 674, media_type: "movie" },
+  {
+    title: "Harry Potter and the Philosopher's Stone",
+    id: 671,
+    media_type: "movie",
+  },
+  {
+    title: "Harry Potter and the Chamber of Secrets",
+    id: 672,
+    media_type: "movie",
+  },
+  {
+    title: "Harry Potter and the Prisoner of Azkaban",
+    id: 673,
+    media_type: "movie",
+  },
+  {
+    title: "Harry Potter and the Goblet of Fire",
+    id: 674,
+    media_type: "movie",
+  },
   {
     title: "Harry Potter and the Order of the Phoenix",
     id: 675,
     media_type: "movie",
   },
-  { title: "Harry Potter and the Half-Blood Prince", id: 767, media_type: "movie" },
+  {
+    title: "Harry Potter and the Half-Blood Prince",
+    id: 767,
+    media_type: "movie",
+  },
   {
     title: "Harry Potter and the Deathly Hallows: Part 1",
     id: 12444,
@@ -136,13 +156,29 @@ const StarWarsArray: WatchCardInfo[] = [
   { title: "Star Wars Resistance", id: 79093, media_type: "tv" },
   { title: "Star Wars: The Force Awakens", id: 140607, media_type: "movie" },
   { title: "Star Wars: The Last Jedi", id: 181808, media_type: "movie" },
-  { title: "Star Wars: The Rise of Skywalker", id: 181812, media_type: "movie" },
+  {
+    title: "Star Wars: The Rise of Skywalker",
+    id: 181812,
+    media_type: "movie",
+  },
 ];
 
 const LordoftheRingsArray: WatchCardInfo[] = [
-  { title: "The Lord of the Rings: The Rings of Power", id: 84773, media_type: "tv" },
-  { title: "The Hobbit: An Unexpected Journey", id: 49051, media_type: "movie" },
-  { title: "The Hobbit: The Desolation of Smaug", id: 57158, media_type: "movie" },
+  {
+    title: "The Lord of the Rings: The Rings of Power",
+    id: 84773,
+    media_type: "tv",
+  },
+  {
+    title: "The Hobbit: An Unexpected Journey",
+    id: 49051,
+    media_type: "movie",
+  },
+  {
+    title: "The Hobbit: The Desolation of Smaug",
+    id: 57158,
+    media_type: "movie",
+  },
   {
     title: "The Hobbit: The Battle of the Five Armies",
     id: 122917,
@@ -153,7 +189,11 @@ const LordoftheRingsArray: WatchCardInfo[] = [
     id: 120,
     media_type: "movie",
   },
-  { title: "The Lord of the Rings: The Two Towers", id: 121, media_type: "movie" },
+  {
+    title: "The Lord of the Rings: The Two Towers",
+    id: 121,
+    media_type: "movie",
+  },
   {
     title: "The Lord of the Rings: The Return of the King",
     id: 122,
@@ -172,7 +212,11 @@ const PiratesOfCaribbeanArray: WatchCardInfo[] = [
     id: 58,
     media_type: "movie",
   },
-  { title: "Pirates of the Caribbean: At World's End", id: 285, media_type: "movie" },
+  {
+    title: "Pirates of the Caribbean: At World's End",
+    id: 285,
+    media_type: "movie",
+  },
   {
     title: "Pirates of the Caribbean: On Stranger Tides",
     id: 1865,
@@ -205,31 +249,43 @@ export const CollectionsArrays: CollectionsList = {
   Marvel: {
     name: "Marvel",
     watchCards: MarvelArray,
-    urls: getUrls(MarvelArray),
+    urls: MarvelArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
   HarryPotter: {
     name: "Harry Potter",
     watchCards: HarryPotterArray,
-    urls: getUrls(HarryPotterArray),
+    urls: HarryPotterArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
   StarWars: {
     name: "Star Wars",
     watchCards: StarWarsArray,
-    urls: getUrls(StarWarsArray),
+    urls: StarWarsArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
   LordoftheRings: {
     name: "Lord of the Rings",
     watchCards: LordoftheRingsArray,
-    urls: getUrls(LordoftheRingsArray),
+    urls: LordoftheRingsArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
   PiratesOfCaribbean: {
     name: "Pirates Of Caribbean",
     watchCards: PiratesOfCaribbeanArray,
-    urls: getUrls(PiratesOfCaribbeanArray),
+    urls: PiratesOfCaribbeanArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
   Twilight: {
     name: "Twilight",
     watchCards: TwilightArray,
-    urls: getUrls(TwilightArray),
+    urls: TwilightArray.map((elem) =>
+      createApiUrl(elem.media_type + "/" + elem.id)
+    ),
   },
 };
