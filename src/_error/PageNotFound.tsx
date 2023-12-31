@@ -1,10 +1,7 @@
-import { useAuth } from "@/contexts/AuthContext";
 import { Flex, Heading, VStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const PageNotFound = () => {
-  const { user } = useAuth();
-
   return (
     <Flex direction="column" h="100vh" justify="center" align="center" p="16px">
       <VStack spacing={10}>
@@ -23,7 +20,7 @@ const PageNotFound = () => {
         </VStack>
         <Link
           as={RouterLink}
-          to={user ? "/" : "/signin"}
+          to="/"
           color="brand.secondary"
           textDecoration="underline"
           fontSize="24px"
