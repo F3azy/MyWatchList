@@ -1,3 +1,5 @@
+import { MediaType } from "./common";
+
 export type CollectionBox = {
   name: string;
   logoSrc: string;
@@ -7,7 +9,7 @@ export type CollectionBox = {
 export type WatchCardInfo = {
   title: string;
   id: number;
-  media_type: "movie" | "tv";
+  media_type: MediaType;
 };
 
 type CollectionsInfo = {
