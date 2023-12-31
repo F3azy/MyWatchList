@@ -16,7 +16,6 @@ import {
   getAdditionalUserInfo,
   UserCredential,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { AuthProviderValue, FirebaseProvidersSignIn } from "@/types/Auth";
 import { addToCollection } from "@/utils/firebase";
 
