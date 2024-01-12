@@ -1,4 +1,4 @@
-import { db } from "@/firebaseConfig";
+import { db } from "@/firebase-config";
 import { FirebaseError } from "firebase/app";
 import { doc, setDoc } from "firebase/firestore";
 
