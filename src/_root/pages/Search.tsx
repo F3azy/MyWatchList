@@ -21,8 +21,9 @@ const Search = () => {
 
   const [title, setTitle] = useState(searchParams.get("q") as string);
 
+  const [page, setPage] = useState(1);
   const { data: watchCards } = useFetch<APIResults<MultiMedia[]>>(
-    createApiUrl(`search/multi`, `&query=${encodeURIComponent(title)}`)
+    createApiUrl(`search/multi`, `query=${encodeURIComponent(title)}`, `page=${page}`)
   );
 
   function getTitle(event: FormEvent<HTMLInputElement>): void {
@@ -42,16 +43,18 @@ const Search = () => {
 
   return (
     <Flex w="full" direction="column" rowGap={{ base: "16px", xl: "28px" }}>
-      <InputGroup size={{base: "md", md: "lg"}}>
+      <InputGroup size={{ base: "md", md: "lg" }}>
         <InputLeftElement
           pointerEvents="none"
-          children={<SearchIcon boxSize={{base: 5, md: 6}} color="brand.secondary" />}
+          children={
+            <SearchIcon boxSize={{ base: 5, md: 6 }} color="brand.secondary" />
+          }
         />
         <Input
-          fontSize={{base: "20px", md:"28px"}}
+          fontSize={{ base: "20px", md: "28px" }}
           fontWeight="700"
           color="brand.secondary"
-          size={{base: "md", md: "lg"}}
+          size={{ base: "md", md: "lg" }}
           borderColor="brand.secondary"
           _hover={{ borderColor: "brand.primary" }}
           type="text"
@@ -62,7 +65,7 @@ const Search = () => {
       </InputGroup>
       <Grid
         templateColumns={{ base: "repeat(3, 1fr)", xl: "repeat(8, 1fr)" }}
-        gap={{base: 3, md: 6}}
+        gap={{ base: 3, md: 6 }}
       >
         {watchCards?.results.map((watchcard) => (
           <GridItem key={watchcard.id}>
