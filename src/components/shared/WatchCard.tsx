@@ -37,12 +37,10 @@ const WatchCard = ({
         image.src = imageURL + watchCard.poster_path;
         await image.decode();
 
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error decoding image:", error);
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        setIsLoading(false)
       }
     };
 
