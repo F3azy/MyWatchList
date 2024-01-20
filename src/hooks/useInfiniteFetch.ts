@@ -37,7 +37,7 @@ export default function useInfiniteFetch<T = unknown>(
 
         setLoading(false);
         setData((prev) => {
-          return [...prev, ...json.results];
+          return [...prev, json];
         });
         setHasMore(json.total_pages > page);
       } catch (error) {

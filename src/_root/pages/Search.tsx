@@ -11,7 +11,6 @@ import {
 import WatchCard from "@/components/shared/WatchCard";
 import { APIResults, MultiMedia } from "@/types/common";
 import { SearchIcon } from "@chakra-ui/icons";
-import useFetch from "@/hooks/useFetch";
 import { useSearchParams } from "react-router-dom";
 import { createApiUrl } from "@/utils";
 import useInfiniteFetch from "@/hooks/useInfiniteFetch";
@@ -23,7 +22,11 @@ const Search = () => {
 
   const [title, setTitle] = useState(searchParams.get("q") as string);
 
-  const { data: watchCards, loading, lastElementRef } = useInfiniteFetch<MultiMedia>(
+  const {
+    data: APIResults,
+    loading,
+    lastElementRef,
+  } = useInfiniteFetch<APIResults<MultiMedia[]>>(
     createApiUrl(`search/multi`, `query=${encodeURIComponent(title)}`)
   );
 
@@ -68,30 +71,36 @@ const Search = () => {
         templateColumns={{ base: "repeat(3, 1fr)", xl: "repeat(8, 1fr)" }}
         gap={{ base: 3, md: 6 }}
       >
-        {watchCards
-          ?.filter(
-            (WatchCard) =>
-              WatchCard.media_type === "movie" || WatchCard.media_type === "tv"
-          )
-          ?.map((watchcard, idx) =>
-            watchCards.length - 1 === idx ? (
-              <GridItem ref={lastElementRef} key={watchcard.id}>
-                <WatchCard
-                  watchCard={watchcard}
-                  media_type={watchcard.media_type}
-                />
-              </GridItem>
-            ) : (
-              <GridItem key={watchcard.id}>
-                <WatchCard
-                  watchCard={watchcard}
-                  media_type={watchcard.media_type}
-                />
-              </GridItem>
+        {APIResults.map((results, mainIdx) =>
+          results.results
+            ?.filter(
+              (WatchCard) =>
+                WatchCard.media_type === "movie" ||
+                WatchCard.media_type === "tv"
             )
-          )}
+            ?.map((watchCard, idx, filtered) =>
+              APIResults.length - 1 === mainIdx &&
+              filtered.length - 1 === idx ? (
+                <GridItem ref={lastElementRef} key={watchCard.id}>
+                  <WatchCard
+                    watchCard={watchCard}
+                    media_type={watchCard.media_type}
+                  />
+                </GridItem>
+              ) : (
+                <GridItem key={watchCard.id}>
+                  <WatchCard
+                    watchCard={watchCard}
+                    media_type={watchCard.media_type}
+                  />
+                </GridItem>
+              )
+            )
+        )}
       </Grid>
-      {loading && <Spinner thickness='8px' size='xl' mx="auto" color="brand.secondary"/>}
+      {loading && (
+        <Spinner thickness="8px" size="xl" mx="auto" color="brand.secondary" />
+      )}
     </Flex>
   );
 };
