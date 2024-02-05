@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 export function handleErrors(error: FirebaseError): string {
   switch (error.code) {
     case "auth/email-already-in-use":
-      return "The provided email address already in use.";
+      return "The provided email address is already in use.";
     case "auth/invalid-email":
       return "The provided email address is invalid.";
     case "auth/invalid-credential":
