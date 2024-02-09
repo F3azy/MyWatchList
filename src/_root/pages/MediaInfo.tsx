@@ -158,8 +158,8 @@ const MediaInfo = () => {
       <Tabs isFitted={!isLargerThan1280} variant="brandColor">
         <TabList>
           {media_type === "tv" && <Tab>Seasons</Tab>}
-          {!!recommended?.results.length && <Tab>Recommended</Tab>}
-          {!!similar?.results.length && <Tab>Similar</Tab>}
+          {!!recommended?.results?.length && <Tab>Recommended</Tab>}
+          {!!similar?.results?.length && <Tab>Similar</Tab>}
           <Tab>Details</Tab>
         </TabList>
         <TabPanels>
@@ -171,7 +171,7 @@ const MediaInfo = () => {
             </TabPanel>
           )}
 
-          {!!recommended?.results.length && (
+          {!!recommended?.results?.length && (
             <TabPanel px={0}>
               <Carousel
                 elementsTotal={
@@ -199,7 +199,7 @@ const MediaInfo = () => {
             </TabPanel>
           )}
 
-          {!!similar?.results.length && (
+          {!!similar?.results?.length && (
             <TabPanel px={0}>
               <Carousel
                 elementsTotal={
