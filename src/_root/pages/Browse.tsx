@@ -54,14 +54,14 @@ const Browse = () => {
               <GridItem ref={lastElementRef} key={watchCard.id}>
                 <WatchCard
                   watchCard={watchCard}
-                  media_type={watchCard.media_type}
+                  media_type={media_type}
                 />
               </GridItem>
             ) : (
               <GridItem key={watchCard.id}>
                 <WatchCard
                   watchCard={watchCard}
-                  media_type={watchCard.media_type}
+                  media_type={media_type}
                 />
               </GridItem>
             )
