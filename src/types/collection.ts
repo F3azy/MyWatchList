@@ -1,6 +1,6 @@
 import { MediaType } from "./common";
 
-export type CollectionBox = {
+export type TCollectionBox = {
   logoSrc: string;
   name: string;
   videoSrc: string;

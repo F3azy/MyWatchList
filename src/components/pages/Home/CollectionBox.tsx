@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Box, Image, AbsoluteCenter } from "@chakra-ui/react";
-import { CollectionBox } from "@/types/collection";
+import { TCollectionBox } from "@/types/collection";
 
-const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
+const CollectionBox = ({ name, logoSrc, videoSrc }: TCollectionBox) => {
   const [showBG, useShowBg] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -57,4 +57,4 @@ const Collection = ({ name, logoSrc, videoSrc }: CollectionBox) => {
   );
 };
 
-export default Collection;
+export default CollectionBox;
