@@ -10,7 +10,7 @@ import {
 import { FaRandom, FaUserFriends } from "react-icons/fa";
 import { FiSettings, FiLogOut, FiUser } from "react-icons/fi";
 
-type LinkItem = {
+export type LinkItem = {
   name: string;
   to: To;
   icon: IconType;
